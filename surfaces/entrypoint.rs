@@ -4,9 +4,9 @@ use ai_sre::{
     surfaces::{cli::headless::ask, shared::output::print_incident},
 };
 use anyhow::{Result, ensure};
-use clap::{Parser, Subcommand};
+use clap::{CommandFactory, Parser, Subcommand};
 use std::{
-    io::{self, Write},
+    io::{self, IsTerminal, Write},
     net::SocketAddr,
     path::PathBuf,
 };
@@ -22,7 +22,7 @@ struct Cli {
     #[arg(long, global = true, conflicts_with = "workflow")]
     skill: Option<String>,
     #[command(subcommand)]
-    command: Command,
+    command: Option<Command>,
 }
 
 #[derive(Subcommand)]
@@ -47,6 +47,7 @@ enum Command {
         json: bool,
     },
     /// Start a resumable terminal conversation. Commands: /new, /sessions, /resume ID, /exit.
+    #[command(visible_alias = "chat")]
     Shell {
         #[arg(long, default_value = "unknown")]
         service: String,
@@ -106,7 +107,20 @@ enum EvalSuite {
 #[tokio::main]
 async fn main() -> Result<()> {
     let cli = Cli::parse();
-    if let Command::Init { path } = &cli.command {
+    let command = match cli.command {
+        Some(command) => command,
+        None if io::stdin().is_terminal() => Command::Shell {
+            service: "unknown".into(),
+        },
+        None => {
+            Cli::command().print_help()?;
+            println!(
+                "\n\nRun ai-sre in a terminal to chat, or use ai-sre ask - --json for piped input."
+            );
+            return Ok(());
+        }
+    };
+    if let Command::Init { path } = &command {
         let mut file = std::fs::OpenOptions::new()
             .write(true)
             .create_new(true)
@@ -127,7 +141,7 @@ async fn main() -> Result<()> {
         output,
         repeat,
         baseline,
-    } = &cli.command
+    } = &command
     {
         match suite {
             EvalSuite::Offline => {
@@ -190,7 +204,7 @@ async fn main() -> Result<()> {
             }
         }
     }
-    if let Command::Lab { bind, scenario } = cli.command {
+    if let Command::Lab { bind, scenario } = command {
         ensure!(
             bind.ip().is_loopback(),
             "the synthetic lab must bind to loopback"
@@ -212,7 +226,7 @@ async fn main() -> Result<()> {
         }
         None => Config::default(),
     };
-    if matches!(cli.command, Command::Demo) {
+    if matches!(command, Command::Demo) {
         let dir = PathBuf::from(".ai-sre/demo");
         std::fs::create_dir_all(dir.join("runbooks"))?;
         write_if_missing(
@@ -248,7 +262,7 @@ async fn main() -> Result<()> {
         );
         config.validate()?;
     }
-    match cli.command {
+    match command {
         Command::Operations(command) => command.run(&config, &store).await?,
         Command::Ask {
             question,
@@ -264,7 +278,11 @@ async fn main() -> Result<()> {
             } else {
                 question
             };
-            let result = ask(&config, &store, &question, &service, incident).await?;
+            let result = ai_sre::surfaces::shared::terminal::progress(
+                !json && ai_sre::surfaces::shared::terminal::interactive(),
+                ask(&config, &store, &question, &service, incident),
+            )
+            .await?;
             print_incident(&result, json)?;
             ensure!(
                 result.status != Status::Failed,

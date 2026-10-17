@@ -4,6 +4,15 @@ An incident investigation workspace written in Rust. Ask a production question, 
 
 **Status: early alpha.** The Rust engine, CLI, dashboard, operational workflows, four model protocols, MCP client, and reviewed-action executor are implemented. The native registry contains 59 bounded operations across 27 connector types, alongside Prometheus and Loki. Offline triage and the synthetic incident lab need no account or model key. Full behavioral coverage and production readiness remain incomplete; see the [coverage inventory](docs/coverage.md).
 
+## Open the terminal assistant
+
+```sh
+cargo install --path . --locked
+ai-sre
+```
+
+The terminal opens by default: editable prompts, Tab command completion, searchable history, service/session context, formatted reports, and cancellable progress. Use `ai-sre chat --service checkout-api` to select a service immediately. See [terminal usage](docs/terminal.md) for configuration, keyboard shortcuts, and scripting.
+
 ## Run it
 
 Install Rust using the official toolchain installer, then run from this checkout:
@@ -33,7 +42,7 @@ Configuration paths resolve relative to the TOML file. The default database is `
 | Capability | Behavior |
 | --- | --- |
 | Headless investigations | Question argument or stdin, structured JSON output, nonzero exit on failed runs |
-| Interactive terminal | Sessions/resume, status, cost, compact, tool listing, redacted persistent history, traces, and Ctrl+C cancellation |
+| Interactive terminal | Default interactive launch, editable prompts, Tab completion, searchable history, sessions/resume, wrapped reports, traces, and Ctrl+C cancellation |
 | Model-assisted reasoning | Chat Completions, Responses, Anthropic, and Gemini protocol adapters with bounded tool loops |
 | Local evidence | Service-filtered JSON bundles; Markdown runbooks from a configured directory |
 | Observability | Read-only PromQL queries and one-hour Loki log queries |

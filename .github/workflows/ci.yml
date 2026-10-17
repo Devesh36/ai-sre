@@ -12,6 +12,8 @@ jobs:
       - run: cargo fmt --all -- --check
       - run: cargo clippy --locked --all-targets -- -D warnings
       - run: cargo test --locked
+      - name: Interactive terminal acceptance
+        run: python3 scripts/terminal-smoke.py target/debug/ai-sre
       - run: cargo run --locked -- eval
       - name: Harness conformance and repeatability
         run: cargo run --locked -- eval --suite harness --repeat 3 --output .ai-sre/harness.json

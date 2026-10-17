@@ -12,3 +12,4 @@ rustup toolchain install 1.90.0 --profile minimal --component rustfmt --componen
 cargo build --locked --jobs 4
 cargo test --locked --jobs 4
 cargo run --locked -- eval
+cargo install --path . --locked --offline --jobs 4

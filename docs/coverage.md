@@ -8,7 +8,7 @@ This inventory separates implemented behavior from remaining gaps. The full trac
 | Model transports | Chat Completions, Responses, Anthropic Messages, Gemini generateContent | Bedrock Converse, Vertex identity, CLI model transports, hosted credits; live provider certification |
 | Privacy | Credential redaction; reversible configured identifier masking | Automatic entity detection, comprehensive secret recognition, encrypted storage |
 | Session state | SQLite WAL, atomic claims, tool checkpoints, cancellation, run ownership IDs, resumable SSE activity, follow-ups, compaction | Exact mid-tool continuation after process death; remote synchronization |
-| Terminal | Headless and interactive questions, stdin/JSON, sessions/resume/status/cost/compact, tool listing, doctor, Ctrl+C cancellation, redacted persistent history and traces | Rich terminal UI, full slash-command coverage, attachments |
+| Terminal | Headless and interactive questions, stdin/JSON, sessions/resume/status/cost/compact, tool listing, doctor, default interactive launch, command completion, searchable persistent history, styled reports, progress and Ctrl+C cancellation | Token streaming, full slash-command coverage, attachments |
 | Web workspace | Investigations, evidence, activity, search, cancellation, compaction, export, work/memory/schedule/action screens | Multi-user collaboration, SSO/RBAC, model streaming, cloud administration |
 | Native integrations | 59 operations across 27 connector types; Prometheus and Loki built-ins | Complete vendor API coverage; native SDK/driver gaps listed below |
 | MCP | Streamable HTTP, sessions, paginated discovery, JSON/SSE results, allowlists and read-only declarations | stdio, OAuth, resources/prompts, subscriptions, server-initiated requests |
