@@ -316,7 +316,21 @@ async fn run(tools: &Toolbox, store: &Store, incident: &mut Incident) -> Result<
                         json!({"evidence":[],"errors":["tool arguments must be a JSON object; correct the arguments before retrying"]})
                     }
                 };
-                messages.push(json!({"role":"tool","tool_call_id":id,"content":serde_json::to_string(&result)?}));
+                let content = serde_json::to_string(&result)?;
+                let budget = crate::core::tool::output::OutputBudget {
+                    tokens: tools.config.harness.tool_output_tokens,
+                };
+                let output = crate::core::tool::contracts::ExecutionResult::success(result);
+                let crate::core::tool::output::Content::Text(bounded) =
+                    output.provider_content(budget)
+                else {
+                    unreachable!("evidence envelopes serialize to text")
+                };
+                if bounded != content {
+                    runtime.trace(incident, "tool_output_bounded", name, bounded.len(), vec![]);
+                    store.checkpoint(incident)?;
+                }
+                messages.push(json!({"role":"tool","tool_call_id":id,"content":bounded}));
             }
         } else {
             let report: Result<Report> = (|| {

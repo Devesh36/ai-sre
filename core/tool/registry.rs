@@ -132,6 +132,12 @@ impl Toolbox {
             self.allowed(name),
             "tool is excluded by the active workflow"
         );
+        let definitions = self.definitions();
+        let definition = definitions
+            .iter()
+            .find(|d| d["function"]["name"] == name)
+            .ok_or_else(|| anyhow::anyhow!("tool is not available in this session"))?;
+        crate::core::tool::schema::validate_input(&definition["function"]["parameters"], &args)?;
         for connection in &self.config.connections {
             if let Some(operation) = name.strip_prefix(&format!("conn_{}_", connection.name))
                 && crate::integrations::catalog()

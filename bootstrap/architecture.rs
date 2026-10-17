@@ -25,6 +25,14 @@ pub struct Entry {
     pub related_rust: Vec<String>,
     pub status: Option<String>,
     pub declaration_scan: Option<String>,
+    pub translation: Option<Translation>,
+}
+#[derive(Serialize, Deserialize)]
+pub struct Translation {
+    pub state: String,
+    pub targets: Vec<String>,
+    pub validation: Vec<String>,
+    pub differences_and_remaining: Vec<String>,
 }
 #[derive(Serialize, Deserialize)]
 pub struct Declaration {
@@ -47,7 +55,7 @@ impl Inventory {
                     .or_default() += 1;
             }
         }
-        serde_json::json!({"directories":self.directories.len(),"files":self.files.len(),"modules":self.files.iter().filter(|e|e.rust_target.is_some()).count(),"partial":self.files.iter().filter(|e|e.status.as_deref()==Some("partial")).count(),"pending":self.files.iter().filter(|e|e.status.as_deref()==Some("pending")).count(),"declarations":self.files.iter().map(|e|e.declarations.len()).sum::<usize>(),"layers":layers,"scope":self.scope})
+        serde_json::json!({"directories":self.directories.len(),"files":self.files.len(),"modules":self.files.iter().filter(|e|e.rust_target.is_some()).count(),"partial":self.files.iter().filter(|e|e.status.as_deref()==Some("partial")).count(),"pending":self.files.iter().filter(|e|e.status.as_deref()==Some("pending")).count(),"translation_records":self.files.iter().filter(|e|e.translation.is_some()).count(),"declarations":self.files.iter().map(|e|e.declarations.len()).sum::<usize>(),"layers":layers,"scope":self.scope})
     }
     pub fn select(&self, prefix: &str, pending: bool) -> Result<Vec<&Entry>> {
         ensure!(

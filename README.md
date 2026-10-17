@@ -97,3 +97,5 @@ The optional `scripts/operations-smoke.cjs` covers work, memory, schedules, and 
 See [agent harness and evaluation](docs/harness.md), [API and integrations](docs/api.md), [architecture](docs/architecture.md), [deployment](docs/deployment.md), and [product roadmap](docs/roadmap.md).
 
 The implementation is organized into eight functional layers with separate modules for native connectors. See [repository layout and module inventory](docs/repository-layout.md) and [workflow registry](docs/workflow-registry.md).
+
+Selected shared tool modules have direct Rust adaptations with source-comparison tests. See the [file-level port status](docs/tool-layer-port.md) and [third-party notices](THIRD_PARTY_NOTICES.md).

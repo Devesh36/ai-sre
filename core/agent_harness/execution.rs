@@ -83,14 +83,23 @@ impl Run {
         args: Value,
         gaps: &mut Vec<String>,
     ) -> Result<Value> {
-        let known = tools
-            .definitions()
-            .iter()
-            .any(|d| d["function"]["name"] == name);
+        let definitions = tools.definitions();
+        let definition = definitions.iter().find(|d| d["function"]["name"] == name);
+        let known = definition.is_some();
         // Unknown tool names are untrusted model output: do not record their text.
         let label = if known { name } else { "unavailable_tool" };
         if !known || !args.is_object() {
             let error = "tool unavailable under current policy, or arguments are not an object";
+            self.trace(incident, "tool_rejected", label, 0, vec![]);
+            store.checkpoint(incident)?;
+            gaps.push(error.into());
+            return Ok(json!({"evidence":[],"errors":[error]}));
+        }
+        let definition = definition.expect("known tool in the captured snapshot");
+        if crate::core::tool::schema::validate_input(&definition["function"]["parameters"], &args)
+            .is_err()
+        {
+            let error = "tool input does not match its public schema";
             self.trace(incident, "tool_rejected", label, 0, vec![]);
             store.checkpoint(incident)?;
             gaps.push(error.into());

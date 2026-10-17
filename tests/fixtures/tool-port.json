@@ -1,0 +1,1816 @@
+{
+  "source_snapshot": "7eadd2018c7672bc17c2c5cf6ae70eeac576c3c1",
+  "text": [
+    {
+      "text": "éé🚀ab\nab\ncé\nb\na文中c🚀a",
+      "bytes": 97,
+      "tokens": false,
+      "expected": "éé🚀ab\nab\ncé\nb\na文中c🚀a"
+    },
+    {
+      "text": "中文文中中🚀\nb🚀中bc文cba中\n中文中中ac\naéc文baéé🚀ccéb文🚀中c中文文🚀中é\nc文ca中🚀",
+      "bytes": 31,
+      "tokens": true,
+      "expected": "中文文中中…23 tokens truncated…é\nc文ca中🚀"
+    },
+    {
+      "text": "文cé\n中ébé\na文b文ééa文b文\né🚀ab\nécac文écéccb文aaéab中中bab中\nébc中ba中文中文文bbc中文文éé\nééa\n🚀éc\nc文中中\né🚀",
+      "bytes": 49,
+      "tokens": false,
+      "expected": "文cé\n中ébé\na文b文…60 chars truncated…🚀éc\nc文中中\né🚀"
+    },
+    {
+      "text": "b中éé🚀écébbcé中a\néc\nbacabb\n\n🚀ééacba文\n🚀🚀\naabab中文ca",
+      "bytes": 41,
+      "tokens": true,
+      "expected": "b中éé🚀écébbc…9 tokens truncated…🚀\naabab中文ca"
+    },
+    {
+      "text": "b文中🚀\n\nbcbéé中b中🚀bb中中aaé\n中b中écbaca🚀ébc文aé🚀中c\nbb中中文a🚀文ééébbaéacé文文文文中🚀🚀ébcaéé\n\n文🚀中c文éc中\n\n文a文中b🚀é",
+      "bytes": 19,
+      "tokens": false,
+      "expected": "b文中…86 chars truncated…中b🚀é"
+    },
+    {
+      "text": "b\n🚀中b中\nc🚀中🚀b🚀\n中bé文中\nbé文中aé文🚀\n\néc中🚀b\nbéab中中a\n\ncab中文cc文éb\nééb中文b🚀文中文a🚀文ac中\n",
+      "bytes": 133,
+      "tokens": true,
+      "expected": "b\n🚀中b中\nc🚀中🚀b🚀\n中bé文中\nbé文中aé文🚀\n\n…4 tokens truncated…b中中a\n\ncab中文cc文éb\nééb中文b🚀文中文a🚀文ac中\n"
+    },
+    {
+      "text": "中文c文中ba中abé文é🚀\n中ééca中c",
+      "bytes": 74,
+      "tokens": false,
+      "expected": "中文c文中ba中abé文é🚀\n中ééca中c"
+    },
+    {
+      "text": "\né文\nba文b🚀b文bc中中ab\ncc\na中c🚀bcc\n中c🚀a",
+      "bytes": 41,
+      "tokens": true,
+      "expected": "\né文\nba文b🚀b…4 tokens truncated…中c🚀bcc\n中c🚀a"
+    },
+    {
+      "text": "\naé文文béba文中a文a\néa中a🚀b文b中é中\nccaa文a中cc🚀文中bcaa文中b\né中中a中🚀c中\nc🚀文🚀céc中中文ca\né🚀文🚀\nc文a🚀中é中b中🚀c中🚀ccééé🚀b中ééac",
+      "bytes": 177,
+      "tokens": false,
+      "expected": "\naé文文béba文中a文a\néa中a🚀b文b中é中\nccaa文a中cc🚀文中bcaa文中b\n…12 chars truncated…🚀céc中中文ca\né🚀文🚀\nc文a🚀中é中b中🚀c中🚀ccééé🚀b中ééac"
+    },
+    {
+      "text": "c中bc中🚀文中中b\ncé🚀🚀🚀é\n\n🚀c中cba\n🚀bca🚀\n文中文文aé🚀\né中🚀🚀c\naébc🚀🚀b",
+      "bytes": 115,
+      "tokens": true,
+      "expected": "c中bc中🚀文中中b\ncé🚀🚀🚀é\n\n🚀c中cba\n…1 tokens truncated…bca🚀\n文中文文aé🚀\né中🚀🚀c\naébc🚀🚀b"
+    },
+    {
+      "text": "éa文🚀baaa文文文é中🚀c中c中\nb文🚀aé中cé文🚀céabcaé中ac\n\n\n文文c中\n中🚀\nbébééb文中b🚀abé中a中\nabbcéb文caé文é🚀\nbé文🚀é🚀\nb\n🚀中baé中",
+      "bytes": 126,
+      "tokens": false,
+      "expected": "éa文🚀baaa文文文é中🚀c中c中\nb文🚀aé中cé文…36 chars truncated…a中\nabbcéb文caé文é🚀\nbé文🚀é🚀\nb\n🚀中baé中"
+    },
+    {
+      "text": "文aéa中a\n文🚀🚀cé文\nbc\n中中中🚀文中abb🚀b文ac🚀acaac文a中🚀文中cb中b🚀é中aa\n\n🚀中",
+      "bytes": 10,
+      "tokens": true,
+      "expected": "文a…27 tokens truncated…中"
+    },
+    {
+      "text": "文ébé中ca中中\n🚀ca中\né文\n文🚀b文ac\nc🚀\n文文中b中🚀cé\nb🚀ba中bc🚀🚀c🚀ac文中文aa文中文🚀中acb\ncaa中a中cé文bc文é文🚀🚀文\n文",
+      "bytes": 161,
+      "tokens": false,
+      "expected": "文ébé中ca中中\n🚀ca中\né文\n文🚀b文ac\nc🚀\n文文中b中🚀cé\nb…8 chars truncated…c🚀ac文中文aa文中文🚀中acb\ncaa中a中cé文bc文é文🚀🚀文\n文"
+    },
+    {
+      "text": "c文文\nac\ncaaca文中文c文\nbcé中\n中\n中\n🚀",
+      "bytes": 141,
+      "tokens": true,
+      "expected": "c文文\nac\ncaaca文中文c文\nbcé中\n中\n中\n🚀"
+    },
+    {
+      "text": "é文bcbba中b\n🚀bé\n中\n\n文\nbcé文abbb🚀c文cc中\néb文文b文\nééb中🚀éé🚀🚀bcbbcb文é中aaé文éacééé文🚀🚀cbbbéé🚀文a🚀a中中文é文\n\ncc中文文b文🚀b\nc文中c文",
+      "bytes": 171,
+      "tokens": false,
+      "expected": "é文bcbba中b\n🚀bé\n中\n\n文\nbcé文abbb🚀c文cc中\néb文文b文\nééb中🚀é…19 chars truncated…ééé文🚀🚀cbbbéé🚀文a🚀a中中文é文\n\ncc中文文b文🚀b\nc文中c文"
+    },
+    {
+      "text": "baéb\nac文ccéca中a",
+      "bytes": 155,
+      "tokens": true,
+      "expected": "baéb\nac文ccéca中a"
+    },
+    {
+      "text": "bc中c\n🚀\n\nécc文\n\n",
+      "bytes": 20,
+      "tokens": false,
+      "expected": "bc中c\n…2 chars truncated…\nécc文\n\n"
+    },
+    {
+      "text": "中\nc文文🚀🚀éé中c🚀a文cc🚀b🚀中ca\n\nb文ba\nc文🚀é\n\n中",
+      "bytes": 81,
+      "tokens": true,
+      "expected": "中\nc文文🚀🚀éé中c🚀a文cc🚀b🚀中ca\n\nb文ba\nc文🚀é\n\n中"
+    },
+    {
+      "text": "ca中🚀cab\nc文é🚀bcaabé🚀\n🚀🚀中\n🚀中\nc\n🚀a\n文cbé\naa🚀é中é\n文中中中aébc中中b\nb🚀\n\n🚀文文a\n\ncc文中\n",
+      "bytes": 31,
+      "tokens": false,
+      "expected": "ca中🚀cab\nc…53 chars truncated…文a\n\ncc文中\n"
+    },
+    {
+      "text": "\n中中é文éa\n文🚀ccac\n中é🚀cabcab文\n中cab中🚀文é中文文caéabb\n\n文🚀béé文🚀🚀🚀é文b文中c文文文\né",
+      "bytes": 17,
+      "tokens": true,
+      "expected": "\n中中…30 tokens truncated…文文\né"
+    },
+    {
+      "text": "c\n\n文\nb文écbba文🚀abc文ccb\nb文🚀b\n文文\nbb🚀\nc\n🚀c中é🚀éc\n中🚀abbaé🚀",
+      "bytes": 79,
+      "tokens": false,
+      "expected": "c\n\n文\nb文écbba文🚀abc文ccb\nb文…9 chars truncated…\nc\n🚀c中é🚀éc\n中🚀abbaé🚀"
+    },
+    {
+      "text": "中é",
+      "bytes": 63,
+      "tokens": true,
+      "expected": "中é"
+    },
+    {
+      "text": "文🚀a\néa文éabb文é🚀🚀",
+      "bytes": 119,
+      "tokens": false,
+      "expected": "文🚀a\néa文éabb文é🚀🚀"
+    },
+    {
+      "text": "b中a文🚀c\nébb中abc🚀bc\ncé中cc🚀écb中ba\na\nc文é\nbé🚀🚀🚀🚀\n🚀中b",
+      "bytes": 60,
+      "tokens": true,
+      "expected": "b中a文🚀c\nébb中abc🚀bc…8 tokens truncated…\nbé🚀🚀🚀🚀\n🚀中b"
+    },
+    {
+      "text": "文\n",
+      "bytes": 139,
+      "tokens": false,
+      "expected": "文\n"
+    },
+    {
+      "text": "\nb\néb文céa文\néb\nac文🚀a🚀文acé\naé\né🚀文",
+      "bytes": 55,
+      "tokens": true,
+      "expected": "\nb\néb文céa文\néb\nac文…1 tokens truncated…a🚀文acé\naé\né🚀文"
+    },
+    {
+      "text": "a中a文",
+      "bytes": 87,
+      "tokens": false,
+      "expected": "a中a文"
+    },
+    {
+      "text": "🚀bé\n🚀a文ccéaa文🚀🚀文🚀文🚀ca🚀🚀\nbcé🚀aé中文文aéc🚀b文cbcé中c🚀ééa🚀中中中é中é🚀c中🚀\na文\n\né文文a文aé文🚀\nabb\na文中ca中a\n🚀文éc\n",
+      "bytes": 44,
+      "tokens": true,
+      "expected": "🚀bé\n🚀a文ccéaa…39 tokens truncated…中ca中a\n🚀文éc\n"
+    },
+    {
+      "text": "é🚀中\néé\nab\ncccc文中文文文é🚀文cé",
+      "bytes": 89,
+      "tokens": false,
+      "expected": "é🚀中\néé\nab\ncccc文中文文文é🚀文cé"
+    },
+    {
+      "text": "\n文\nc🚀中b中中c\n\n文cb\n🚀é文c🚀\naa中c文b🚀b\nébéé中🚀文bbcé\n\n中bé🚀\n中bé文a中é中aaééaé🚀c🚀文ba\naca",
+      "bytes": 35,
+      "tokens": true,
+      "expected": "\n文\nc🚀中b中…27 tokens truncated…🚀c🚀文ba\naca"
+    },
+    {
+      "text": "\n",
+      "bytes": 7,
+      "tokens": false,
+      "expected": "\n"
+    },
+    {
+      "text": "文é文\n中éééaaé🚀文é文\naé文中a中🚀🚀\n文\nab中🚀🚀文中a中🚀ba文文b🚀\n文é文🚀c🚀文cb文🚀文文ccb文文ébc中文中文🚀a🚀aa\n",
+      "bytes": 98,
+      "tokens": true,
+      "expected": "文é文\n中éééaaé🚀文é文\naé文中a中…19 tokens truncated…🚀文文ccb文文ébc中文中文🚀a🚀aa\n"
+    },
+    {
+      "text": "éa\n文é🚀aa文é文ac中🚀\néé🚀文cc\néabb文🚀é\nc文\nc🚀é🚀中中ééb\nc文éca中文aa中aé",
+      "bytes": 169,
+      "tokens": false,
+      "expected": "éa\n文é🚀aa文é文ac中🚀\néé🚀文cc\néabb文🚀é\nc文\nc🚀é🚀中中ééb\nc文éca中文aa中aé"
+    },
+    {
+      "text": "文b中中é中b",
+      "bytes": 84,
+      "tokens": true,
+      "expected": "文b中中é中b"
+    },
+    {
+      "text": "é🚀ab🚀a文ca🚀b\nacc\n文éé中b中🚀🚀é🚀\n中a中c\na🚀éac文bb🚀文c🚀éb\na中中🚀🚀🚀cc文中cc文中bc文🚀文文中a中",
+      "bytes": 139,
+      "tokens": false,
+      "expected": "é🚀ab🚀a文ca🚀b\nacc\n文éé中b中🚀🚀é🚀\n中a中c\na…8 chars truncated…文c🚀éb\na中中🚀🚀🚀cc文中cc文中bc文🚀文文中a中"
+    },
+    {
+      "text": "\n中文a文b文中\n文文中céc中cbb文c文ébb\na\n中cac\nb中cé\n文b\ncb🚀a文文a\né🚀\né文babb\naacb文中bcccébab中cab文b",
+      "bytes": 137,
+      "tokens": true,
+      "expected": "\n中文a文b文中\n文文中céc中cbb文c文ébb\na\n中cac\nb中cé\n文b\ncb🚀a文文a\né🚀\né文babb\naacb文中bcccébab中cab文b"
+    },
+    {
+      "text": "bcéaba文文🚀\nc中文\n中中文🚀cé中a中éa中c\ncbc中c\ncc\n\n\na中bbb文🚀\n",
+      "bytes": 114,
+      "tokens": false,
+      "expected": "bcéaba文文🚀\nc中文\n中中文🚀cé中a中éa中c\ncbc中c\ncc\n\n\na中bbb文🚀\n"
+    },
+    {
+      "text": "中cé文cé\n🚀b文\n中",
+      "bytes": 91,
+      "tokens": true,
+      "expected": "中cé文cé\n🚀b文\n中"
+    },
+    {
+      "text": "c🚀a中b文é🚀a🚀文é中文bé中文🚀ca中文b中\n🚀c🚀🚀中aa\nb文éb中a文aé文ccbécaéacé\n\n\n🚀文文\n",
+      "bytes": 11,
+      "tokens": false,
+      "expected": "c🚀…57 chars truncated…文\n"
+    },
+    {
+      "text": "中c\n🚀c文中bé文é中c\nb\nééb\n\n文c中b\néécc中\n🚀\n\n文文b中c\nb文中\n文中中ac文éb文中\nb文bé中中é🚀bbcééa🚀c中文中ab🚀ba\n",
+      "bytes": 29,
+      "tokens": true,
+      "expected": "中c\n🚀c文…32 tokens truncated…文中ab🚀ba\n"
+    },
+    {
+      "text": "cb文c中acécé\naccc文🚀cbaccac🚀a中\n中中中\nb中\nccc中éé中中\n中🚀ccéa文a\néé🚀\na中a🚀中中🚀🚀caéé\n文文a中中béé\n🚀中中béb🚀中🚀中é中é🚀béac🚀é中é文b\n文c🚀🚀a中文文é\na",
+      "bytes": 23,
+      "tokens": false,
+      "expected": "cb文c中ac…103 chars truncated…文文é\na"
+    },
+    {
+      "text": "\nba中é\nba🚀cb文a\n中b中🚀文a\néé",
+      "bytes": 87,
+      "tokens": true,
+      "expected": "\nba中é\nba🚀cb文a\n中b中🚀文a\néé"
+    },
+    {
+      "text": "🚀acé中中écabcba\n\n中é文ab\n\nb文bc🚀🚀é中\n文🚀\n文b🚀🚀文文🚀中a🚀🚀文🚀\n中文aé文é文文文ca文a文文中a\n文文文文c\n文中bcaaéc\nbc\ncbac文béé中",
+      "bytes": 6,
+      "tokens": false,
+      "expected": "…92 chars truncated…中"
+    },
+    {
+      "text": "aaa",
+      "bytes": 79,
+      "tokens": true,
+      "expected": "aaa"
+    },
+    {
+      "text": "中ca🚀中中b\n中中a中\n中🚀b\n中b\na文a中文aébbcéébé中aé🚀ab文文a文",
+      "bytes": 148,
+      "tokens": false,
+      "expected": "中ca🚀中中b\n中中a中\n中🚀b\n中b\na文a中文aébbcéébé中aé🚀ab文文a文"
+    },
+    {
+      "text": "a🚀中🚀中b中\néc文\n🚀🚀bc🚀文a\nab\n中文🚀c文bc\n\na🚀cb文中文文ééb🚀ccbcé\ncca中文é\nba文é文中🚀ab\n🚀é文écab文文",
+      "bytes": 118,
+      "tokens": true,
+      "expected": "a🚀中🚀中b中\néc文\n🚀🚀bc🚀文a\nab\n中文🚀…9 tokens truncated…ccbcé\ncca中文é\nba文é文中🚀ab\n🚀é文écab文文"
+    },
+    {
+      "text": "c\né\né中é\néé\n\néc文🚀aécc🚀aacéba中🚀c\nacbb\ncébbé中\n中🚀文bbéaéa\n\néaa文b文c中\na文\nca\nabb\naccé\nécb中文b\n中aa🚀文🚀中中ca",
+      "bytes": 52,
+      "tokens": false,
+      "expected": "c\né\né中é\néé\n\néc文…68 chars truncated…b\n中aa🚀文🚀中中ca"
+    },
+    {
+      "text": "🚀c🚀文c🚀中ébc\n文ac\nb中a中abacbé中aaca\nb\n🚀caab🚀ab文béé文bé文é🚀文\n🚀\né文éb文ba中éc文文a🚀\n\nc中🚀文béb文é文文\n文",
+      "bytes": 84,
+      "tokens": true,
+      "expected": "🚀c🚀文c🚀中ébc\n文ac\nb中a中aba…20 tokens truncated…文a🚀\n\nc中🚀文béb文é文文\n文"
+    },
+    {
+      "text": "🚀c中🚀\ncca\nc\n中中cacb\n中🚀🚀a中cca🚀a文🚀cé文bba🚀c🚀a\n中\né文c文céé中bc中c文🚀\nbé\nc文a🚀文中aaéa",
+      "bytes": 107,
+      "tokens": false,
+      "expected": "🚀c中🚀\ncca\nc\n中中cacb\n中🚀🚀a中cca🚀a…16 chars truncated…文c文céé中bc中c文🚀\nbé\nc文a🚀文中aaéa"
+    },
+    {
+      "text": "文🚀aébc\né\n\n🚀é中b文🚀\nb\ncc文文c文bcéb🚀a🚀c中中",
+      "bytes": 105,
+      "tokens": true,
+      "expected": "文🚀aébc\né\n\n🚀é中b文🚀\nb\ncc文文c文bcéb🚀a🚀c中中"
+    },
+    {
+      "text": "a文écb🚀\n\nc中🚀🚀aca🚀文b中中中文文文文🚀bé中🚀ébbb中\ncaa中\n文aa中b中a中é中cc中ccbé中文cé中ccbb\na🚀é🚀bccéa🚀a中中🚀a🚀文ébcc\n\n🚀cb\n",
+      "bytes": 146,
+      "tokens": false,
+      "expected": "a文écb🚀\n\nc中🚀🚀aca🚀文b中中中文文文文🚀bé中🚀…27 chars truncated…é中文cé中ccbb\na🚀é🚀bccéa🚀a中中🚀a🚀文ébcc\n\n🚀cb\n"
+    },
+    {
+      "text": "中文文é🚀aé\naéb中c中",
+      "bytes": 164,
+      "tokens": true,
+      "expected": "中文文é🚀aé\naéb中c中"
+    },
+    {
+      "text": "🚀\na中c中\nc\nb🚀é中b文文\naccc文中acca文ca🚀文文aa\naé\n文文bcéé🚀中中abc\nbéa🚀c🚀中🚀b文éac文ab\n\n文中中b🚀c中🚀中abbéb文a\n中cébébbaé🚀aa中ééba文bc",
+      "bytes": 49,
+      "tokens": false,
+      "expected": "🚀\na中c中\nc\nb🚀é…80 chars truncated…bbaé🚀aa中ééba文bc"
+    },
+    {
+      "text": "é中\ncéa中cc🚀中文baabéca中cc中ab\n中céb文文中🚀céc中ca中文\nc\ncca中c文\na中\ncbc中文a\n文文文🚀中🚀ab文céé\nb中c文🚀中c\n文bé文🚀\nac文caaab文文bé🚀cca中a中é\néb中中🚀",
+      "bytes": 123,
+      "tokens": true,
+      "expected": "é中\ncéa中cc🚀中文baabéca中cc中ab\n中céb文文中…25 tokens truncated…bé文🚀\nac文caaab文文bé🚀cca中a中é\néb中中🚀"
+    },
+    {
+      "text": "é中cé文b\n\né中aa文c🚀é文🚀🚀文é文🚀文aé\n\n🚀é🚀中\n中b中bb🚀ca🚀c🚀acaacéaa🚀中aaccéc\n\n文aacc\n🚀中中文中文é中c中b文c",
+      "bytes": 17,
+      "tokens": false,
+      "expected": "é中cé…72 chars truncated…c中b文c"
+    },
+    {
+      "text": "🚀aé\n\nc中中🚀文🚀\n文\n中ba\n\néa\nca\n\n🚀中b中cc文中b文ab🚀éaa中aé文cacbc中🚀é\na中cc🚀中中é中acc中🚀b中éca文中éc中c🚀🚀中\n中abab🚀abc🚀é中🚀🚀文🚀c中a中céé",
+      "bytes": 58,
+      "tokens": true,
+      "expected": "🚀aé\n\nc中中🚀文🚀\n…41 tokens truncated…🚀🚀文🚀c中a中céé"
+    },
+    {
+      "text": "\n\nécc\n🚀é文ébé文écé中acb\n🚀caéé中b🚀文b中🚀中中éc\n中ab中c中c中c\n文c文中\n\né🚀文é\nbé中🚀\n中é中c🚀文中中cé中🚀🚀中文a中文c中",
+      "bytes": 166,
+      "tokens": false,
+      "expected": "\n\nécc\n🚀é文ébé文écé中acb\n🚀caéé中b🚀文b中🚀中中éc\n中ab中…9 chars truncated…中\n\né🚀文é\nbé中🚀\n中é中c🚀文中中cé中🚀🚀中文a中文c中"
+    },
+    {
+      "text": "文bcbc文文文文🚀é中文é中é\néééc\n中a🚀éa中🚀\n文é文🚀\n文🚀ac\n🚀文bé文\néé🚀中ca中aa中é🚀é中中\n",
+      "bytes": 66,
+      "tokens": true,
+      "expected": "文bcbc文文文文🚀é中文é…19 tokens truncated…🚀中ca中aa中é🚀é中中\n"
+    },
+    {
+      "text": "ééb文b中🚀c🚀é文c中bé",
+      "bytes": 74,
+      "tokens": false,
+      "expected": "ééb文b中🚀c🚀é文c中bé"
+    },
+    {
+      "text": "🚀acc🚀🚀中🚀🚀é\n\néécbé中文é\nb中🚀é🚀\né🚀a\n🚀cc🚀c文\nc中c🚀bbb🚀cc🚀\né中a🚀bbcéac\n🚀🚀\n🚀文a\n\nb中🚀éécé文文c文中🚀c\ncb中éc🚀c🚀🚀aca🚀bb中éc\né中b文b",
+      "bytes": 83,
+      "tokens": true,
+      "expected": "🚀acc🚀🚀中🚀🚀é\n\néécbé中…36 tokens truncated…éc🚀c🚀🚀aca🚀bb中éc\né中b文b"
+    },
+    {
+      "text": "a\n\né🚀文aaaé🚀bc\n\n文b\n中文béac文中中中🚀🚀中c🚀ébécc\n文中文bé文aébcb\ncbé🚀c\nbéb中中cécbc中\né\né\ncc\nc🚀\n文bé🚀",
+      "bytes": 82,
+      "tokens": false,
+      "expected": "a\n\né🚀文aaaé🚀bc\n\n文b\n中文béac…36 chars truncated…中中cécbc中\né\né\ncc\nc🚀\n文bé🚀"
+    },
+    {
+      "text": "中é🚀a中文\na文bca\né🚀céa中\nc中é\n文中bc文中\néb中🚀🚀b文文中é文b文🚀中acb中écé中c\né中🚀🚀bé中a\n中b中é🚀🚀b\na\nc🚀中🚀\n文éaacb\nc中é中a中b文éc\n中文\naéaéa\né\n中",
+      "bytes": 122,
+      "tokens": true,
+      "expected": "中é🚀a中文\na文bca\né🚀céa中\nc中é\n文中bc文中\n…26 tokens truncated…中🚀\n文éaacb\nc中é中a中b文éc\n中文\naéaéa\né\n中"
+    },
+    {
+      "text": "écacé\ncc文中ba🚀🚀🚀c\n\n🚀cba🚀文",
+      "bytes": 93,
+      "tokens": false,
+      "expected": "écacé\ncc文中ba🚀🚀🚀c\n\n🚀cba🚀文"
+    },
+    {
+      "text": "中🚀b🚀🚀文a中文\n中文文文文é文cb\nb中文é🚀",
+      "bytes": 68,
+      "tokens": true,
+      "expected": "中🚀b🚀🚀文a中文\n中文文文文é文cb\nb中文é🚀"
+    },
+    {
+      "text": "中a中bb\n🚀éaaa🚀\n中bccbca文\nbc中文文é\nac🚀🚀文a中🚀é文文é文🚀\na🚀🚀bb\n文中文\n中\nc\n\ncb中中aa文c中中b中文b\nacbbc\nab中éa🚀文文\nac中\n文a\nbca\na",
+      "bytes": 90,
+      "tokens": false,
+      "expected": "中a中bb\n🚀éaaa🚀\n中bccbca文\nbc中文…46 chars truncated…b\nacbbc\nab中éa🚀文文\nac中\n文a\nbca\na"
+    },
+    {
+      "text": "文cééc\n🚀é中文ba🚀b中bc文écécaba文é\n🚀\n\nbébbaaa中文文ab中céaa文\n",
+      "bytes": 126,
+      "tokens": true,
+      "expected": "文cééc\n🚀é中文ba🚀b中bc文écécaba文é\n🚀\n\nbébbaaa中文文ab中céaa文\n"
+    },
+    {
+      "text": "é🚀éééééc中c中🚀文é\n\n中b🚀aéé\n中文b文文\nb\n文a🚀é",
+      "bytes": 108,
+      "tokens": false,
+      "expected": "é🚀éééééc中c中🚀文é\n\n中b🚀aéé\n中文b文文\nb\n文a🚀é"
+    },
+    {
+      "text": "b🚀文béc🚀cé中cé\n🚀🚀\n中cba🚀b文ccc文cbcac\n文bb🚀\n🚀éabaéacc文",
+      "bytes": 131,
+      "tokens": true,
+      "expected": "b🚀文béc🚀cé中cé\n🚀🚀\n中cba🚀b文ccc文cbcac\n文bb🚀\n🚀éabaéacc文"
+    },
+    {
+      "text": "éb中\nc中🚀\nbé\néaa\n",
+      "bytes": 135,
+      "tokens": false,
+      "expected": "éb中\nc中🚀\nbé\néaa\n"
+    },
+    {
+      "text": "文文文中ab\néé🚀\nb\nbb文🚀🚀aé文c🚀é中écbéaba🚀🚀中🚀a文c文中éé中c文bé\n\né🚀\nb\né文cbécé文\néb\né中ca文béccébaa中a\n",
+      "bytes": 136,
+      "tokens": true,
+      "expected": "文文文中ab\néé🚀\nb\nbb文🚀🚀aé文c🚀é中écbéaba🚀…6 tokens truncated…é中c文bé\n\né🚀\nb\né文cbécé文\néb\né中ca文béccébaa中a\n"
+    },
+    {
+      "text": "a\n文éb\nbéaé文é文é文b文🚀aaccéc中b\n文\néé🚀文é\ncb中ébca中中b中b文b🚀\na中a\n🚀aa文ca🚀aaé🚀🚀a\nb文bcé🚀文\n中中aé\nab中é🚀c\n文bcé中b文c文a\nac\né中中ac",
+      "bytes": 137,
+      "tokens": false,
+      "expected": "a\n文éb\nbéaé文é文é文b文🚀aaccéc中b\n文\néé🚀文é\ncb…34 chars truncated…bcé🚀文\n中中aé\nab中é🚀c\n文bcé中b文c文a\nac\né中中ac"
+    },
+    {
+      "text": "\né",
+      "bytes": 92,
+      "tokens": true,
+      "expected": "\né"
+    },
+    {
+      "text": "🚀中🚀文c🚀bc\n\n文中中文文文c🚀\nébéééa中éac中中a\n文b中aaé\ncb中🚀中cé中🚀é\n\nécc文c文\n🚀\n🚀🚀\nabé文\n\n文🚀éc\n中aééa\naéa文中é🚀🚀文中中\nébbé中\nc\nb文bc中béé",
+      "bytes": 39,
+      "tokens": false,
+      "expected": "🚀中🚀文c🚀…91 chars truncated…中\nc\nb文bc中béé"
+    },
+    {
+      "text": "béccéccbb🚀éc\n🚀ababccb中文\nac\ncacb文b中中c\nc\n中🚀文ab文bb\n🚀中b文中🚀é中ac文文a文文中🚀文文cb文文\nc",
+      "bytes": 5,
+      "tokens": true,
+      "expected": "b…33 tokens truncated…\nc"
+    },
+    {
+      "text": "a文b中bé\nébé中b🚀ééb文b🚀🚀\naa文中écéb\nb文\n文bcéb🚀a\n文文🚀🚀🚀b中é\nb🚀é中a🚀cbb🚀aéc🚀中aab文b文中🚀",
+      "bytes": 125,
+      "tokens": false,
+      "expected": "a文b中bé\nébé中b🚀ééb文b🚀🚀\naa文中écéb\nb文…13 chars truncated…🚀b中é\nb🚀é中a🚀cbb🚀aéc🚀中aab文b文中🚀"
+    },
+    {
+      "text": "文éb中🚀文é🚀中文🚀🚀\n🚀c\nb文aé🚀文c\nb中\n🚀中céé\nc\nb🚀文c\n文aaé中🚀ca文\n",
+      "bytes": 42,
+      "tokens": true,
+      "expected": "文éb中🚀文é…17 tokens truncated…\n文aaé中🚀ca文\n"
+    },
+    {
+      "text": "bb中中c\n中abc文\n文文🚀🚀ééé\nbcb中éé🚀a\né文中文中中中éa中\n\n文c文中🚀c🚀bca文中b文文éb🚀éaé🚀文🚀a🚀中中a文é中文中béb🚀🚀文cb🚀🚀🚀bé\nb\n🚀caaaé中文文\n",
+      "bytes": 161,
+      "tokens": false,
+      "expected": "bb中中c\n中abc文\n文文🚀🚀ééé\nbcb中éé🚀a\né文中文中中中éa…27 chars truncated…a🚀中中a文é中文中béb🚀🚀文cb🚀🚀🚀bé\nb\n🚀caaaé中文文\n"
+    },
+    {
+      "text": "中\n文中aa\n\néc文🚀é🚀中a🚀a\n文b文abbécc🚀🚀éca中b🚀🚀c中中中éb中🚀\néaéa🚀cé\n中c中aa\nb中中aac中中éb🚀éé文\n🚀acc中🚀",
+      "bytes": 8,
+      "tokens": true,
+      "expected": "中\n…40 tokens truncated…🚀"
+    },
+    {
+      "text": "a文é",
+      "bytes": 71,
+      "tokens": false,
+      "expected": "a文é"
+    },
+    {
+      "text": "中\n中bccc中\nb中\né中中c中\néc\n文中é🚀é文🚀éb中中中ccaa中\n文🚀中ac\n中a\ncéb🚀c\nc\ncé\nc\n中écb文",
+      "bytes": 11,
+      "tokens": true,
+      "expected": "中\n…29 tokens truncated…cb文"
+    },
+    {
+      "text": "bc中\n\nbéé文中\n🚀abca\n文éc\n🚀文中中\n中a中中c🚀文éac\n中cé🚀中\n\n🚀中\n文aééc中中aba🚀🚀中文🚀\n🚀中🚀é🚀文é",
+      "bytes": 151,
+      "tokens": false,
+      "expected": "bc中\n\nbéé文中\n🚀abca\n文éc\n🚀文中中\n中a中中c🚀文éac\n中…2 chars truncated…🚀中\n\n🚀中\n文aééc中中aba🚀🚀中文🚀\n🚀中🚀é🚀文é"
+    },
+    {
+      "text": "éé文文🚀\n\n文éé文文中\na文aca🚀ééb中bccacé中éc文🚀ébbaaac\n🚀文b\nbb中caaé中\ncbéaac文b🚀🚀aa文🚀a\nacéb中a文céébé文🚀b文🚀🚀🚀bacb\nécb中ab\nac\nbc\nc",
+      "bytes": 167,
+      "tokens": true,
+      "expected": "éé文文🚀\n\n文éé文文中\na文aca🚀ééb中bccacé中éc文🚀ébbaaac\n…8 tokens truncated…🚀🚀aa文🚀a\nacéb中a文céébé文🚀b文🚀🚀🚀bacb\nécb中ab\nac\nbc\nc"
+    },
+    {
+      "text": "bc中文é文abc中",
+      "bytes": 59,
+      "tokens": false,
+      "expected": "bc中文é文abc中"
+    },
+    {
+      "text": "\n\né中b🚀🚀cc中中🚀文aa\nca中文cbéc🚀b中\nc",
+      "bytes": 115,
+      "tokens": true,
+      "expected": "\n\né中b🚀🚀cc中中🚀文aa\nca中文cbéc🚀b中\nc"
+    },
+    {
+      "text": "bébab🚀aé\n\né\nééac🚀béa中中c中b🚀b中\n🚀🚀bcéé\nééa文中é🚀éba\néé文é\n文文éb\n文中acé中c中🚀文bb中c\nb中bcécc中文caéc\n🚀cé🚀a中🚀é文cb\n文bcc中acb文\n\n中🚀中中a中é",
+      "bytes": 91,
+      "tokens": false,
+      "expected": "bébab🚀aé\n\né\nééac🚀béa中中c中b…68 chars truncated…é文cb\n文bcc中acb文\n\n中🚀中中a中é"
+    },
+    {
+      "text": "中中ac文é\n中🚀c🚀aacab\nbacb文éc文c🚀中中é",
+      "bytes": 54,
+      "tokens": true,
+      "expected": "中中ac文é\n中🚀c🚀a…1 tokens truncated…\nbacb文éc文c🚀中中é"
+    },
+    {
+      "text": "é🚀🚀é",
+      "bytes": 172,
+      "tokens": false,
+      "expected": "é🚀🚀é"
+    },
+    {
+      "text": "éa中c中中ééaab🚀é中bb\nac\n文a文bbéb",
+      "bytes": 84,
+      "tokens": true,
+      "expected": "éa中c中中ééaab🚀é中bb\nac\n文a文bbéb"
+    },
+    {
+      "text": "aaé文acc中\na文🚀文aécéc🚀中c中a\na文aéc🚀中a🚀中a文🚀文\n🚀a🚀\naabb🚀b\ncacac文ba中éacbcéb\n文\n🚀文文\n🚀中b🚀éc🚀é中🚀éc🚀文\nc中中aabc中aébcbéé\n",
+      "bytes": 48,
+      "tokens": false,
+      "expected": "aaé文acc中\na文🚀…77 chars truncated…中中aabc中aébcbéé\n"
+    },
+    {
+      "text": "bcc文é🚀b文a🚀🚀céé\naé🚀中ca🚀🚀é\n\naca🚀é🚀文中céé中bbé\naca中bé中ba文\n文文🚀文céc🚀中c🚀c",
+      "bytes": 106,
+      "tokens": true,
+      "expected": "bcc文é🚀b文a🚀🚀céé\naé🚀中ca🚀🚀é…8 tokens truncated…bbé\naca中bé中ba文\n文文🚀文céc🚀中c🚀c"
+    },
+    {
+      "text": "c🚀c文c\n\nbéab🚀b🚀b🚀文\n🚀bb中cc🚀a\nbéc\na文cbc文éa\nc🚀b中éc🚀文中éé\nc",
+      "bytes": 23,
+      "tokens": false,
+      "expected": "c🚀c文c\n…41 chars truncated…文中éé\nc"
+    },
+    {
+      "text": "\nb文a🚀🚀中文🚀🚀中ébaaéa🚀acééb中éa文é文aca文🚀文🚀c文ca文b文éb\n\n文ébaé文cca🚀中中文文\na",
+      "bytes": 107,
+      "tokens": true,
+      "expected": "\nb文a🚀🚀中文🚀🚀中ébaaéa🚀acééb中…7 tokens truncated…c文ca文b文éb\n\n文ébaé文cca🚀中中文文\na"
+    },
+    {
+      "text": "c中\n🚀aé\n\nbéc🚀c中\naéaé🚀🚀文c中c中🚀cac\nc\nébaa中🚀b🚀\nc文\nab🚀",
+      "bytes": 19,
+      "tokens": false,
+      "expected": "c中\n🚀…39 chars truncated…文\nab🚀"
+    },
+    {
+      "text": "a文\n\na中c文ccé🚀\nc\né文abb文aéa🚀中🚀中文中🚀b🚀ccbbc🚀b\naa文文b\néébbé\nabé\n\n中a中文é\n文b文bé文中\n\n🚀ébcé🚀中aca\n🚀ac中c",
+      "bytes": 153,
+      "tokens": true,
+      "expected": "a文\n\na中c文ccé🚀\nc\né文abb文aéa🚀中🚀中文中🚀b🚀ccbbc…4 tokens truncated…éébbé\nabé\n\n中a中文é\n文b文bé文中\n\n🚀ébcé🚀中aca\n🚀ac中c"
+    },
+    {
+      "text": "\né\nc🚀中\n文é\na\né🚀中a🚀b\néca中éé🚀baaabbécc🚀b文🚀中🚀é中aé\n\n🚀c文cb文b文中b文é文éa中b文é中中bbaa🚀🚀aa文文ccb文🚀bb\nb中中b文\n文文中c🚀é文文a中🚀文文中中",
+      "bytes": 48,
+      "tokens": false,
+      "expected": "\né\nc🚀中\n文é\na\né…86 chars truncated…文a中🚀文文中中"
+    },
+    {
+      "text": "\n文ba\n中中aabb中中é🚀\nbébcéabb\n🚀文éb中中a🚀b中cac文中ca文aa\n中中b🚀cbaéa中c文é中🚀文\naécb文文🚀b\n中🚀c文🚀b\n中éé\né文a文a文éc文\n",
+      "bytes": 33,
+      "tokens": true,
+      "expected": "\n文ba\n中中aab…38 tokens truncated…a文a文éc文\n"
+    },
+    {
+      "text": "\n\nabca文中\naéc🚀éé文éé🚀bbéé🚀céééccbcéacbaéa",
+      "bytes": 110,
+      "tokens": false,
+      "expected": "\n\nabca文中\naéc🚀éé文éé🚀bbéé🚀céééccbcéacbaéa"
+    },
+    {
+      "text": "文🚀aé🚀c\n文\nbbbbé\n🚀🚀bc🚀é\nb文🚀中a\nc中c中éca文b文ccaa文a\nc文ca🚀ba中中文a🚀ccb文c文bb中é中a🚀🚀éab🚀文aé文🚀bababcca",
+      "bytes": 133,
+      "tokens": true,
+      "expected": "文🚀aé🚀c\n文\nbbbbé\n🚀🚀bc🚀é\nb文🚀中a\nc中c中…9 tokens truncated…文a🚀ccb文c文bb中é中a🚀🚀éab🚀文aé文🚀bababcca"
+    },
+    {
+      "text": "\n文",
+      "bytes": 32,
+      "tokens": false,
+      "expected": "\n文"
+    },
+    {
+      "text": "中a",
+      "bytes": 54,
+      "tokens": true,
+      "expected": "中a"
+    },
+    {
+      "text": "中\n\n\na🚀🚀中\né文\n🚀ac文é🚀\n",
+      "bytes": 82,
+      "tokens": false,
+      "expected": "中\n\n\na🚀🚀中\né文\n🚀ac文é🚀\n"
+    },
+    {
+      "text": "a文é\ncé\nbc\nbéb🚀\n中🚀é🚀cééb🚀ac\naéc中文文🚀\n🚀🚀éccé🚀中\nbcbéc中中文c\n🚀🚀文bc\nbcé\néé🚀éaa文🚀b🚀éc文",
+      "bytes": 100,
+      "tokens": true,
+      "expected": "a文é\ncé\nbc\nbéb🚀\n中🚀é🚀cééb🚀ac\na…14 tokens truncated…\n🚀🚀文bc\nbcé\néé🚀éaa文🚀b🚀éc文"
+    },
+    {
+      "text": "🚀bb中中文🚀b中",
+      "bytes": 95,
+      "tokens": false,
+      "expected": "🚀bb中中文🚀b中"
+    },
+    {
+      "text": "中bb文🚀\n文c\n中文a中b中🚀a\nb🚀\n中🚀文b\n🚀ébé中文🚀中中b🚀中文acé中\n文中🚀文中文a🚀acc中文中a🚀🚀b中🚀bé中中aé文b中文b文🚀文bb中ab文中éaa文\n🚀\nb🚀\naacéc",
+      "bytes": 93,
+      "tokens": true,
+      "expected": "中bb文🚀\n文c\n中文a中b中🚀a\nb🚀\n…33 tokens truncated…🚀文bb中ab文中éaa文\n🚀\nb🚀\naacéc"
+    },
+    {
+      "text": "🚀b🚀\na🚀\nac文中🚀🚀b中🚀a文中中b中中c中éa🚀🚀a\n中caé中c\n文文b中\n🚀文文cb中aéb🚀b中bbc",
+      "bytes": 108,
+      "tokens": false,
+      "expected": "🚀b🚀\na🚀\nac文中🚀🚀b中🚀a文中中b中…8 chars truncated…\n中caé中c\n文文b中\n🚀文文cb中aéb🚀b中bbc"
+    },
+    {
+      "text": "中文文c中bb文a中ca🚀aé中\n\n🚀中a\nbaa中文文🚀é\n文🚀éccé🚀文écc\néb🚀文é\n\n\n中c🚀ca文é文bb\nb文b\né文écéb中c\n文baééééé中bc中\n🚀中é中bécéab🚀🚀🚀cb🚀b文c中🚀🚀🚀a🚀éé中b",
+      "bytes": 67,
+      "tokens": true,
+      "expected": "中文文c中bb文a中ca🚀aé…44 tokens truncated…b文c中🚀🚀🚀a🚀éé中b"
+    },
+    {
+      "text": "b🚀bé🚀\né\n文é🚀cac\ncébéb文éa文ca中a\néccb中éa\nébcé🚀中🚀é\nbca中cab\n🚀🚀中bb文bccc🚀文é🚀中b🚀中ccca🚀中ccbabac🚀éé文é🚀b中b文\naa中中cbé\n🚀aé文abbéc\nca",
+      "bytes": 146,
+      "tokens": false,
+      "expected": "b🚀bé🚀\né\n文é🚀cac\ncébéb文éa文ca中a\néccb中éa\nébcé…34 chars truncated…a🚀中ccbabac🚀éé文é🚀b中b文\naa中中cbé\n🚀aé文abbéc\nca"
+    },
+    {
+      "text": "aba文aba\nc中b\n",
+      "bytes": 21,
+      "tokens": true,
+      "expected": "aba文aba\nc中b\n"
+    },
+    {
+      "text": "cc中c文中c\né中b\nb🚀ca中aa",
+      "bytes": 14,
+      "tokens": false,
+      "expected": "cc中c…10 chars truncated…ca中aa"
+    },
+    {
+      "text": "é\ncé🚀bé🚀a文中c🚀b🚀文🚀\n\nc文éb\n🚀c文🚀文é文bé文\na\n\n文文文中éé文ébabcb中abab\nbca\n🚀éé文céc\n文文a文ca文中",
+      "bytes": 105,
+      "tokens": true,
+      "expected": "é\ncé🚀bé🚀a文中c🚀b🚀文🚀\n\nc文éb\n…12 tokens truncated…ébabcb中abab\nbca\n🚀éé文céc\n文文a文ca文中"
+    },
+    {
+      "text": "\nc\néaéa文cc🚀béa中aab中中🚀🚀c🚀cb中\ncb文b文中é中bcab🚀ca文",
+      "bytes": 86,
+      "tokens": false,
+      "expected": "\nc\néaéa文cc🚀béa中aab中中🚀🚀c🚀cb中\ncb文b文中é中bcab🚀ca文"
+    },
+    {
+      "text": "aab\ncébéc🚀cb\n文b文\nébaécébbbb\n中b\nba中🚀\n文béa文中bc🚀🚀ac中c文🚀中b🚀🚀🚀\nbééé\nbé\n文🚀aa文b🚀\n文bééb🚀céa文中aé🚀é",
+      "bytes": 132,
+      "tokens": true,
+      "expected": "aab\ncébéc🚀cb\n文b文\nébaécébbbb\n中b\nba中🚀\n文béa文…10 tokens truncated…\nbééé\nbé\n文🚀aa文b🚀\n文bééb🚀céa文中aé🚀é"
+    },
+    {
+      "text": "c文中文b🚀c\n文éébc🚀🚀🚀b文cé文ca中中bé\nc🚀中cbb文c🚀c🚀\nc文aa文aé🚀b\ncba\n中a🚀中c文文🚀cb文c文ac🚀abcabb文b文a\n\nbc",
+      "bytes": 55,
+      "tokens": false,
+      "expected": "c文中文b🚀c\n文éébc…52 chars truncated…c文ac🚀abcabb文b文a\n\nbc"
+    },
+    {
+      "text": "中文\n\n🚀中文b文é\nccac🚀b文中🚀ca🚀a🚀中b中c🚀ca中bb中cca文🚀é🚀🚀bé中🚀b文bé文中文é🚀bb🚀bac\né🚀abéé中文\n\n中é文aa\na中a🚀cécé",
+      "bytes": 63,
+      "tokens": true,
+      "expected": "中文\n\n🚀中文b文é\nccac…31 tokens truncated…文\n\n中é文aa\na中a🚀cécé"
+    },
+    {
+      "text": "cbc\ncé\n文\n中é文a中🚀a🚀\n中é\nc🚀中éb🚀bb🚀\nc中acéaé\nécabb中文b\nc\néb中b文中é\n文🚀é🚀ab中",
+      "bytes": 97,
+      "tokens": false,
+      "expected": "cbc\ncé\n文\n中é文a中🚀a🚀\n中é\nc🚀中…16 chars truncated…cabb中文b\nc\néb中b文中é\n文🚀é🚀ab中"
+    },
+    {
+      "text": "aa\n文🚀🚀bb\nba文c文b文\n🚀b文文文é中bbab\n文ébéa\né文bé🚀\n\n\nccb🚀中cbé文cabbc🚀éb🚀文🚀文文文🚀文ccbabb中a\nb\n\néb文中\nb\nc文ccéé🚀\n中é文🚀éac\na",
+      "bytes": 41,
+      "tokens": true,
+      "expected": "aa\n文🚀🚀bb\nba…39 tokens truncated…\n中é文🚀éac\na"
+    },
+    {
+      "text": "文文bécaé中c🚀中c文é中文aba中a文🚀cbéc文b\néab中a🚀中ébcbac🚀aac\nc\nac🚀🚀c中🚀abéé文cbéacéé中\n文ca\nc文🚀aa中ééa文\n中bb中c中a🚀ccéé文acéb文中文éab\n\nb中\n🚀",
+      "bytes": 68,
+      "tokens": false,
+      "expected": "文文bécaé中c🚀中c文é中…82 chars truncated…é文acéb文中文éab\n\nb中\n🚀"
+    },
+    {
+      "text": "é文c\ncééaa\n文\nc🚀bbbc文a中a🚀\néc中a中文\n中🚀cc文a\né🚀中🚀b🚀",
+      "bytes": 22,
+      "tokens": true,
+      "expected": "é文c\ncé…17 tokens truncated…🚀b🚀"
+    },
+    {
+      "text": "c🚀\né🚀cb中é文文b\n🚀a🚀中\ncé\ncéaaé文🚀c\nb文c",
+      "bytes": 13,
+      "tokens": false,
+      "expected": "c🚀\n…25 chars truncated…c\nb文c"
+    },
+    {
+      "text": "ab\na中a🚀\n中中éa文a文bbbb文文abéa文éc中b🚀a中ab\nb🚀éc中中béé\né🚀中文中c🚀🚀\n中文c文🚀\né中中b中🚀abéa中中中🚀céc文a文🚀\n🚀文c🚀a\n文a\n文中é🚀🚀aébac\nb",
+      "bytes": 83,
+      "tokens": true,
+      "expected": "ab\na中a🚀\n中中éa文a文bbbb文文ab…34 tokens truncated…文c🚀a\n文a\n文中é🚀🚀aébac\nb"
+    },
+    {
+      "text": "é🚀abcc文é中bé🚀écccc中文c中🚀é文é中cb文caabc中c中c\na中bb中中ac",
+      "bytes": 74,
+      "tokens": false,
+      "expected": "é🚀abcc文é中bé🚀écccc中文…6 chars truncated…中cb文caabc中c中c\na中bb中中ac"
+    },
+    {
+      "text": "a\néé中文中🚀中\nabacabbac\n中🚀文🚀文é文文caééc🚀\n中b🚀a文🚀🚀中éba",
+      "bytes": 119,
+      "tokens": true,
+      "expected": "a\néé中文中🚀中\nabacabbac\n中🚀文🚀文é文文caééc🚀\n中b🚀a文🚀🚀中éba"
+    },
+    {
+      "text": "abé\n\nacbbéccé中\n文中c🚀文éaébb文caaéb中b🚀cb文b文é🚀é中中cbc🚀éa中🚀é🚀aé\nba🚀中caa\n🚀中中bba中a中bbb\n文a\ncc\n\n\naca",
+      "bytes": 27,
+      "tokens": false,
+      "expected": "abé\n\nacbbéc…66 chars truncated…\n文a\ncc\n\n\naca"
+    },
+    {
+      "text": "é文文\né\n\n中aé🚀文中文文中bébé🚀é文文a中",
+      "bytes": 145,
+      "tokens": true,
+      "expected": "é文文\né\n\n中aé🚀文中文文中bébé🚀é文文a中"
+    },
+    {
+      "text": "a中b\n中文中é\n\né🚀é🚀aé\n\n文",
+      "bytes": 77,
+      "tokens": false,
+      "expected": "a中b\n中文中é\n\né🚀é🚀aé\n\n文"
+    },
+    {
+      "text": "b文文\n\néé🚀accaéb\n文c🚀\n中ébé中中é文a文中bb",
+      "bytes": 119,
+      "tokens": true,
+      "expected": "b文文\n\néé🚀accaéb\n文c🚀\n中ébé中中é文a文中bb"
+    },
+    {
+      "text": "\néab🚀文中é中文cb\n\na🚀é文a🚀文\na中éccb文c中ébb\n中éa中中a文",
+      "bytes": 141,
+      "tokens": false,
+      "expected": "\néab🚀文中é中文cb\n\na🚀é文a🚀文\na中éccb文c中ébb\n中éa中中a文"
+    },
+    {
+      "text": "aé🚀文cc文cb文🚀é文c\na中c🚀\nccéb文文b文文中中🚀\nb\nb🚀b",
+      "bytes": 111,
+      "tokens": true,
+      "expected": "aé🚀文cc文cb文🚀é文c\na中c🚀\nccéb文文b文文中中🚀\nb\nb🚀b"
+    },
+    {
+      "text": "🚀é中a\n文c🚀ac\nbcb🚀c\nbb中\na中文🚀ab文écaéa文中a中中\né\nééaé\n\n\n\nbé🚀bcaca🚀中c文a文🚀a中🚀bé文é文中céa中é中aéé🚀\nbb\né",
+      "bytes": 78,
+      "tokens": false,
+      "expected": "🚀é中a\n文c🚀ac\nbcb🚀c\nbb中\na…47 chars truncated…文é文中céa中é中aéé🚀\nbb\né"
+    },
+    {
+      "text": "b🚀文caé🚀ébc🚀文céa",
+      "bytes": 0,
+      "tokens": true,
+      "expected": "…8 tokens truncated…"
+    },
+    {
+      "text": "ba中中é\n文中\n中bcaa\nbéac🚀aa🚀c文c\n\nbc🚀文c🚀éb\nbbcécb文文aéb\nba文",
+      "bytes": 131,
+      "tokens": false,
+      "expected": "ba中中é\n文中\n中bcaa\nbéac🚀aa🚀c文c\n\nbc🚀文c🚀éb\nbbcécb文文aéb\nba文"
+    },
+    {
+      "text": "aaba中éaécé🚀中\nébb🚀b🚀ébé文🚀é\nc\n🚀中🚀中中文中é中文baaaa\néba",
+      "bytes": 76,
+      "tokens": true,
+      "expected": "aaba中éaécé🚀中\nébb🚀b🚀é…5 tokens truncated…中🚀中中文中é中文baaaa\néba"
+    },
+    {
+      "text": "éccccbé🚀cb🚀中\nbcé文é🚀🚀bb中a文b🚀\na文\né🚀🚀ba中\nébccb中\néaaéaéc中é\n\na🚀中🚀éa\n文é文\na🚀🚀céé文cbcaéacébc🚀中a中\nc🚀é🚀bbaéb文文\n中é\nb中ébaééé中",
+      "bytes": 53,
+      "tokens": false,
+      "expected": "éccccbé🚀cb🚀中\nbc…84 chars truncated…文\n中é\nb中ébaééé中"
+    },
+    {
+      "text": "文c文文文ba\né文acaéc文aé🚀éb🚀文\n中éb",
+      "bytes": 106,
+      "tokens": true,
+      "expected": "文c文文文ba\né文acaéc文aé🚀éb🚀文\n中éb"
+    },
+    {
+      "text": "中c\n🚀éé\n中中é文bbcéa\n文🚀bé🚀🚀b中b中🚀c中bé\na\n\né文中🚀中中a中aaéc中c中文c文中écé文🚀a\n中🚀\n文中中🚀🚀c\n\n🚀c文\n🚀🚀é\n文🚀éabéa\n\naaacéb文céb文中é🚀ab文🚀b中中bbab",
+      "bytes": 116,
+      "tokens": false,
+      "expected": "中c\n🚀éé\n中中é文bbcéa\n文🚀bé🚀🚀b中b中…56 chars truncated…éabéa\n\naaacéb文céb文中é🚀ab文🚀b中中bbab"
+    },
+    {
+      "text": "a\n🚀文\né🚀a\n🚀\n中é\nb\n\né文é\na🚀",
+      "bytes": 36,
+      "tokens": true,
+      "expected": "a\n🚀文\né🚀a\n…3 tokens truncated…\nb\n\né文é\na🚀"
+    },
+    {
+      "text": "é文béb文ac中\nb\n文\né文c\n\naéb中\nbcbcéa中中cé🚀éé",
+      "bytes": 38,
+      "tokens": false,
+      "expected": "é文béb文ac中\nb…18 chars truncated…a中中cé🚀éé"
+    },
+    {
+      "text": "b文🚀céb\nc文b\n中c中é\n文b文\néé中\n\nc\n中é🚀a中",
+      "bytes": 95,
+      "tokens": true,
+      "expected": "b文🚀céb\nc文b\n中c中é\n文b文\néé中\n\nc\n中é🚀a中"
+    },
+    {
+      "text": "\né",
+      "bytes": 3,
+      "tokens": false,
+      "expected": "\né"
+    },
+    {
+      "text": "éc文中中baaa文🚀\na中\nab文ééé\n中文中a中b文🚀bb文c中cé文文\na\n\n🚀cbbcabé\n文c文cbaa🚀中中éacac文bab文é🚀中\n🚀ébb\n中\néé文文中c🚀baa中a🚀文文a\na中ca中文文🚀\nb文\néaéb🚀中",
+      "bytes": 128,
+      "tokens": true,
+      "expected": "éc文中中baaa文🚀\na中\nab文ééé\n中文中a中b文🚀bb…26 tokens truncated…c🚀baa中a🚀文文a\na中ca中文文🚀\nb文\néaéb🚀中"
+    },
+    {
+      "text": "\n文écbb中é🚀中文aa\n中ab\nb中中文é",
+      "bytes": 38,
+      "tokens": false,
+      "expected": "\n文écbb中é🚀…4 chars truncated…\n中ab\nb中中文é"
+    },
+    {
+      "text": "cé🚀cb🚀c中acbba🚀a中aéa",
+      "bytes": 37,
+      "tokens": true,
+      "expected": "cé🚀cb🚀c中acbba🚀a中aéa"
+    },
+    {
+      "text": "bcc🚀🚀\nb文aab\nbbab\né中éab🚀caaaé🚀中中\nc文b文a文中文🚀文b文bé\n文abcb",
+      "bytes": 7,
+      "tokens": false,
+      "expected": "bcc…45 chars truncated…abcb"
+    },
+    {
+      "text": "b文文é\né文\n中\n🚀ab\nb\n🚀文aa\n🚀céacé文abaé中ba\n中文éccb\nab🚀a中bbba中ca\n🚀中caé文é\n中🚀c\nb中a文ébcb中\nbc\n🚀文c中中🚀\nb文🚀\n🚀中\nbcac文文",
+      "bytes": 36,
+      "tokens": true,
+      "expected": "b文文é\né文\n…38 tokens truncated…🚀中\nbcac文文"
+    },
+    {
+      "text": "文b中中\na\n中éa中é文中文中é中文bb文🚀🚀c",
+      "bytes": 41,
+      "tokens": false,
+      "expected": "文b中中\na\n中éa…7 chars truncated…中文bb文🚀🚀c"
+    },
+    {
+      "text": "é文b\n中bbac中中bab🚀a文ab\n\n中文🚀中\n\n中b\na\nbc🚀c🚀\nbca中cb中文a中b文cbaa🚀文é中文a\n🚀écéaa文b\n🚀中c\n\n🚀cca🚀🚀🚀abbc\n文a\n🚀bc文文b",
+      "bytes": 21,
+      "tokens": true,
+      "expected": "é文b\n中…40 tokens truncated…bc文文b"
+    },
+    {
+      "text": "中é中éé🚀🚀\nb中文a中中\n🚀abaa中\n\na🚀🚀🚀aé文🚀文🚀文é\ncéba文a🚀中ba文中\n中文🚀文文🚀acc\n🚀\n中é\né\nccb中中é中béa文é文🚀bc🚀文🚀ca🚀文中a中ca中é中c文c\n🚀中a🚀a\na🚀🚀acaaéé",
+      "bytes": 117,
+      "tokens": false,
+      "expected": "中é中éé🚀🚀\nb中文a中中\n🚀abaa中\n\na🚀🚀…62 chars truncated…文中a中ca中é中c文c\n🚀中a🚀a\na🚀🚀acaaéé"
+    },
+    {
+      "text": "abab",
+      "bytes": 58,
+      "tokens": true,
+      "expected": "abab"
+    },
+    {
+      "text": "文éé文cac中文é\n\néa中écb中b文b中🚀\nbéab文\n中文é文中é文cb文cc🚀文aa🚀文🚀éc中中中é文文\n🚀b中中a中éca\nabc\n中aab文中éaca文b文\na文中中中abé",
+      "bytes": 97,
+      "tokens": false,
+      "expected": "文éé文cac中文é\n\néa中écb中b文b中🚀…42 chars truncated…ca\nabc\n中aab文中éaca文b文\na文中中中abé"
+    },
+    {
+      "text": "é🚀é文b",
+      "bytes": 38,
+      "tokens": true,
+      "expected": "é🚀é文b"
+    },
+    {
+      "text": "🚀abccé\nbc中中caac中🚀b文🚀🚀c中文\n\n\n文🚀cb🚀cé",
+      "bytes": 85,
+      "tokens": false,
+      "expected": "🚀abccé\nbc中中caac中🚀b文🚀🚀c中文\n\n\n文🚀cb🚀cé"
+    },
+    {
+      "text": "aba中é中b中é文中🚀éaé中\naé文cc文é中\nb文🚀b🚀\n🚀é🚀🚀🚀b\n文é文\n中中文bé🚀中ab中aé🚀c中\n中b\n中文\n🚀🚀b🚀é🚀b中b🚀aéb文a🚀ccé文b\n🚀\naa文aéa文🚀é\n文c\n\n🚀中文中文ccbéé",
+      "bytes": 74,
+      "tokens": true,
+      "expected": "aba中é中b中é文中🚀éaé中\na…43 tokens truncated…🚀é\n文c\n\n🚀中文中文ccbéé"
+    },
+    {
+      "text": "文bé中ca文\nc文ca中中文é\n文c文b文中🚀aca\n\n文\n🚀🚀c文\nb🚀b🚀\n🚀🚀b中文🚀a文\n中a\né中é\nc中中\n文c🚀🚀中中\n🚀\nb中文🚀a\n\naaccéa文文🚀中中中",
+      "bytes": 86,
+      "tokens": false,
+      "expected": "文bé中ca文\nc文ca中中文é\n文c文b…48 chars truncated…\nb中文🚀a\n\naaccéa文文🚀中中中"
+    },
+    {
+      "text": "🚀c🚀a\n中\n文a🚀cécc中🚀🚀中c🚀c中ca文🚀\ncé中abb中🚀abc🚀中中\n🚀🚀",
+      "bytes": 119,
+      "tokens": true,
+      "expected": "🚀c🚀a\n中\n文a🚀cécc中🚀🚀中c🚀c中ca文🚀\ncé中abb中🚀abc🚀中中\n🚀🚀"
+    },
+    {
+      "text": "🚀🚀中🚀éé文中é文bacba\n🚀\na\né文🚀aé中é🚀éa\n中b\ncbab中\n\n文🚀a🚀\nc🚀中🚀\nb中b",
+      "bytes": 0,
+      "tokens": false,
+      "expected": "…54 chars truncated…"
+    },
+    {
+      "text": "\n\n🚀éc文文b\n中a文bc中c\ncéaé文\nbb🚀a🚀\n🚀",
+      "bytes": 25,
+      "tokens": true,
+      "expected": "\n\n🚀éc文…8 tokens truncated…a🚀\n🚀"
+    },
+    {
+      "text": "a🚀文bbéa\n中éb中文é文abéa中c文文🚀ca中🚀écbéb文c中\na🚀aa文",
+      "bytes": 4,
+      "tokens": false,
+      "expected": "a…41 chars truncated…"
+    },
+    {
+      "text": "中b文🚀ba🚀中文🚀文ébabc\na文🚀中🚀cb🚀b🚀🚀文文é中cbba🚀文中\n中c🚀cabaéa🚀🚀aaé🚀éécba🚀🚀\néa中b",
+      "bytes": 93,
+      "tokens": true,
+      "expected": "中b文🚀ba🚀中文🚀文ébabc\na文🚀…14 tokens truncated…cabaéa🚀🚀aaé🚀éécba🚀🚀\néa中b"
+    },
+    {
+      "text": "a文ccacc中ba文文文a文",
+      "bytes": 29,
+      "tokens": false,
+      "expected": "a文ccacc中ba文文文a文"
+    },
+    {
+      "text": "🚀\n文écécé中éabébbbéa中中bc中cc\n文a\ncb文cba文中\n文éc",
+      "bytes": 83,
+      "tokens": true,
+      "expected": "🚀\n文écécé中éabébbbéa中中bc中cc\n文a\ncb文cba文中\n文éc"
+    },
+    {
+      "text": "c文cé中\na文\n\na文🚀bcc🚀中文中b文é文a🚀c中🚀中éb中文cc\n🚀中\nbaéé🚀🚀a\na\n\ncéa🚀",
+      "bytes": 107,
+      "tokens": false,
+      "expected": "c文cé中\na文\n\na文🚀bcc🚀中文中b文é文a…3 chars truncated…🚀中éb中文cc\n🚀中\nbaéé🚀🚀a\na\n\ncéa🚀"
+    },
+    {
+      "text": "éaaé中éc\n\né文中🚀文🚀",
+      "bytes": 89,
+      "tokens": true,
+      "expected": "éaaé中éc\n\né文中🚀文🚀"
+    },
+    {
+      "text": "ab中ébééc🚀文ba🚀\nébé中c文中\n中中b文b\n文bc\nac中🚀文cca文ca\n\nc中中中ac\ncc\n",
+      "bytes": 89,
+      "tokens": false,
+      "expected": "ab中ébééc🚀文ba🚀\nébé中c文中\n…5 chars truncated…\n文bc\nac中🚀文cca文ca\n\nc中中中ac\ncc\n"
+    },
+    {
+      "text": "🚀céa🚀ca文中abéb🚀a中文béba\naaac",
+      "bytes": 107,
+      "tokens": true,
+      "expected": "🚀céa🚀ca文中abéb🚀a中文béba\naaac"
+    },
+    {
+      "text": "文文a文é🚀bab\né\nc中文é中\n🚀\nab🚀🚀文ééb\n🚀\nbbb文中cbb🚀cc中文a文文c\n\n\nc\n中🚀文中🚀a文ébaééca\n🚀c\n文écébéb🚀🚀文🚀b🚀c🚀文🚀\n中aé\nbba中c🚀ca文🚀文\n🚀\n🚀中中é",
+      "bytes": 127,
+      "tokens": false,
+      "expected": "文文a文é🚀bab\né\nc中文é中\n🚀\nab🚀🚀文ééb\n…55 chars truncated…c🚀文🚀\n中aé\nbba中c🚀ca文🚀文\n🚀\n🚀中中é"
+    },
+    {
+      "text": "a🚀文中🚀🚀b文bé🚀é🚀\n🚀éé中aa\naacc🚀文béba🚀文c🚀é🚀🚀cbébéaa文中中b中🚀acéé中\n🚀\n🚀🚀🚀é文🚀中a🚀中\n\n🚀中🚀🚀é",
+      "bytes": 47,
+      "tokens": true,
+      "expected": "a🚀文中🚀🚀b文…34 tokens truncated…中\n\n🚀中🚀🚀é"
+    },
+    {
+      "text": "baa\nbb文文\n\n\n文b🚀文ac\nc文中\n🚀cbé\naa文éb\né中éb\n中aa\n\n\n文bé中abaéb中c中\nc\n🚀bbaaéb中a🚀🚀文中bac🚀c中中文c",
+      "bytes": 32,
+      "tokens": false,
+      "expected": "baa\nbb文文\n\n\n…63 chars truncated…c🚀c中中文c"
+    },
+    {
+      "text": "é\n\nb文c\naéé\n🚀\n🚀ééaé🚀\néb🚀文🚀c文文aéa\ncc中c文bcbcé文中\nc🚀b🚀文🚀aéa文文\n🚀\nb文🚀aaéab文a中\nb文a中a中b\n\né中a🚀文é\n🚀\nb中babbé文bé🚀a中écaé🚀écéb中a中cc",
+      "bytes": 60,
+      "tokens": true,
+      "expected": "é\n\nb文c\naéé\n🚀\n🚀ééa…42 tokens truncated…a中écaé🚀écéb中a中cc"
+    },
+    {
+      "text": "\né\nc文中ca中文\n中",
+      "bytes": 26,
+      "tokens": false,
+      "expected": "\né\nc文中ca中文\n中"
+    },
+    {
+      "text": "\na🚀文\n中b中🚀中aa\n中éé文🚀bcaa\n\ncc文文中a",
+      "bytes": 142,
+      "tokens": true,
+      "expected": "\na🚀文\n中b中🚀中aa\n中éé文🚀bcaa\n\ncc文文中a"
+    },
+    {
+      "text": "bc文c中中文é文c中文a🚀\nb\nécbbc\n\nbc文b中中\naéc\n中bab🚀b文c文🚀\n🚀🚀🚀écac🚀b🚀🚀baéé\naaabc中\né\n文cc文中c中中c中中aéc🚀é\na中é文é中a",
+      "bytes": 121,
+      "tokens": false,
+      "expected": "bc文c中中文é文c中文a🚀\nb\nécbbc\n\nbc文b中中\naéc…30 chars truncated…abc中\né\n文cc文中c中中c中中aéc🚀é\na中é文é中a"
+    },
+    {
+      "text": "ba中中文\ncéc\na文caa\néc中é文c文",
+      "bytes": 32,
+      "tokens": true,
+      "expected": "ba中中文\ncéc…2 tokens truncated…\néc中é文c文"
+    },
+    {
+      "text": "🚀中文b中béab中\n中\ncccabbaé\n\ncb中文b🚀中bc文c🚀🚀cé\n文é文é文\na🚀文ccé中🚀b🚀中c🚀é中中c中cécbé中中\n",
+      "bytes": 126,
+      "tokens": false,
+      "expected": "🚀中文b中béab中\n中\ncccabbaé\n\ncb中文b🚀中bc文c…9 chars truncated…文\na🚀文ccé中🚀b🚀中c🚀é中中c中cécbé中中\n"
+    },
+    {
+      "text": "🚀b🚀\né文é文\n文中bbéb\n🚀éaa🚀文文c🚀é🚀béb中\n🚀ébb🚀bb🚀a文中文aé\nc中céaa文中文abé\nc文bb文c中🚀aéécb文ééébéac🚀🚀a\n\ncb中é🚀é🚀cc",
+      "bytes": 54,
+      "tokens": true,
+      "expected": "🚀b🚀\né文é文\n文中…35 tokens truncated…🚀a\n\ncb中é🚀é🚀cc"
+    },
+    {
+      "text": "中文céé🚀é🚀🚀文écaé中cbéb\n中abc中b🚀accca\n\nac\né",
+      "bytes": 143,
+      "tokens": false,
+      "expected": "中文céé🚀é🚀🚀文écaé中cbéb\n中abc中b🚀accca\n\nac\né"
+    },
+    {
+      "text": "文ééc🚀\nacbé\n文acc",
+      "bytes": 84,
+      "tokens": true,
+      "expected": "文ééc🚀\nacbé\n文acc"
+    },
+    {
+      "text": "中🚀中🚀\nbab\na文中中bc文a文文🚀中\ncbbéb\n\n\n🚀\n文\nc文aé文bb文中b中b🚀中🚀🚀🚀aé文éa\né",
+      "bytes": 83,
+      "tokens": false,
+      "expected": "中🚀中🚀\nbab\na文中中bc文a文文…22 chars truncated…文中b中b🚀中🚀🚀🚀aé文éa\né"
+    },
+    {
+      "text": "🚀\n\n文\n\n\néa文é🚀c中中\n\n中\n文bb中🚀c🚀b🚀\né文文\nbéc文baab中中🚀\na中é中c文a中文",
+      "bytes": 55,
+      "tokens": true,
+      "expected": "🚀\n\n文\n\n\néa文é🚀c…14 tokens truncated…中🚀\na中é中c文a中文"
+    },
+    {
+      "text": "🚀中中b文\n文caa\nbébbb文éc中éa\n\nbécéa中b文\néabé文\n中aé文🚀🚀bcaéc文文a\n中ééabécé🚀é🚀éab\néc🚀éb🚀bé中🚀b🚀",
+      "bytes": 106,
+      "tokens": false,
+      "expected": "🚀中中b文\n文caa\nbébbb文éc中éa\n\nbécéa中b…25 chars truncated…éabécé🚀é🚀éab\néc🚀éb🚀bé中🚀b🚀"
+    },
+    {
+      "text": "\na文🚀céécacéa中a🚀céaca中b\n\n🚀b中\nc🚀文caa\naé\ncé中中中\n中ébba🚀c文a中中文\né🚀🚀🚀文c\n🚀",
+      "bytes": 172,
+      "tokens": true,
+      "expected": "\na文🚀céécacéa中a🚀céaca中b\n\n🚀b中\nc🚀文caa\naé\ncé中中中\n中ébba🚀c文a中中文\né🚀🚀🚀文c\n🚀"
+    }
+  ],
+  "blocks": [
+    {
+      "content": [
+        {
+          "type": "text",
+          "text": "start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀",
+          "annotations": {
+            "priority": 1
+          }
+        },
+        {
+          "type": "image",
+          "data": "image-data",
+          "mimeType": "image/png"
+        },
+        {
+          "type": "text",
+          "text": "final diagnostic: connection failed"
+        },
+        {
+          "type": "resource_link",
+          "uri": "fixture://a"
+        }
+      ],
+      "tokens": 0,
+      "expected": [
+        {
+          "type": "text",
+          "text": "…57 tokens truncated…",
+          "annotations": {
+            "priority": 1
+          }
+        },
+        {
+          "type": "image",
+          "data": "image-data",
+          "mimeType": "image/png"
+        },
+        {
+          "type": "resource_link",
+          "uri": "fixture://a"
+        }
+      ]
+    },
+    {
+      "content": [
+        {
+          "type": "text",
+          "text": "start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀",
+          "annotations": {
+            "priority": 1
+          }
+        },
+        {
+          "type": "image",
+          "data": "image-data",
+          "mimeType": "image/png"
+        },
+        {
+          "type": "text",
+          "text": "final diagnostic: connection failed"
+        },
+        {
+          "type": "resource_link",
+          "uri": "fixture://a"
+        }
+      ],
+      "tokens": 1,
+      "expected": [
+        {
+          "type": "text",
+          "text": "st…56 tokens truncated…ed",
+          "annotations": {
+            "priority": 1
+          }
+        },
+        {
+          "type": "image",
+          "data": "image-data",
+          "mimeType": "image/png"
+        },
+        {
+          "type": "resource_link",
+          "uri": "fixture://a"
+        }
+      ]
+    },
+    {
+      "content": [
+        {
+          "type": "text",
+          "text": "start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀",
+          "annotations": {
+            "priority": 1
+          }
+        },
+        {
+          "type": "image",
+          "data": "image-data",
+          "mimeType": "image/png"
+        },
+        {
+          "type": "text",
+          "text": "final diagnostic: connection failed"
+        },
+        {
+          "type": "resource_link",
+          "uri": "fixture://a"
+        }
+      ],
+      "tokens": 4,
+      "expected": [
+        {
+          "type": "text",
+          "text": "start …53 tokens truncated…n failed",
+          "annotations": {
+            "priority": 1
+          }
+        },
+        {
+          "type": "image",
+          "data": "image-data",
+          "mimeType": "image/png"
+        },
+        {
+          "type": "resource_link",
+          "uri": "fixture://a"
+        }
+      ]
+    },
+    {
+      "content": [
+        {
+          "type": "text",
+          "text": "start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀",
+          "annotations": {
+            "priority": 1
+          }
+        },
+        {
+          "type": "image",
+          "data": "image-data",
+          "mimeType": "image/png"
+        },
+        {
+          "type": "text",
+          "text": "final diagnostic: connection failed"
+        },
+        {
+          "type": "resource_link",
+          "uri": "fixture://a"
+        }
+      ],
+      "tokens": 16,
+      "expected": [
+        {
+          "type": "text",
+          "text": "start 中文🚀start 中文🚀…41 tokens truncated…al diagnostic: connection failed",
+          "annotations": {
+            "priority": 1
+          }
+        },
+        {
+          "type": "image",
+          "data": "image-data",
+          "mimeType": "image/png"
+        },
+        {
+          "type": "resource_link",
+          "uri": "fixture://a"
+        }
+      ]
+    },
+    {
+      "content": [
+        {
+          "type": "text",
+          "text": "start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀",
+          "annotations": {
+            "priority": 1
+          }
+        },
+        {
+          "type": "image",
+          "data": "image-data",
+          "mimeType": "image/png"
+        },
+        {
+          "type": "text",
+          "text": "final diagnostic: connection failed"
+        },
+        {
+          "type": "resource_link",
+          "uri": "fixture://a"
+        }
+      ],
+      "tokens": 50,
+      "expected": [
+        {
+          "type": "text",
+          "text": "start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀star…7 tokens truncated…start 中文🚀start 中文🚀start 中文🚀start 中文🚀\nfinal diagnostic: connection failed",
+          "annotations": {
+            "priority": 1
+          }
+        },
+        {
+          "type": "image",
+          "data": "image-data",
+          "mimeType": "image/png"
+        },
+        {
+          "type": "resource_link",
+          "uri": "fixture://a"
+        }
+      ]
+    },
+    {
+      "content": [
+        {
+          "type": "text",
+          "text": "start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀",
+          "annotations": {
+            "priority": 1
+          }
+        },
+        {
+          "type": "image",
+          "data": "image-data",
+          "mimeType": "image/png"
+        },
+        {
+          "type": "text",
+          "text": "final diagnostic: connection failed"
+        },
+        {
+          "type": "resource_link",
+          "uri": "fixture://a"
+        }
+      ],
+      "tokens": 1000,
+      "expected": [
+        {
+          "type": "text",
+          "text": "start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀start 中文🚀",
+          "annotations": {
+            "priority": 1
+          }
+        },
+        {
+          "type": "image",
+          "data": "image-data",
+          "mimeType": "image/png"
+        },
+        {
+          "type": "text",
+          "text": "final diagnostic: connection failed"
+        },
+        {
+          "type": "resource_link",
+          "uri": "fixture://a"
+        }
+      ]
+    }
+  ],
+  "batches": [
+    {
+      "roles": [],
+      "valid": true,
+      "order": []
+    },
+    {
+      "roles": [
+        "action"
+      ],
+      "valid": true,
+      "order": [
+        0
+      ]
+    },
+    {
+      "roles": [
+        "bookkeeping"
+      ],
+      "valid": true,
+      "order": [
+        0
+      ]
+    },
+    {
+      "roles": [
+        "turn_ending"
+      ],
+      "valid": true,
+      "order": [
+        0
+      ]
+    },
+    {
+      "roles": [
+        "action",
+        "action"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1
+      ]
+    },
+    {
+      "roles": [
+        "action",
+        "bookkeeping"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1
+      ]
+    },
+    {
+      "roles": [
+        "action",
+        "turn_ending"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "bookkeeping",
+        "action"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1
+      ]
+    },
+    {
+      "roles": [
+        "bookkeeping",
+        "bookkeeping"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1
+      ]
+    },
+    {
+      "roles": [
+        "bookkeeping",
+        "turn_ending"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1
+      ]
+    },
+    {
+      "roles": [
+        "turn_ending",
+        "action"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "turn_ending",
+        "bookkeeping"
+      ],
+      "valid": true,
+      "order": [
+        1,
+        0
+      ]
+    },
+    {
+      "roles": [
+        "turn_ending",
+        "turn_ending"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "action",
+        "action",
+        "action"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "roles": [
+        "action",
+        "action",
+        "bookkeeping"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "roles": [
+        "action",
+        "action",
+        "turn_ending"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "action",
+        "bookkeeping",
+        "action"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "roles": [
+        "action",
+        "bookkeeping",
+        "bookkeeping"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "roles": [
+        "action",
+        "bookkeeping",
+        "turn_ending"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "action",
+        "turn_ending",
+        "action"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "action",
+        "turn_ending",
+        "bookkeeping"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "action",
+        "turn_ending",
+        "turn_ending"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "bookkeeping",
+        "action",
+        "action"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "roles": [
+        "bookkeeping",
+        "action",
+        "bookkeeping"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "roles": [
+        "bookkeeping",
+        "action",
+        "turn_ending"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "bookkeeping",
+        "bookkeeping",
+        "action"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "roles": [
+        "bookkeeping",
+        "bookkeeping",
+        "bookkeeping"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "roles": [
+        "bookkeeping",
+        "bookkeeping",
+        "turn_ending"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "roles": [
+        "bookkeeping",
+        "turn_ending",
+        "action"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "bookkeeping",
+        "turn_ending",
+        "bookkeeping"
+      ],
+      "valid": true,
+      "order": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "roles": [
+        "bookkeeping",
+        "turn_ending",
+        "turn_ending"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "turn_ending",
+        "action",
+        "action"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "turn_ending",
+        "action",
+        "bookkeeping"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "turn_ending",
+        "action",
+        "turn_ending"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "turn_ending",
+        "bookkeeping",
+        "action"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "turn_ending",
+        "bookkeeping",
+        "bookkeeping"
+      ],
+      "valid": true,
+      "order": [
+        1,
+        2,
+        0
+      ]
+    },
+    {
+      "roles": [
+        "turn_ending",
+        "bookkeeping",
+        "turn_ending"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "turn_ending",
+        "turn_ending",
+        "action"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "turn_ending",
+        "turn_ending",
+        "bookkeeping"
+      ],
+      "valid": false,
+      "order": []
+    },
+    {
+      "roles": [
+        "turn_ending",
+        "turn_ending",
+        "turn_ending"
+      ],
+      "valid": false,
+      "order": []
+    }
+  ],
+  "budgets": [
+    {
+      "tokens": 0,
+      "normal": 0,
+      "history": 0,
+      "replay": 256
+    },
+    {
+      "tokens": 1,
+      "normal": 4,
+      "history": 8,
+      "replay": 260
+    },
+    {
+      "tokens": 5,
+      "normal": 20,
+      "history": 24,
+      "replay": 276
+    },
+    {
+      "tokens": 63,
+      "normal": 252,
+      "history": 304,
+      "replay": 508
+    },
+    {
+      "tokens": 64,
+      "normal": 256,
+      "history": 308,
+      "replay": 512
+    },
+    {
+      "tokens": 10000,
+      "normal": 40000,
+      "history": 48000,
+      "replay": 48000
+    },
+    {
+      "tokens": 32768,
+      "normal": 131072,
+      "history": 157288,
+      "replay": 157288
+    }
+  ],
+  "generation": {
+    "random_seed": 38195,
+    "functions": [
+      "truncate_output_text",
+      "_bound_text_blocks",
+      "tool_output_byte_budget",
+      "history_replay_byte_budget",
+      "response_batch_violation",
+      "_execution_order"
+    ],
+    "method": "Execute source functions with their original constants; enumerate all role combinations of length 0..3; UTF-8 alphabet abc中文🚀é and newline."
+  }
+}

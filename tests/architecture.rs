@@ -21,6 +21,16 @@ fn inventory_paths_and_implementation_pointers_are_consistent() {
                 Some("partial" | "pending")
             ));
         }
+        if let Some(translation) = &entry.translation {
+            assert!(matches!(translation.state.as_str(), "adapted" | "partial"));
+            assert!(!translation.targets.is_empty() && !translation.validation.is_empty());
+            for file in translation.targets.iter().chain(&translation.validation) {
+                assert!(
+                    root.join(file).is_file(),
+                    "missing translation artifact {file}"
+                );
+            }
+        }
         for target in &entry.related_rust {
             assert!(
                 root.join(target).is_file(),

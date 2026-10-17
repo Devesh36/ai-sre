@@ -1,10 +1,10 @@
 # Capability coverage
 
-This inventory separates implemented behavior from remaining gaps. The full tracked-tree audit covers 4,385 files in 755 directories: 2,208 source modules, 1,538 test modules, and 32,284 declarations. The earlier six-subsystem audit was narrower. These counts establish migration scope; they do not mean every behavior has been rebuilt. No third-party implementation was copied into this repository. The [module inventory](module-inventory.json) records every audited path and declaration, with related implementation pointers and pending targets. See [repository layout](repository-layout.md) for how to use it.
+This inventory separates implemented behavior from remaining gaps. The full tracked-tree audit covers 4,385 files in 755 directories: 2,208 source modules, 1,538 test modules, and 32,284 declarations. The earlier six-subsystem audit was narrower. These counts establish migration scope; they do not mean every behavior has been rebuilt. Selected shared tool modules now contain direct Rust adaptations under Apache-2.0; provenance and retained notices are in [third-party notices](../THIRD_PARTY_NOTICES.md). The [module inventory](module-inventory.json) records every audited path and declaration, with related implementation pointers and pending targets. See [repository layout](repository-layout.md) for how to use it.
 
 | Area | Implemented in Rust | Remaining |
 | --- | --- | --- |
-| Agent loop | Bounded tools, cited findings, explicit gaps, accounted retries, token/cost accounting, source circuits, duplicate suppression, report repair, bounded context projection, durable traces | Delegation, multimodal input, token streaming, richer reasoning policies |
+| Agent loop | Bounded tools, recursive argument checks, provider output budgets, cited findings, explicit gaps, accounted retries, token/cost accounting, source circuits, duplicate suppression, report repair, bounded context projection, durable traces | Delegation, multimodal input, token streaming, richer reasoning policies |
 | Model transports | Chat Completions, Responses, Anthropic Messages, Gemini generateContent | Bedrock Converse, Vertex identity, CLI model transports, hosted credits; live provider certification |
 | Privacy | Credential redaction; reversible configured identifier masking | Automatic entity detection, comprehensive secret recognition, encrypted storage |
 | Session state | SQLite WAL, atomic claims, tool checkpoints, cancellation, run ownership IDs, resumable SSE activity, follow-ups, compaction | Exact mid-tool continuation after process death; remote synchronization |
@@ -36,3 +36,5 @@ Tests exercise local HTTP requests, all four model protocol tool round-trips, MC
 No real vendor credentials, cloud accounts, messaging channels, or model endpoints were available for certification. Mock protocol tests do not establish production vendor compatibility. This remains a single-tenant alpha; full behavioral coverage and production readiness are outstanding.
 
 See [agent harness](harness.md) for exact runtime policies, fault scenarios, and measurement limits.
+
+See [tool-layer port status](tool-layer-port.md) for exact translated files, source-comparison tests, and deliberate differences.

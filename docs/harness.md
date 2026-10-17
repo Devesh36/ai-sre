@@ -66,3 +66,7 @@ CI runs the Rust tests and three conformance repetitions and uploads the JSON ar
 No shared head-to-head production benchmark has been run. More tests or a different implementation language alone do not establish superiority.
 
 A valid comparative diagnosis study must hold incident inputs, tool permissions, model/provider/version, resource limits, and scoring constant. Use held-out incidents with independent root-cause labels, include healthy/ambiguous/adversarial cases, and measure supported-diagnosis precision/recall, unsupported claims, abstention, recovery verification, cost, and latency. Report repeated-run distributions and failures, separate synthetic from real incidents, and publish both sides' raw results. The current scripted suite measures runtime conformance, not those diagnosis metrics. Native vendor certification, semantic claim verification, exact interrupted-tool continuation, and distributed worker recovery remain outstanding.
+
+## Provider-visible tool output
+
+`harness.tool_output_tokens` defaults to 10,000 approximate tokens (four UTF-8 bytes each). Tool responses preserve their beginning and end with an explicit omission marker; the marker is outside the retained-body budget. Evidence persistence and initial context retain their existing independent bounds. Truncation emits `tool_output_bounded`. See [tool-layer translation](tool-layer-port.md) for the source comparison tests and embedding contracts.

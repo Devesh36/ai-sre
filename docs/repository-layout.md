@@ -27,4 +27,4 @@ cargo run --locked -- architecture --prefix core/agent_harness
 cargo run --locked -- architecture --pending
 ```
 
-The snapshot hash identifies the audited revision; product-specific names are normalized. The inventory contains metadata, not copied implementation, documentation text, or assets. The [capability coverage](coverage.md) describes implemented behavior and outstanding gaps. Full module-by-module implementation and parity testing remain unfinished.
+The snapshot hash identifies the audited revision; product-specific names are normalized. The inventory contains metadata. Selected direct Rust adaptations are identified by `translation` records containing target files, validation artifacts, and explicit differences; their legal notices are retained separately. The [capability coverage](coverage.md) describes implemented behavior and outstanding gaps. Full module-by-module implementation and parity testing remain unfinished.

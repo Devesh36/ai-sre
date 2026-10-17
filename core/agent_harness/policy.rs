@@ -6,6 +6,7 @@ pub struct Policy {
     pub deadline_seconds: u64,
     pub max_model_attempts: u32,
     pub max_context_bytes: usize,
+    pub tool_output_tokens: usize,
     pub max_reported_tokens: u64,
     pub report_repairs: usize,
     pub source_failure_threshold: usize,
@@ -16,6 +17,7 @@ impl Default for Policy {
             deadline_seconds: 300,
             max_model_attempts: 18,
             max_context_bytes: 128 * 1024,
+            tool_output_tokens: 10_000,
             max_reported_tokens: 100_000,
             report_repairs: 1,
             source_failure_threshold: 2,
@@ -24,6 +26,10 @@ impl Default for Policy {
 }
 impl Policy {
     pub fn validate(&self) -> Result<()> {
+        ensure!(
+            (64..=32_768).contains(&self.tool_output_tokens),
+            "tool output budget must be 64–32768 approximate tokens"
+        );
         ensure!(
             (1..=300).contains(&self.deadline_seconds),
             "harness deadline must be 1–300 seconds"
