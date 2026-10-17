@@ -1,6 +1,6 @@
 # Capability coverage
 
-This inventory separates implemented behavior from remaining gaps. The code audit covered 2,192 Python files and 314,229 lines across six source subsystems, plus 1,385 test files. Those counts establish migration scope; they do not mean every behavior has been rebuilt. No third-party implementation was copied into this repository.
+This inventory separates implemented behavior from remaining gaps. The full tracked-tree audit covers 4,385 files in 755 directories: 2,208 source modules, 1,538 test modules, and 32,284 declarations. The earlier six-subsystem audit was narrower. These counts establish migration scope; they do not mean every behavior has been rebuilt. No third-party implementation was copied into this repository. The [module inventory](module-inventory.json) records every audited path and declaration, with related implementation pointers and pending targets. See [repository layout](repository-layout.md) for how to use it.
 
 | Area | Implemented in Rust | Remaining |
 | --- | --- | --- |
@@ -8,11 +8,11 @@ This inventory separates implemented behavior from remaining gaps. The code audi
 | Model transports | Chat Completions, Responses, Anthropic Messages, Gemini generateContent | Bedrock Converse, Vertex identity, CLI model transports, hosted credits; live provider certification |
 | Privacy | Credential redaction; reversible configured identifier masking | Automatic entity detection, comprehensive secret recognition, encrypted storage |
 | Session state | SQLite WAL, atomic claims, tool checkpoints, cancellation, run ownership IDs, resumable SSE activity, follow-ups, compaction | Exact mid-tool continuation after process death; remote synchronization |
-| Terminal | Headless and interactive questions, stdin/JSON, sessions/resume/status/cost/compact, tool listing, doctor, Ctrl+C cancellation | Rich terminal UI, full slash-command coverage, persistent prompt history, attachments |
+| Terminal | Headless and interactive questions, stdin/JSON, sessions/resume/status/cost/compact, tool listing, doctor, Ctrl+C cancellation, redacted persistent history and traces | Rich terminal UI, full slash-command coverage, attachments |
 | Web workspace | Investigations, evidence, activity, search, cancellation, compaction, export, work/memory/schedule/action screens | Multi-user collaboration, SSO/RBAC, model streaming, cloud administration |
 | Native integrations | 59 operations across 27 connector types; Prometheus and Loki built-ins | Complete vendor API coverage; native SDK/driver gaps listed below |
 | MCP | Streamable HTTP, sessions, paginated discovery, JSON/SSE results, allowlists and read-only declarations | stdio, OAuth, resources/prompts, subscriptions, server-initiated requests |
-| Workflows | Local TOML instructions and enforced tool scope | Remote skill registry, versioning/rollback/synchronization, dynamic skill routing |
+| Workflows | Local TOML instructions, enforced tool scope, immutable releases, activation/rollback, authenticated digest-validated downloads with ETag caching | Continuous synchronization, dynamic skill routing, artifact signing, multi-file bundles |
 | Memory/work | Service-scoped notes, work retrieval/completion | Semantic retrieval, knowledge graphs, hierarchical planning, repository preferences |
 | Scheduling | Cron/timezones, atomic enqueue, persisted queue, bounded workers | Distributed leases, replay of every missed tick, notification schedules |
 | Actions | Fixed destinations, typed arguments, concrete proposals, explicit review, expiry, preconditions, single dispatch, postconditions, rollback guidance | Verified identity/RBAC, automatic rollback, cloud-specific playbooks, reconciliation service |

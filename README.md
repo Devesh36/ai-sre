@@ -33,7 +33,7 @@ Configuration paths resolve relative to the TOML file. The default database is `
 | Capability | Behavior |
 | --- | --- |
 | Headless investigations | Question argument or stdin, structured JSON output, nonzero exit on failed runs |
-| Interactive terminal | Sessions/resume, status, cost, compact, tool listing, and Ctrl+C cancellation |
+| Interactive terminal | Sessions/resume, status, cost, compact, tool listing, redacted persistent history, traces, and Ctrl+C cancellation |
 | Model-assisted reasoning | Chat Completions, Responses, Anthropic, and Gemini protocol adapters with bounded tool loops |
 | Local evidence | Service-filtered JSON bundles; Markdown runbooks from a configured directory |
 | Observability | Read-only PromQL queries and one-hour Loki log queries |
@@ -45,6 +45,7 @@ Configuration paths resolve relative to the TOML file. The default database is `
 | Evaluation | Six offline scenarios, HTTP incident laboratory, and verified synthetic recovery |
 | Native connectors | Explicit read operations for Kubernetes, source control, observability, incident tools, and more; [exact catalog](docs/integration-catalog.md) |
 | MCP | Session-aware Streamable HTTP, JSON/SSE results, explicit tool allowlists |
+| Workflow releases | Content-addressed publishing, explicit activation, rollback, and authenticated downloads with ETag caching |
 | Operations | Service memory, work items, cron/timezones, concrete proposals, approvals, and verified execution |
 | Delivery and fleet | Explicit report delivery; local coding-agent process discovery |
 
@@ -94,3 +95,5 @@ The optional `scripts/browser-smoke.cjs` exercises the dashboard against a runni
 The optional `scripts/operations-smoke.cjs` covers work, memory, schedules, and the action interface. A configured `SRE_ACTION_PROPOSAL_ID` additionally exercises explicit review and recovery in the local lab. See [operational workflows](docs/operations.md) for commands and configuration.
 
 See [agent harness and evaluation](docs/harness.md), [API and integrations](docs/api.md), [architecture](docs/architecture.md), [deployment](docs/deployment.md), and [product roadmap](docs/roadmap.md).
+
+The implementation is organized into eight functional layers with separate modules for native connectors. See [repository layout and module inventory](docs/repository-layout.md) and [workflow registry](docs/workflow-registry.md).

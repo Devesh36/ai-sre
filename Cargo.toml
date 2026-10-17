@@ -5,6 +5,13 @@ edition = "2024"
 rust-version = "1.90"
 description = "Local-first incident investigation with evidence, bounded agents, and durable history"
 
+[[bin]]
+name = "ai-sre"
+path = "surfaces/entrypoint.rs"
+
+[build-dependencies]
+sha2 = "0.10"
+
 [dependencies]
 anyhow = "1"
 async-stream = "0.3"
