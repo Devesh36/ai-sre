@@ -1,0 +1,3 @@
+database = "../.ai-sre/incidents.db"
+evidence_file = "evidence.json"
+runbooks = "runbooks"

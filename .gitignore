@@ -1,0 +1,7 @@
+/target/
+/.ai-sre/
+/sre.toml
+.env
+*.db
+*.db-shm
+*.db-wal

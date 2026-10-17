@@ -1,0 +1,23 @@
+# Paths are relative to this file. With no model, investigations use offline rules.
+database = ".ai-sre/incidents.db"
+max_turns = 6
+max_tool_calls = 12
+timeout_seconds = 20
+max_concurrent = 4
+
+# evidence_file = "examples/evidence.json"
+# runbooks = "examples/runbooks"
+
+# [prometheus]
+# url = "https://prometheus.example.com"
+# token_env = "PROMETHEUS_TOKEN"
+
+# [loki]
+# url = "https://loki.example.com"
+# token_env = "LOKI_TOKEN"
+
+# Any tool-calling chat-completions-compatible endpoint, including local models.
+# [model]
+# url = "http://127.0.0.1:11434/v1/chat/completions"
+# name = "your-local-model"
+# key_env = "SRE_MODEL_KEY" # Omit for a local provider without authentication.

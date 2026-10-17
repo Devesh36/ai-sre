@@ -1,0 +1,8 @@
+name = "service_triage"
+instructions = [
+  "Establish which service and time window are affected.",
+  "Correlate observed metrics and logs; distinguish symptoms from causes.",
+  "Consult operator notes and describe any contradictory evidence.",
+  "Return cited findings, remaining unknowns, and reversible next steps."
+]
+allowed_tools = ["prometheus_query", "loki_query", "local_evidence", "runbooks", "memory_read", "work_items"]

@@ -1,0 +1,47 @@
+const {chromium}=require('playwright');
+const assert=require('node:assert/strict');
+(async()=>{
+ const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE_PATH||'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
+ const page=await browser.newPage({viewport:{width:1440,height:1000}});page.setDefaultTimeout(10000);
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(process.env.SRE_TEST_URL||'http://127.0.0.1:8080');
+ await page.getByRole('button',{name:'Operations',exact:true}).click();
+ await page.locator('#ops-form [name=service]').fill('browser-smoke');
+ await page.locator('#ops-form [name=text]').fill('Verify the operations workspace');
+ await page.locator('#ops-form button[type=submit]').click();
+ const task=page.locator('.ops-card').filter({hasText:'Verify the operations workspace'}).first();
+ await task.getByRole('button',{name:'Mark complete'}).click();
+ await task.locator('.badge').filter({hasText:'done'}).waitFor();
+ await page.locator('[data-ops=memory]').click();
+ await page.locator('#ops-form [name=service]').fill('browser-smoke');
+ await page.locator('#ops-form [name=key]').fill('Smoke context');
+ await page.locator('#ops-form [name=text]').fill('This is synthetic operational context.');
+ await page.locator('#ops-form button[type=submit]').click();
+ const note=page.locator('.ops-card').filter({hasText:'Smoke context'});
+ await note.getByRole('button',{name:'Remove note'}).click();
+ await note.waitFor({state:'detached'});
+ await page.locator('[data-ops=schedules]').click();
+ await page.locator('#ops-form [name=service]').fill('browser-smoke');
+ await page.locator('#ops-form [name=question]').fill('Scheduled browser smoke investigation');
+ await page.locator('#ops-form [name=expression]').fill('0 0 0 1 1 *');
+ await page.locator('#ops-form button[type=submit]').click();
+ const schedule=page.locator('.ops-card').filter({hasText:'Scheduled browser smoke investigation'});
+ await schedule.getByRole('button',{name:'Remove schedule'}).click();
+ await schedule.waitFor({state:'detached'});
+ await page.locator('[data-ops=actions]').click();
+ if(process.env.SRE_ACTION_PROPOSAL_ID){
+   const id=process.env.SRE_ACTION_PROPOSAL_ID;
+   await page.locator(`[data-actor="${id}"]`).fill('lab-reviewer');
+   await page.locator(`[data-approve="${id}"]`).click();
+   page.once('dialog',dialog=>dialog.accept());
+   await page.locator(`[data-execute="${id}"]`).click();
+   await page.locator('.ops-card').filter({hasText:'Synthetic memory exercise'}).locator('.badge').filter({hasText:'verified'}).waitFor();
+   const state=await page.request.get('http://127.0.0.1:9099/lab/state');assert.equal((await state.json()).status,'healthy');
+ }
+ await page.screenshot({path:'.ai-sre/operations-desktop.png',fullPage:true});
+ await page.setViewportSize({width:390,height:844});
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+ assert.deepEqual(errors,[]);
+ console.log('PASS: work completion, service memory, cron schedules, operations layout'+(process.env.SRE_ACTION_PROPOSAL_ID?', explicit action approval, execution, and recovery verification':''));
+ await browser.close();
+})().catch(e=>{console.error(e);process.exit(1)});

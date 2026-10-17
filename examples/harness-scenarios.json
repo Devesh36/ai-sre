@@ -1,0 +1,1006 @@
+[
+  {
+    "name": "valid-grounded-report",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 1,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "report_accepted",
+        "run_completed"
+      ]
+    }
+  },
+  {
+    "name": "duplicate-read-reuses-evidence",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "c1",
+              "type": "function",
+              "function": {
+                "name": "local_evidence",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 2,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "tool_cached"
+      ]
+    }
+  },
+  {
+    "name": "same-batch-empty-read-deduplicates",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "c1",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{}"
+              }
+            },
+            {
+              "id": "c2",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 2,
+      "tool_calls": 2,
+      "evidence": 1,
+      "phases": [
+        "tool_cached"
+      ]
+    }
+  },
+  {
+    "name": "unknown-tool-cannot-escape-registry",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "c1",
+              "type": "function",
+              "function": {
+                "name": "execute_action",
+                "arguments": "{\"secret\": \"secret-needle\"}"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 2,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "tool_rejected"
+      ]
+    }
+  },
+  {
+    "name": "invalid-json-arguments-recover",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "c1",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{broken"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "fixed",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 3,
+      "tool_calls": 2,
+      "evidence": 1,
+      "phases": [
+        "tool_rejected"
+      ]
+    }
+  },
+  {
+    "name": "nonobject-arguments-recover",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "c1",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "[1,2]"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 2,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "tool_rejected"
+      ]
+    }
+  },
+  {
+    "name": "malformed-report-repaired",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "not JSON"
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 2,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "report_rejected",
+        "report_accepted"
+      ]
+    }
+  },
+  {
+    "name": "fabricated-citation-repaired",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E999\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 2,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "report_rejected",
+        "report_accepted"
+      ]
+    }
+  },
+  {
+    "name": "fabricated-citations-stop-at-repair-limit",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E999\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E999\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "failed",
+      "model_calls": 2,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "run_failed"
+      ],
+      "failure_contains": "unknown evidence"
+    }
+  },
+  {
+    "name": "context-only-citations-are-rejected",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "failed",
+      "model_calls": 2,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [],
+      "failure_contains": "observational evidence"
+    },
+    "source": "operator_context"
+  },
+  {
+    "name": "transient-model-error-retries",
+    "steps": [
+      {
+        "status": 503
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 2,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "model_retry_scheduled"
+      ]
+    }
+  },
+  {
+    "name": "rate-limit-retries",
+    "steps": [
+      {
+        "status": 429
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 2,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "model_retry_scheduled"
+      ]
+    }
+  },
+  {
+    "name": "authentication-error-does-not-retry",
+    "steps": [
+      {
+        "status": 401
+      }
+    ],
+    "expected": {
+      "status": "failed",
+      "model_calls": 1,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": []
+    }
+  },
+  {
+    "name": "retry-exhaustion-counts-every-attempt",
+    "steps": [
+      {
+        "status": 503
+      },
+      {
+        "status": 503
+      },
+      {
+        "status": 503
+      }
+    ],
+    "expected": {
+      "status": "failed",
+      "model_calls": 3,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "model_retry_scheduled"
+      ]
+    }
+  },
+  {
+    "name": "retry-respects-attempt-budget",
+    "steps": [
+      {
+        "status": 503
+      },
+      {
+        "status": 503
+      },
+      {
+        "status": 503
+      }
+    ],
+    "expected": {
+      "status": "failed",
+      "model_calls": 2,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "model_retry_scheduled"
+      ],
+      "failure_contains": "attempt budget"
+    },
+    "policy": {
+      "max_model_attempts": 2
+    }
+  },
+  {
+    "name": "reported-token-budget-stops-more-work",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "c1",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "expected": {
+      "status": "failed",
+      "model_calls": 1,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [],
+      "failure_contains": "token budget"
+    },
+    "policy": {
+      "max_reported_tokens": 1
+    }
+  },
+  {
+    "name": "over-budget-batch-never-partially-dispatches",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "c1",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{}"
+              }
+            },
+            {
+              "id": "c2",
+              "type": "function",
+              "function": {
+                "name": "work_items",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "expected": {
+      "status": "failed",
+      "model_calls": 1,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [],
+      "failure_contains": "remaining tool budget"
+    },
+    "max_tool_calls": 2
+  },
+  {
+    "name": "duplicate-call-ids-reject-entire-batch",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "c1",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{}"
+              }
+            },
+            {
+              "id": "c1",
+              "type": "function",
+              "function": {
+                "name": "work_items",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "expected": {
+      "status": "failed",
+      "model_calls": 1,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [],
+      "failure_contains": "duplicate call IDs"
+    }
+  },
+  {
+    "name": "call-ids-must-remain-unique",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "c1",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "c1",
+              "type": "function",
+              "function": {
+                "name": "work_items",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "expected": {
+      "status": "failed",
+      "model_calls": 2,
+      "tool_calls": 2,
+      "evidence": 1,
+      "phases": [],
+      "failure_contains": "duplicate call IDs"
+    }
+  },
+  {
+    "name": "context-projection-retains-task-and-evidence",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 1,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "context_compacted"
+      ]
+    },
+    "evidence_bytes": 12000,
+    "policy": {
+      "max_context_bytes": 8192
+    }
+  },
+  {
+    "name": "pinned-instructions-cannot-be-silently-dropped",
+    "steps": [],
+    "expected": {
+      "status": "failed",
+      "model_calls": 0,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [],
+      "failure_contains": "context byte budget"
+    },
+    "oversized_instructions": true,
+    "policy": {
+      "max_context_bytes": 8192
+    }
+  },
+  {
+    "name": "source-timeouts-open-run-circuit",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "q2",
+              "type": "function",
+              "function": {
+                "name": "prometheus_query",
+                "arguments": "{\"query\": \"up{job=\\\"q2\\\"}\"}"
+              }
+            },
+            {
+              "id": "q3",
+              "type": "function",
+              "function": {
+                "name": "prometheus_query",
+                "arguments": "{\"query\": \"up{job=\\\"q3\\\"}\"}"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 2,
+      "tool_calls": 3,
+      "evidence": 1,
+      "phases": [
+        "tool_circuit_open"
+      ],
+      "query_requests": 2
+    },
+    "query_endpoint": "timeout"
+  },
+  {
+    "name": "application-errors-do-not-open-source-circuit",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "q2",
+              "type": "function",
+              "function": {
+                "name": "prometheus_query",
+                "arguments": "{\"query\": \"up{job=\\\"q2\\\"}\"}"
+              }
+            },
+            {
+              "id": "q3",
+              "type": "function",
+              "function": {
+                "name": "prometheus_query",
+                "arguments": "{\"query\": \"up{job=\\\"q3\\\"}\"}"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 2,
+      "tool_calls": 4,
+      "evidence": 1,
+      "phases": [],
+      "query_requests": 3,
+      "absent_phases": [
+        "tool_circuit_open"
+      ]
+    },
+    "query_endpoint": "api_error"
+  },
+  {
+    "name": "cancellation-retains-inflight-trace",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        },
+        "delay_ms": 1500
+      }
+    ],
+    "expected": {
+      "status": "cancelled",
+      "model_calls": 1,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "model_started",
+        "run_cancelled"
+      ]
+    },
+    "cancel": true
+  },
+  {
+    "name": "deadline-retains-completed-evidence",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        },
+        "delay_ms": 1500
+      }
+    ],
+    "expected": {
+      "status": "failed",
+      "model_calls": 1,
+      "tool_calls": 1,
+      "evidence": 1,
+      "phases": [
+        "model_started",
+        "run_failed"
+      ],
+      "failure_contains": "deadline"
+    },
+    "policy": {
+      "deadline_seconds": 1
+    }
+  },
+  {
+    "name": "repeated-tool-loop-cannot-extend-turn-budget",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "repeat0",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "repeat1",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "repeat2",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "repeat3",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "repeat4",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "repeat5",
+              "type": "function",
+              "function": {
+                "name": "memory_read",
+                "arguments": "{}"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "expected": {
+      "status": "failed",
+      "model_calls": 6,
+      "tool_calls": 2,
+      "evidence": 1,
+      "phases": [
+        "tool_cached",
+        "run_failed"
+      ],
+      "failure_contains": "tools after budget"
+    }
+  },
+  {
+    "name": "successful-source-probe-resets-failure-counter",
+    "query_endpoint": "alternating",
+    "steps": [
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "probe0",
+              "type": "function",
+              "function": {
+                "name": "prometheus_query",
+                "arguments": "{\"query\": \"up{job=\\\"probe0\\\"}\"}"
+              }
+            },
+            {
+              "id": "probe1",
+              "type": "function",
+              "function": {
+                "name": "prometheus_query",
+                "arguments": "{\"query\": \"up{job=\\\"probe1\\\"}\"}"
+              }
+            },
+            {
+              "id": "probe2",
+              "type": "function",
+              "function": {
+                "name": "prometheus_query",
+                "arguments": "{\"query\": \"up{job=\\\"probe2\\\"}\"}"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "message": {
+          "role": "assistant",
+          "content": "{\"summary\": \"Synthetic observation requires verification\", \"findings\": [{\"title\": \"Memory symptom\", \"explanation\": \"Observed OOMKilled; cause unverified\", \"confidence\": \"low\", \"evidence_ids\": [\"E1\"]}], \"next_steps\": [\"Inspect memory limits\"], \"gaps\": [\"Synthetic data only\"]}"
+        }
+      }
+    ],
+    "expected": {
+      "status": "triaged",
+      "model_calls": 2,
+      "tool_calls": 5,
+      "evidence": 3,
+      "query_requests": 4,
+      "absent_phases": [
+        "tool_circuit_open"
+      ]
+    }
+  },
+  {
+    "name": "retry-after-never-retries-before-server-window",
+    "steps": [
+      {
+        "status": 429,
+        "retry_after": "60"
+      }
+    ],
+    "expected": {
+      "status": "failed",
+      "model_calls": 1,
+      "tool_calls": 1,
+      "evidence": 1,
+      "failure_contains": "beyond local retry window",
+      "absent_phases": [
+        "model_retry_scheduled"
+      ]
+    }
+  }
+]

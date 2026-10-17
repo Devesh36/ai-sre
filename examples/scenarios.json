@@ -1,0 +1,8 @@
+[
+  {"name":"container-memory-pressure","signal":"Container terminated: OOMKilled exit=137","expected":"Memory pressure detected"},
+  {"name":"dependency-unavailable","signal":"upstream connection refused at inventory:8080","expected":"Dependency connectivity failure"},
+  {"name":"quota-exhausted","signal":"API replied: too many requests","expected":"Rate limiting observed"},
+  {"name":"storage-full","signal":"write failed: no space left on device","expected":"Storage capacity exhausted"},
+  {"name":"healthy-service-abstention","signal":"All readiness checks passed; request latency is normal","expected":null},
+  {"name":"unknown-symptom-abstention","signal":"Latency increased without diagnostic context","expected":null}
+]

@@ -1,0 +1,5 @@
+[
+  {"service":"checkout-api","source":"demo/kubernetes-events","summary":"Checkout container terminated after memory exhaustion","data":{"fixture":true,"reason":"OOMKilled","exit_code":137,"memory_limit":"512Mi","pod":"checkout-api-7d9f"}},
+  {"service":"checkout-api","source":"demo/application-logs","summary":"Checkout requests cannot reach the inventory dependency","data":{"fixture":true,"message":"connection refused to inventory:8080","error_rate":"18%","window":"5m"}},
+  {"service":"checkout-api","source":"demo/deployments","summary":"Checkout v2.4.1 deployed before the reported symptoms","data":{"fixture":true,"version":"v2.4.1","change":"Inventory response caching enabled","note":"Temporal correlation only; no causal conclusion established."}}
+]

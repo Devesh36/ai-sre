@@ -1,0 +1,31 @@
+database = "../.ai-sre/lab.db"
+
+[prometheus]
+url = "http://127.0.0.1:9099"
+
+[loki]
+url = "http://127.0.0.1:9099"
+
+[[connections]]
+name = "lab_cluster"
+kind = "kubernetes"
+url = "http://127.0.0.1:9099"
+parameters = { namespace = "default" }
+
+[[actions]]
+name = "reset_lab"
+description = "Restore the synthetic laboratory to its healthy scenario"
+url = "http://127.0.0.1:9099/lab/scenario"
+method = "POST"
+body = { scenario = "healthy" }
+rollback = "Use the laboratory scenario endpoint to restore the previous synthetic scenario. This action does not affect production."
+
+[actions.precondition]
+url = "http://127.0.0.1:9099/lab/state"
+pointer = "/status"
+equals = "degraded"
+
+[actions.verification]
+url = "http://127.0.0.1:9099/lab/state"
+pointer = "/status"
+equals = "healthy"
