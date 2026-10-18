@@ -4,15 +4,16 @@ Install the Rust executable from this checkout, then launch it:
 
 ```sh
 cargo install --path . --locked
-ai-sre
+ai-sre repl
 ```
 
 Ensure Cargo's bin directory is on your PATH (normally `$HOME/.cargo/bin`). In the managed cloud checkout, activate the workspace toolchain first with `source scripts/cloud-env.sh`; its Cargo bin directory is `/workspace/.toolchains/cargo/bin`.
 
-Running `ai-sre` without a subcommand opens the interactive terminal when stdin is a terminal. `ai-sre shell` and `ai-sre chat` explicitly open the same workspace. Use `--config PATH` to choose settings; otherwise it loads `sre.toml` from the current directory when present. With no model configured, the welcome panel clearly labels offline triage. It does not pretend to provide general model chat.
+Running `ai-sre` without a subcommand opens the interactive terminal when stdin is a terminal. `ai-sre repl` explicitly starts the REPL; `ai-sre cli`, `ai-sre shell`, and `ai-sre chat` are aliases for the same workspace. Use `ai-sre repl --help` for launch options and `/help` inside the REPL for interactive commands. Use `--config PATH` to choose settings; otherwise it loads `sre.toml` from the current directory when present. With no model configured, the welcome panel clearly labels offline triage. It does not pretend to provide general model chat.
 
 ```sh
-ai-sre --config examples/demo.toml chat --service checkout-api
+ai-sre --config examples/demo.toml repl --service checkout-api
+ai-sre cli --service checkout-api
 ai-sre --config sre.toml ask "Why are requests timing out?" --service checkout-api
 ai-sre --config sre.toml ask "Check dependencies" --service checkout-api --json
 printf '%s' 'Check service health' | ai-sre ask - --service checkout-api --json

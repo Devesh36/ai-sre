@@ -46,8 +46,8 @@ enum Command {
         #[arg(long)]
         json: bool,
     },
-    /// Start a resumable terminal conversation. Commands: /new, /sessions, /resume ID, /exit.
-    #[command(visible_alias = "chat")]
+    /// Start the interactive REPL. Use /help for commands and /exit to quit.
+    #[command(name = "repl", visible_aliases = ["cli", "shell", "chat"])]
     Shell {
         #[arg(long, default_value = "unknown")]
         service: String,

@@ -12,15 +12,15 @@ An incident investigation workspace written in Rust. Ask a production question, 
 
 ```sh
 cargo install --path . --locked
-ai-sre
+ai-sre repl
 ```
 
-The terminal opens by default: editable prompts, Tab command completion, searchable history, service/session context, formatted reports, and cancellable progress. Use `ai-sre chat --service checkout-api` to select a service immediately. See [terminal usage](docs/terminal.md) for configuration, keyboard shortcuts, and scripting.
+Start the interactive assistant with `ai-sre repl` or `ai-sre cli`. Running `ai-sre` alone also opens it when used in a terminal. The REPL includes editable prompts, Tab command completion, searchable history, service/session context, formatted reports, and cancellable progress. Use `ai-sre repl --service checkout-api` to select a service immediately; type `/help` for commands or `/exit` to quit. The `shell` and `chat` aliases remain available. See [terminal usage](docs/terminal.md) for configuration, keyboard shortcuts, and scripting.
 
 Try the session pictured above from this checkout:
 
 ```sh
-ai-sre --config examples/demo.toml chat --service checkout-api
+ai-sre --config examples/demo.toml repl --service checkout-api
 # Ask: Why is checkout failing after the latest deploy?
 ```
 

@@ -72,7 +72,7 @@ fn plain_shell_recovers_command_errors_switches_services_and_redacts_history() {
     let dir = tempfile::tempdir().unwrap();
     let mut child = Command::new(env!("CARGO_BIN_EXE_ai-sre"))
         .current_dir(dir.path())
-        .args(["chat", "--service", "checkout"])
+        .args(["cli", "--service", "checkout"])
         .env("TERM", "dumb")
         .env("NO_COLOR", "1")
         .stdin(Stdio::piped())

@@ -137,7 +137,7 @@ def main():
             rows = connection.execute("SELECT text FROM shell_history ORDER BY id").fetchall()
             assert rows == [("Why did checkout fail?",), ("Check dependencies",)], rows
         # The editor restores redacted persisted questions on the next launch.
-        terminal = Terminal(binary, directory, ["shell", "--service", "checkout-api"])
+        terminal = Terminal(binary, directory, ["repl", "--service", "checkout-api"])
         try:
             terminal.expect("TERMINAL WORKSPACE")
             terminal.send(b"\x1b[A")
