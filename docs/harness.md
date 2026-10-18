@@ -61,6 +61,8 @@ Baseline comparison requires the same schema, suite, scenario digest, and case-n
 
 CI runs the Rust tests and three conformance repetitions and uploads the JSON artifact even on failure. To run the browser checks, start the demo server and execute `node scripts/browser-smoke.cjs`; this also checks the trace interface. The existing `eval` command without `--suite` retains the six offline symptom checks.
 
+`cargo test --locked --test mcp_stdio` runs separate transport conformance checks against real local subprocesses, including malformed/flooding peers and cancellation with direct-child reaping. These checks run in CI through `cargo test`; they are not included in the 28-scenario evaluation artifact. The synthetic peer requires Python 3 for development tests only. Runtime MCP framing and lifecycle management are Rust.
+
 ## Measuring quality beyond conformance
 
 No shared head-to-head production benchmark has been run. More tests or a different implementation language alone do not establish superiority.

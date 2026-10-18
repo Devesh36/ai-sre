@@ -338,7 +338,12 @@ impl Toolbox {
             .connections
             .iter()
             .flat_map(|c| c.token_env.iter().chain(c.header_env.values()))
-            .chain(self.config.mcp.iter().filter_map(|s| s.token_env.as_ref()))
+            .chain(
+                self.config
+                    .mcp
+                    .iter()
+                    .flat_map(|s| s.token_env.iter().chain(s.env.values())),
+            )
             .chain(
                 self.config
                     .deliveries

@@ -53,7 +53,7 @@ Configuration paths resolve relative to the TOML file. The default database is `
 | Privacy | No telemetry; secret redaction and reversible configured identifier masking |
 | Evaluation | Six offline scenarios, HTTP incident laboratory, and verified synthetic recovery |
 | Native connectors | Explicit read operations for Kubernetes, source control, observability, incident tools, and more; [exact catalog](docs/integration-catalog.md) |
-| MCP | Session-aware Streamable HTTP, JSON/SSE results, explicit tool allowlists |
+| MCP | Session-aware Streamable HTTP and local stdio, bounded messages, explicit tool allowlists |
 | Workflow releases | Content-addressed publishing, explicit activation, rollback, and authenticated downloads with ETag caching |
 | Operations | Service memory, work items, cron/timezones, concrete proposals, approvals, and verified execution |
 | Delivery and fleet | Explicit report delivery; local coding-agent process discovery |

@@ -335,6 +335,7 @@ async fn mcp_negotiates_sessions_decodes_sse_and_blocks_unapproved_or_mutating_t
                 url: format!("{url}/mcp"),
                 token_env: None,
                 allowed_tools: vec!["inspect".into()],
+                ..Default::default()
             },
             Config::default().client().unwrap(),
         );

@@ -48,7 +48,7 @@ token_env = "MCP_READ_TOKEN"
 allowed_tools = ["query_metrics", "search_logs"]
 ```
 
-The client negotiates `2025-03-26`, preserves session IDs, supports JSON/SSE results, and discovers up to eight pages. Only allowlisted tools declaring `readOnlyHint: true` become available. Discovery failures become investigation gaps. Annotations are advisory: trust the server, constrain its credentials, and review the allowlist. The client cannot enforce remote server behavior. stdio, OAuth, resources, and subscriptions are not implemented.
+The client negotiates `2025-03-26`, preserves session IDs, supports JSON/SSE results, and discovers up to eight pages. Only allowlisted tools declaring `readOnlyHint: true` become available. Discovery failures become investigation gaps. Annotations are advisory: trust the server, constrain its credentials, and review the allowlist. The client cannot enforce remote server behavior. Local stdio servers are also supported; see [MCP configuration and limits](mcp.md). OAuth, resources, subscriptions, and legacy SSE transport remain unimplemented.
 
 ## Scheduled checks
 

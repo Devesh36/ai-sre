@@ -11,7 +11,7 @@ This inventory separates implemented behavior from remaining gaps. The full trac
 | Terminal | Headless and interactive questions, stdin/JSON, sessions/resume/status/cost/compact, tool listing, doctor, default interactive launch, command completion, searchable persistent history, styled reports, progress and Ctrl+C cancellation | Token streaming, full slash-command coverage, attachments |
 | Web workspace | Investigations, evidence, activity, search, cancellation, compaction, export, work/memory/schedule/action screens | Multi-user collaboration, SSO/RBAC, model streaming, cloud administration |
 | Native integrations | 59 operations across 27 connector types; Prometheus and Loki built-ins | Complete vendor API coverage; native SDK/driver gaps listed below |
-| MCP | Streamable HTTP, sessions, paginated discovery, JSON/SSE results, allowlists and read-only declarations | stdio, OAuth, resources/prompts, subscriptions, server-initiated requests |
+| MCP | Streamable HTTP and local stdio, sessions, paginated discovery, JSON/SSE results, allowlists, read-only declarations, local-process cancellation and bounded framing | Legacy SSE transport, OAuth, resources/prompts, subscriptions, server sampling/elicitation, general background request handling |
 | Workflows | Local TOML instructions, enforced tool scope, immutable releases, activation/rollback, authenticated digest-validated downloads with ETag caching | Continuous synchronization, dynamic skill routing, artifact signing, multi-file bundles |
 | Memory/work | Service-scoped notes, work retrieval/completion | Semantic retrieval, knowledge graphs, hierarchical planning, repository preferences |
 | Scheduling | Cron/timezones, atomic enqueue, persisted queue, bounded workers | Distributed leases, replay of every missed tick, notification schedules |
@@ -32,6 +32,8 @@ See [native connector operations](integration-catalog.md) for exact routes. Filt
 ## Verification boundaries
 
 Tests exercise local HTTP requests, all four model protocol tool round-trips, MCP sessions/SSE, authentication/signatures, cancellation/checkpoints, schedules, action concurrency, and synthetic incident scenarios. Browser tests cover investigation and operations workflows. The lab recovery changes only synthetic local state.
+
+Local MCP conformance tests also launch real synthetic subprocesses to check framing, paginated discovery, ping/unsupported server requests, credential mapping/redaction, malformed responses, byte/message limits, timeout/cancellation, and direct-child reaping on Linux. These tests do not certify third-party MCP servers. See [reconstruction evidence](reconstruction.md) and [MCP configuration](mcp.md).
 
 No real vendor credentials, cloud accounts, messaging channels, or model endpoints were available for certification. Mock protocol tests do not establish production vendor compatibility. This remains a single-tenant alpha; full behavioral coverage and production readiness are outstanding.
 
