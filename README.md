@@ -2,6 +2,10 @@
 
 An incident investigation workspace written in Rust. Ask a production question, collect read-only evidence, and keep the findings, citations, follow-ups, and activity history together.
 
+![AI SRE terminal answering a checkout incident question with memory and dependency findings, evidence citations, and suggested next steps](docs/assets/terminal-demo.png)
+
+*Real REPL output using the bundled synthetic evidence. This offline demo shows findings, citations, suggested checks, and what remains unknown—no model key required.*
+
 **Status: early alpha.** The Rust engine, CLI, dashboard, operational workflows, four model protocols, MCP client, and reviewed-action executor are implemented. The native registry contains 59 bounded operations across 27 connector types, alongside Prometheus and Loki. Offline triage and the synthetic incident lab need no account or model key. Full behavioral coverage and production readiness remain incomplete; see the [coverage inventory](docs/coverage.md).
 
 ## Open the terminal assistant
@@ -12,6 +16,13 @@ ai-sre
 ```
 
 The terminal opens by default: editable prompts, Tab command completion, searchable history, service/session context, formatted reports, and cancellable progress. Use `ai-sre chat --service checkout-api` to select a service immediately. See [terminal usage](docs/terminal.md) for configuration, keyboard shortcuts, and scripting.
+
+Try the session pictured above from this checkout:
+
+```sh
+ai-sre --config examples/demo.toml chat --service checkout-api
+# Ask: Why is checkout failing after the latest deploy?
+```
 
 ## Run it
 
