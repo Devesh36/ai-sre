@@ -19,7 +19,7 @@ use uuid::Uuid;
 fn welcome(ui: Ui, config: &Config, service: &str) {
     println!();
     ui.rule();
-    println!("  {}", ui.style("AI SRE", "1;36"));
+    println!("  {}", ui.style("AI SRE", terminal::accent_code()));
     ui.note("TERMINAL WORKSPACE");
     ui.text(&format!(
         "v{} · {}",

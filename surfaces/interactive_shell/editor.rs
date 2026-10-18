@@ -1,4 +1,4 @@
-use crate::surfaces::shared::terminal::{clean, interactive};
+use crate::surfaces::shared::terminal::{accent_code, clean, interactive};
 use anyhow::Result;
 use rustyline::{
     Context, Editor, Helper,
@@ -88,7 +88,7 @@ impl Highlighter for ShellHelper {
         _default: bool,
     ) -> Cow<'b, str> {
         if self.color {
-            Cow::Owned(format!("\x1b[1;36m{prompt}\x1b[0m"))
+            Cow::Owned(format!("\x1b[{}m{prompt}\x1b[0m", accent_code()))
         } else {
             Cow::Borrowed(prompt)
         }

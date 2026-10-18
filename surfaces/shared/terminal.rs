@@ -6,6 +6,17 @@ use std::{
 };
 use unicode_width::UnicodeWidthChar;
 
+/// Warm amber, with indexed and basic ANSI fallbacks for terminal capabilities.
+pub fn accent_code() -> &'static str {
+    if std::env::var("COLORTERM").is_ok_and(|v| matches!(v.as_str(), "truecolor" | "24bit")) {
+        "1;38;2;224;166;114"
+    } else if std::env::var("TERM").is_ok_and(|v| v.contains("256color")) {
+        "1;38;5;180"
+    } else {
+        "1;33"
+    }
+}
+
 pub fn clean(text: &str) -> String {
     // Strip complete ANSI CSI / OSC sequences as well as standalone control characters.
     let mut out = String::new();
@@ -84,7 +95,7 @@ impl Ui {
     pub fn heading(&self, text: &str) {
         println!();
         for line in wrap(&clean(text), self.width.saturating_sub(2)) {
-            println!("{}", self.style(&line, "1;36"));
+            println!("{}", self.style(&line, accent_code()));
         }
     }
     pub fn text(&self, text: &str) {
@@ -145,10 +156,11 @@ pub async fn progress<F: Future>(enabled: bool, future: F) -> F::Output {
     let mut tick = tokio::time::interval(Duration::from_millis(100));
     let frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
     let mut frame = 0;
+    let accent = accent_code();
     let result = loop {
         tokio::select! {
             result=&mut future=>break result,
-            _=tick.tick()=> {let mut stderr=io::stderr().lock();let _=write!(stderr,"\r\x1b[2K  \x1b[36m{}\x1b[0m Investigating · {}s · Ctrl+C to cancel",frames[frame%frames.len()],started.elapsed().as_secs());let _=stderr.flush();frame+=1;}
+            _=tick.tick()=> {let mut stderr=io::stderr().lock();let _=write!(stderr,"\r\x1b[2K  \x1b[{accent}m{}\x1b[0m Investigating · {}s · Ctrl+C to cancel",frames[frame%frames.len()],started.elapsed().as_secs());let _=stderr.flush();frame+=1;}
         }
     };
     let mut stderr = io::stderr().lock();

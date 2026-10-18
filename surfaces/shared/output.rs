@@ -1,4 +1,4 @@
-use super::terminal::Ui;
+use super::terminal::{Ui, accent_code};
 use crate::domain::{Incident, Status};
 use anyhow::Result;
 pub fn print_incident(i: &Incident, json: bool) -> Result<()> {
@@ -24,7 +24,7 @@ pub fn print_incident(i: &Incident, json: bool) -> Result<()> {
             if matches!(i.status, Status::Failed | Status::Cancelled) {
                 "1;33"
             } else {
-                "1;36"
+                accent_code()
             }
         )
     );
