@@ -26,6 +26,10 @@ ai-sre --config examples/demo.toml repl --service checkout-api
 
 ## Live example: investigate with Codex
 
+![AI SRE live-example terminal showing a resumed investigation, follow-up evidence citations, eight retained evidence items, and the cost command](docs/assets/live-example-terminal.png)
+
+*The actual saved demo session reopened in the amber REPL. Synthetic evidence, four local tool calls, and no model calls.*
+
 Ask Codex: **“Use AI SRE to investigate checkout failures. Show the evidence, recheck it, and explain what we should verify before a rollback.”** Codex can run the CLI, inspect the saved results, and help interpret them while AI SRE keeps the investigation and evidence together.
 
 Run the same example yourself from this checkout:

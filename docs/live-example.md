@@ -10,6 +10,12 @@ execution records, and explains the findings. AI SRE stores the investigation
 and runs the tools. AI SRE's optional internal model loop is configured separately
 through a `[model]` block; this walkthrough uses offline triage.
 
+![The recorded live-example session reopened in AI SRE's amber terminal, showing findings with follow-up citations and the cost command](assets/live-example-terminal.png)
+
+*Actual terminal output from reopening the captured session with `/resume` and
+running `/cost`: eight retained evidence items, four local tool calls, and zero
+model calls. The incident ID matches the JSON export linked below.*
+
 ## Run the complete example
 
 From the repository root:
