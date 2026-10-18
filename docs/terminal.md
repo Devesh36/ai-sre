@@ -23,6 +23,8 @@ The terminal uses scrollback rather than an alternate-screen dashboard. Reports 
 
 The default accent is warm amber (`#e0a672`), shared with the dashboard. True-color terminals use the exact color; 256-color and basic ANSI terminals use compatible fallbacks. The CLI inherits your terminal's background and normal text colors. To match the README preview, set your terminal background to `#25221e` and foreground to `#e6dccd`. `NO_COLOR` keeps plain output available.
 
+For a complete investigation with a follow-up, evidence inspection, and session reopening, run the [live walkthrough with Codex](live-example.md). It includes the actual captured output and a script that uses synthetic evidence without a model key.
+
 ## Editing and navigation
 
 - Tab completes slash commands; press Tab again to list ambiguous matches.

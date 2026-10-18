@@ -1,0 +1,134 @@
+
+──────────────────────────────────────────────────────────────────────────────────────
+  AI SRE
+  TERMINAL WORKSPACE
+  v0.1.0 · Offline triage · no model configured
+  Service: checkout-api · local history
+──────────────────────────────────────────────────────────────────────────────────────
+  Ask an incident question. Follow the evidence. Keep the context.
+  Add a [model] block to sre.toml for model-assisted investigations.
+  /help commands · /service NAME choose a service · /exit quit
+
+checkout-api ›
+Available tools
+  local_evidence
+  runbooks
+  memory_read
+  work_items
+
+checkout-api ›
+──────────────────────────────────────────────────────────────────────────────────────
+  REPORT READY
+  Why is checkout failing after the latest deploy?
+  checkout-api · 4489b9b5-1d4e-44e6-9cc8-9acf71afbfbe
+──────────────────────────────────────────────────────────────────────────────────────
+
+Summary
+  2 evidence-backed symptom hypothesis(es); root cause remains unverified.
+
+Findings
+  1. Memory pressure detected · Low support
+  An out-of-memory signal is present. Check container limits, working-set growth, and
+  recent releases before attributing a cause.
+  Evidence: E1
+
+  2. Dependency connectivity failure · Low support
+  A dependency connection failed. This may reflect availability, routing, or
+  saturation; it does not establish which one.
+  Evidence: E2
+
+
+Suggested next steps · review before acting
+  1. Compare memory usage with limits; inspect allocation changes and consider a
+  reviewed rollback.
+  2. Verify dependency endpoints, readiness, network policy, and connection-pool
+  saturation.
+
+Still unknown
+  • Rule-based triage; configure a model for iterative hypothesis testing. Keyword
+  matches require operator verification.
+
+──────────────────────────────────────────────────────────────────────────────────────
+  4 evidence items · 2 tool calls · 0 model calls
+  0 input / 0 output tokens
+
+checkout-api · 4489b9b5 ›
+Retained evidence
+  [E1] demo/kubernetes-events · 2026-10-18 09:36:35.891847929 UTC
+  Checkout container terminated after memory exhaustion
+  [E2] demo/application-logs · 2026-10-18 09:36:35.891904334 UTC
+  Checkout requests cannot reach the inventory dependency
+  [E3] demo/deployments · 2026-10-18 09:36:35.891961561 UTC
+  Checkout v2.4.1 deployed before the reported symptoms
+  [E4] runbook · 2026-10-18 09:36:35.893479104 UTC
+  checkout.md
+
+checkout-api · 4489b9b5 ›
+──────────────────────────────────────────────────────────────────────────────────────
+  REPORT READY
+  Why is checkout failing after the latest deploy?
+  checkout-api · 4489b9b5-1d4e-44e6-9cc8-9acf71afbfbe
+──────────────────────────────────────────────────────────────────────────────────────
+
+Summary
+  2 evidence-backed symptom hypothesis(es); root cause remains unverified.
+
+Findings
+  1. Memory pressure detected · Low support
+  An out-of-memory signal is present. Check container limits, working-set growth, and
+  recent releases before attributing a cause.
+  Evidence: E1 · E5
+
+  2. Dependency connectivity failure · Low support
+  A dependency connection failed. This may reflect availability, routing, or
+  saturation; it does not establish which one.
+  Evidence: E2 · E6
+
+
+Suggested next steps · review before acting
+  1. Compare memory usage with limits; inspect allocation changes and consider a
+  reviewed rollback.
+  2. Verify dependency endpoints, readiness, network policy, and connection-pool
+  saturation.
+
+Still unknown
+  • Rule-based triage; configure a model for iterative hypothesis testing. Keyword
+  matches require operator verification.
+
+──────────────────────────────────────────────────────────────────────────────────────
+  8 evidence items · 4 tool calls · 0 model calls
+  0 input / 0 output tokens
+
+checkout-api · 4489b9b5 ›
+Current investigation
+  Why is checkout failing after the latest deploy?
+  4489b9b5-1d4e-44e6-9cc8-9acf71afbfbe · Triaged · checkout-api
+
+checkout-api · 4489b9b5 ›
+Usage
+  0 model calls · 4 tool calls
+  0 input tokens · 0 output tokens
+  Cost unavailable; configure model token prices to estimate it.
+
+checkout-api · 4489b9b5 ›
+Execution trace
+  0 ms run started · investigation
+  0 ms tool started · local_evidence
+  1 ms tool completed · local_evidence
+  2 ms tool started · runbooks
+  2 ms tool completed · runbooks
+  16 ms run completed · investigation
+  0 ms run started · investigation
+  0 ms tool started · local_evidence
+  1 ms tool completed · local_evidence
+  3 ms tool started · runbooks
+  4 ms tool completed · runbooks
+  18 ms run completed · investigation
+
+checkout-api · 4489b9b5 ›
+Saved investigations
+  4489b9b5-1d4e-44e6-9cc8-9acf71afbfbe · Triaged · checkout-api
+  Why is checkout failing after the latest deploy?
+  Continue with /resume FULL_ID
+
+checkout-api · 4489b9b5 ›   Session saved. Run ai-sre again whenever you need it.

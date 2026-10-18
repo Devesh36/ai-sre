@@ -1,0 +1,302 @@
+[
+  {
+    "id": "4489b9b5-1d4e-44e6-9cc8-9acf71afbfbe",
+    "title": "Why is checkout failing after the latest deploy?",
+    "service": "checkout-api",
+    "status": "triaged",
+    "created_at": "2026-10-18T09:36:35.877853981Z",
+    "updated_at": "2026-10-18T09:36:35.928043618Z",
+    "evidence": [
+      {
+        "id": "E1",
+        "source": "demo/kubernetes-events",
+        "observed_at": "2026-10-18T09:36:35.891847929Z",
+        "summary": "Checkout container terminated after memory exhaustion",
+        "data": {
+          "exit_code": 137,
+          "fixture": true,
+          "memory_limit": "512Mi",
+          "pod": "checkout-api-7d9f",
+          "reason": "OOMKilled"
+        }
+      },
+      {
+        "id": "E2",
+        "source": "demo/application-logs",
+        "observed_at": "2026-10-18T09:36:35.891904334Z",
+        "summary": "Checkout requests cannot reach the inventory dependency",
+        "data": {
+          "error_rate": "18%",
+          "fixture": true,
+          "message": "connection refused to inventory:8080",
+          "window": "5m"
+        }
+      },
+      {
+        "id": "E3",
+        "source": "demo/deployments",
+        "observed_at": "2026-10-18T09:36:35.891961561Z",
+        "summary": "Checkout v2.4.1 deployed before the reported symptoms",
+        "data": {
+          "change": "Inventory response caching enabled",
+          "fixture": true,
+          "note": "Temporal correlation only; no causal conclusion established.",
+          "version": "v2.4.1"
+        }
+      },
+      {
+        "id": "E4",
+        "source": "runbook",
+        "observed_at": "2026-10-18T09:36:35.893479104Z",
+        "summary": "checkout.md",
+        "data": {
+          "text": "# Checkout incident response\n\n1. Establish the incident window and affected request paths.\n2. Compare container working-set memory with configured limits and historical baselines.\n3. Verify inventory service readiness, endpoint discovery, and network policy.\n4. Compare error rates before and after the latest deployment.\n5. If evidence supports a release regression, have the service owner review a rollback and its data compatibility.\n6. Validate recovery using successful checkout requests and sustained error-rate reduction.\n\nThis runbook is guidance, not evidence that a particular failure occurred. Never delete customer data or restart production services based only on a keyword match.\n"
+        }
+      },
+      {
+        "id": "E5",
+        "source": "demo/kubernetes-events",
+        "observed_at": "2026-10-18T09:36:35.923585956Z",
+        "summary": "Checkout container terminated after memory exhaustion",
+        "data": {
+          "exit_code": 137,
+          "fixture": true,
+          "memory_limit": "512Mi",
+          "pod": "checkout-api-7d9f",
+          "reason": "OOMKilled"
+        }
+      },
+      {
+        "id": "E6",
+        "source": "demo/application-logs",
+        "observed_at": "2026-10-18T09:36:35.923681604Z",
+        "summary": "Checkout requests cannot reach the inventory dependency",
+        "data": {
+          "error_rate": "18%",
+          "fixture": true,
+          "message": "connection refused to inventory:8080",
+          "window": "5m"
+        }
+      },
+      {
+        "id": "E7",
+        "source": "demo/deployments",
+        "observed_at": "2026-10-18T09:36:35.923740134Z",
+        "summary": "Checkout v2.4.1 deployed before the reported symptoms",
+        "data": {
+          "change": "Inventory response caching enabled",
+          "fixture": true,
+          "note": "Temporal correlation only; no causal conclusion established.",
+          "version": "v2.4.1"
+        }
+      },
+      {
+        "id": "E8",
+        "source": "runbook",
+        "observed_at": "2026-10-18T09:36:35.926152006Z",
+        "summary": "checkout.md",
+        "data": {
+          "text": "# Checkout incident response\n\n1. Establish the incident window and affected request paths.\n2. Compare container working-set memory with configured limits and historical baselines.\n3. Verify inventory service readiness, endpoint discovery, and network policy.\n4. Compare error rates before and after the latest deployment.\n5. If evidence supports a release regression, have the service owner review a rollback and its data compatibility.\n6. Validate recovery using successful checkout requests and sustained error-rate reduction.\n\nThis runbook is guidance, not evidence that a particular failure occurred. Never delete customer data or restart production services based only on a keyword match.\n"
+        }
+      }
+    ],
+    "report": {
+      "summary": "2 evidence-backed symptom hypothesis(es); root cause remains unverified.",
+      "findings": [
+        {
+          "title": "Memory pressure detected",
+          "explanation": "An out-of-memory signal is present. Check container limits, working-set growth, and recent releases before attributing a cause.",
+          "confidence": "low",
+          "evidence_ids": [
+            "E1",
+            "E5"
+          ]
+        },
+        {
+          "title": "Dependency connectivity failure",
+          "explanation": "A dependency connection failed. This may reflect availability, routing, or saturation; it does not establish which one.",
+          "confidence": "low",
+          "evidence_ids": [
+            "E2",
+            "E6"
+          ]
+        }
+      ],
+      "next_steps": [
+        "Compare memory usage with limits; inspect allocation changes and consider a reviewed rollback.",
+        "Verify dependency endpoints, readiness, network policy, and connection-pool saturation."
+      ],
+      "gaps": [
+        "Rule-based triage; configure a model for iterative hypothesis testing. Keyword matches require operator verification."
+      ]
+    },
+    "events": [
+      {
+        "at": "2026-10-18T09:36:35.877889918Z",
+        "kind": "created",
+        "message": "Investigation opened"
+      },
+      {
+        "at": "2026-10-18T09:36:35.878258687Z",
+        "kind": "investigation_started",
+        "message": "Why is checkout failing after the latest deploy?"
+      },
+      {
+        "at": "2026-10-18T09:36:35.892033766Z",
+        "kind": "tool_completed",
+        "message": "local_evidence: collected 3 evidence items"
+      },
+      {
+        "at": "2026-10-18T09:36:35.893513629Z",
+        "kind": "tool_completed",
+        "message": "runbooks: collected 1 evidence items"
+      },
+      {
+        "at": "2026-10-18T09:36:35.894707909Z",
+        "kind": "investigation_completed",
+        "message": "Report saved; proposed next steps require operator review"
+      },
+      {
+        "at": "2026-10-18T09:36:35.909176472Z",
+        "kind": "investigation_started",
+        "message": "Recheck memory and dependency evidence before deciding on a rollback."
+      },
+      {
+        "at": "2026-10-18T09:36:35.923795216Z",
+        "kind": "tool_completed",
+        "message": "local_evidence: collected 3 evidence items"
+      },
+      {
+        "at": "2026-10-18T09:36:35.926235222Z",
+        "kind": "tool_completed",
+        "message": "runbooks: collected 1 evidence items"
+      },
+      {
+        "at": "2026-10-18T09:36:35.928043618Z",
+        "kind": "investigation_completed",
+        "message": "Report saved; proposed next steps require operator review"
+      }
+    ],
+    "usage": {
+      "model_calls": 0,
+      "tool_calls": 4,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": null
+    },
+    "run_id": "d186f6fb-309d-4d1b-aece-2a653cd8c018",
+    "cancel_requested": false,
+    "schedule_id": null,
+    "context_summary": null,
+    "trace": [
+      {
+        "run_id": "a83040d1-f832-41d3-9a15-49ad8b8e9ead",
+        "phase": "run_started",
+        "operation": "investigation",
+        "elapsed_ms": 0,
+        "request_bytes": 0,
+        "evidence_ids": []
+      },
+      {
+        "run_id": "a83040d1-f832-41d3-9a15-49ad8b8e9ead",
+        "phase": "tool_started",
+        "operation": "local_evidence",
+        "elapsed_ms": 0,
+        "request_bytes": 0,
+        "evidence_ids": []
+      },
+      {
+        "run_id": "a83040d1-f832-41d3-9a15-49ad8b8e9ead",
+        "phase": "tool_completed",
+        "operation": "local_evidence",
+        "elapsed_ms": 1,
+        "request_bytes": 0,
+        "evidence_ids": [
+          "E1",
+          "E2",
+          "E3"
+        ]
+      },
+      {
+        "run_id": "a83040d1-f832-41d3-9a15-49ad8b8e9ead",
+        "phase": "tool_started",
+        "operation": "runbooks",
+        "elapsed_ms": 2,
+        "request_bytes": 0,
+        "evidence_ids": []
+      },
+      {
+        "run_id": "a83040d1-f832-41d3-9a15-49ad8b8e9ead",
+        "phase": "tool_completed",
+        "operation": "runbooks",
+        "elapsed_ms": 2,
+        "request_bytes": 0,
+        "evidence_ids": [
+          "E4"
+        ]
+      },
+      {
+        "run_id": "a83040d1-f832-41d3-9a15-49ad8b8e9ead",
+        "phase": "run_completed",
+        "operation": "investigation",
+        "elapsed_ms": 16,
+        "request_bytes": 0,
+        "evidence_ids": []
+      },
+      {
+        "run_id": "d186f6fb-309d-4d1b-aece-2a653cd8c018",
+        "phase": "run_started",
+        "operation": "investigation",
+        "elapsed_ms": 0,
+        "request_bytes": 0,
+        "evidence_ids": []
+      },
+      {
+        "run_id": "d186f6fb-309d-4d1b-aece-2a653cd8c018",
+        "phase": "tool_started",
+        "operation": "local_evidence",
+        "elapsed_ms": 0,
+        "request_bytes": 0,
+        "evidence_ids": []
+      },
+      {
+        "run_id": "d186f6fb-309d-4d1b-aece-2a653cd8c018",
+        "phase": "tool_completed",
+        "operation": "local_evidence",
+        "elapsed_ms": 1,
+        "request_bytes": 0,
+        "evidence_ids": [
+          "E5",
+          "E6",
+          "E7"
+        ]
+      },
+      {
+        "run_id": "d186f6fb-309d-4d1b-aece-2a653cd8c018",
+        "phase": "tool_started",
+        "operation": "runbooks",
+        "elapsed_ms": 3,
+        "request_bytes": 0,
+        "evidence_ids": []
+      },
+      {
+        "run_id": "d186f6fb-309d-4d1b-aece-2a653cd8c018",
+        "phase": "tool_completed",
+        "operation": "runbooks",
+        "elapsed_ms": 4,
+        "request_bytes": 0,
+        "evidence_ids": [
+          "E8"
+        ]
+      },
+      {
+        "run_id": "d186f6fb-309d-4d1b-aece-2a653cd8c018",
+        "phase": "run_completed",
+        "operation": "investigation",
+        "elapsed_ms": 18,
+        "request_bytes": 0,
+        "evidence_ids": []
+      }
+    ]
+  }
+]

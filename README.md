@@ -24,6 +24,34 @@ ai-sre --config examples/demo.toml repl --service checkout-api
 # Ask: Why is checkout failing after the latest deploy?
 ```
 
+## Live example: investigate with Codex
+
+Ask Codex: **“Use AI SRE to investigate checkout failures. Show the evidence, recheck it, and explain what we should verify before a rollback.”** Codex can run the CLI, inspect the saved results, and help interpret them while AI SRE keeps the investigation and evidence together.
+
+Run the same example yourself from this checkout:
+
+```sh
+cargo build --locked
+bash scripts/live-example.sh
+```
+
+This runs the real REPL with copied synthetic fixtures, asks an initial question and a follow-up, then prints the evidence, usage, trace, and saved session. Each run creates its own database and saves a transcript and JSON export. No model key or cloud connection is needed.
+
+An abridged result from the recorded run:
+
+```text
+2 evidence-backed symptom hypothesis(es); root cause remains unverified.
+
+Memory pressure detected           Evidence: E1 · E5
+Dependency connectivity failure     Evidence: E2 · E6
+
+8 evidence items · 4 tool calls · 0 model calls
+```
+
+These are two collections of the same demo inputs, not eight independent confirmations. My assessment of the saved evidence: the OOM kill and refused dependency connection warrant checking memory growth and inventory readiness; the nearby deployment alone does not prove causation. Offline triage repeats rule-based checks; Codex supplies the interpretation in this example.
+
+Read the [complete walkthrough with Codex](docs/live-example.md), [captured terminal output](docs/examples/live-session.txt), and [actual JSON export](docs/examples/live-incidents.json).
+
 ## Run it
 
 Install Rust using the official toolchain installer, then run from this checkout:
