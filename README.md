@@ -94,6 +94,7 @@ Configuration paths resolve relative to the TOML file. The default database is `
 | Persistence | SQLite WAL, atomic claims, per-tool checkpoints, cancellation, resumable activity SSE |
 | Evidence changes | Compare the last two runs: added, not repeated, and identical retained observations, with clickable citations |
 | Investigation review | Flag repeated support, missing or historical-only citations, and aged collection timestamps without inflating confidence |
+| Incident recall | Find earlier same-service cases, explain exact payload and symptom matches, and inspect the supporting historical run |
 | On-call handoff | Export Markdown with findings, evidence references, run history, unknowns, and checks for the next operator |
 | Execution controls | Per-run budgets, bounded retries/repair, duplicate suppression, source circuits, context projection, durable traces |
 | Privacy | No telemetry; secret redaction and reversible configured identifier masking |
@@ -105,6 +106,17 @@ Configuration paths resolve relative to the TOML file. The default database is `
 | Delivery and fleet | Explicit report delivery; local coding-agent process discovery |
 
 The offline engine recognizes explicit memory, dependency-connectivity, throttling, and disk-capacity symptoms. These are low-confidence hypotheses, not verified root causes. Runbooks, operator notes, and action proposals are excluded from symptom matching. A model can correlate additional evidence, but valid citations establish only that a referenced item exists—not that a claim is correct.
+
+## Reuse past investigation evidence
+
+Run `ai-sre recall INCIDENT_ID`, use `/recall` in the REPL, or open **Recall** in
+the dashboard. Each result explains its current and past evidence references,
+matching run, and symptom differences. Duplicate observations do not inflate
+ranking, and an old resolution is not treated as a verified fix.
+
+Try two real synthetic investigations with `bash scripts/recall-example.sh`
+after building. See [incident recall](docs/incident-recall.md) for the matching
+rules, bounded search, and limitations.
 
 ## Review evidence and hand off an incident
 
@@ -173,7 +185,7 @@ npx playwright install --with-deps chromium
 CHROMIUM_EXECUTABLE_PATH="$(node -p "require('playwright').chromium.executablePath()")" npm run test:browser
 ```
 
-The runner creates and removes an isolated synthetic database, starts its own server on port 18080 (override with `AI_SRE_BROWSER_PORT`), and checks investigation creation, follow-ups, citations, reviews, handoff downloads, work, memory, schedules, and mobile layout. Deterministic delayed responses also check stale-request protection, incident selection, retained drafts, cursor position, and expanded evidence. Screenshots go into the ignored `.ai-sre` directory. Node, Playwright, and Chromium are development dependencies only; the product runs as a Rust binary.
+The runner creates and removes an isolated synthetic database, starts its own server on port 18080 (override with `AI_SRE_BROWSER_PORT`), and checks investigation creation, follow-ups, citations, reviews, handoff downloads, work, memory, schedules, incident recall, and mobile layout. Deterministic delayed responses also check stale-request protection, incident selection, retained drafts, cursor position, and expanded evidence. Screenshots go into the ignored `.ai-sre` directory. Node, Playwright, and Chromium are development dependencies only; the product runs as a Rust binary.
 
 Individual `scripts/*smoke.cjs` checks accept `SRE_TEST_URL` and `CHROMIUM_EXECUTABLE_PATH`. The operations check additionally exercises explicit action review and recovery against a configured local lab when `SRE_ACTION_PROPOSAL_ID` is set. See [operational workflows](docs/operations.md).
 

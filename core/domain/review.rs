@@ -71,7 +71,7 @@ pub fn is_observation(e: &Evidence) -> bool {
     )
 }
 
-fn fingerprint(e: &Evidence) -> String {
+pub(crate) fn fingerprint(e: &Evidence) -> String {
     // serde_json's ordered maps canonicalize nested object keys. Array order is significant.
     format!(
         "{:x}",

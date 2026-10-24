@@ -21,6 +21,7 @@ impl Store {
             CREATE TABLE IF NOT EXISTS incidents (
                 id TEXT PRIMARY KEY, dedup_key TEXT UNIQUE, updated_at TEXT NOT NULL, document TEXT NOT NULL
             ); CREATE INDEX IF NOT EXISTS incidents_updated ON incidents(updated_at DESC);
+            CREATE INDEX IF NOT EXISTS incidents_service_created ON incidents(json_extract(document,'$.service'),json_extract(document,'$.created_at') DESC);
             CREATE TABLE IF NOT EXISTS records(kind TEXT NOT NULL,id TEXT NOT NULL,document TEXT NOT NULL,PRIMARY KEY(kind,id));
             CREATE TABLE IF NOT EXISTS schedules(id TEXT PRIMARY KEY,enabled INTEGER NOT NULL,next_at TEXT NOT NULL,document TEXT NOT NULL);")?;
         Ok(Self(Arc::new(Mutex::new(conn))))
@@ -80,6 +81,42 @@ impl Store {
         docs.into_iter()
             .map(|d| serde_json::from_str(&d).context("decode incident"))
             .collect()
+    }
+
+    /// Filter before applying the scan bound: other services must not crowd out useful cases.
+    pub fn recall(&self, incident: &Incident) -> Result<crate::domain::recall::Recall> {
+        let candidates = {
+            let conn = self
+                .0
+                .lock()
+                .map_err(|_| anyhow::anyhow!("database lock poisoned"))?;
+            let mut stmt = conn.prepare(
+                "SELECT document FROM incidents
+                WHERE json_extract(document,'$.service')=?1
+                  AND json_extract(document,'$.created_at')<?2 AND id<>?3
+                  AND json_extract(document,'$.status') IN ('triaged','resolved')
+                ORDER BY json_extract(document,'$.created_at') DESC, id ASC LIMIT ?4",
+            )?;
+            let docs = stmt
+                .query_map(
+                    params![
+                        incident.service,
+                        incident.created_at.to_rfc3339(),
+                        incident.id.to_string(),
+                        (crate::domain::recall::SEARCH_LIMIT + 1) as u32
+                    ],
+                    |r| r.get::<_, String>(0),
+                )?
+                .collect::<rusqlite::Result<Vec<_>>>()?;
+            docs.into_iter()
+                .map(|s| serde_json::from_str(&s).context("decode recall candidate"))
+                .collect::<Result<Vec<Incident>>>()?
+        };
+        Ok(crate::domain::recall::analyze(
+            incident,
+            &candidates,
+            chrono::Utc::now(),
+        ))
     }
 
     /// A SQLite write transaction serializes claims across threads and processes.

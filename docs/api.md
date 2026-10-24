@@ -9,6 +9,7 @@ Start with `ai-sre --config sre.toml serve`. Except for provider-authenticated S
 | GET | `/api/overview?limit=50&offset=0` | Compact incident summaries; limit 1–100 |
 | POST | `/api/incidents` | Create with `{"title":"…","service":"…"}`; returns 201 |
 | GET | `/api/incidents/{id}` | Full evidence, report, usage, audit history, and structured run traces |
+| GET | `/api/incidents/{id}/recall` | Earlier same-service cases with explicit payload/symptom matches, historical run IDs, differences, and search bounds |
 | GET | `/api/incidents/{id}/review` | Evidence support review, run comparison, collection-age concerns, and incident revision |
 | GET | `/api/incidents/{id}/handoff` | Markdown handoff in a JSON `markdown` field; no external delivery |
 | POST | `/api/incidents/{id}/investigate` | Body `{}` or `{"question":"…"}`; returns 202 |

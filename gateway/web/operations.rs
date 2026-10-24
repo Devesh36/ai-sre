@@ -19,6 +19,7 @@ pub fn routes() -> Router<App> {
         .route("/api/overview", get(overview))
         .route("/api/incidents/{id}/cancel", post(cancel))
         .route("/api/incidents/{id}/compact", post(compact))
+        .route("/api/incidents/{id}/recall", get(recall))
         .route("/api/incidents/{id}/review", get(review))
         .route("/api/incidents/{id}/handoff", get(handoff))
         .route("/api/incidents/{id}/events", get(events))
@@ -40,6 +41,17 @@ pub fn routes() -> Router<App> {
             "/api/fleet",
             get(|| async { Json(crate::operations::scan_fleet()) }),
         )
+}
+
+async fn recall(
+    State(app): State<App>,
+    Path(id): Path<Uuid>,
+) -> ApiResult<Json<crate::domain::recall::Recall>> {
+    let incident = app
+        .store
+        .get(id)?
+        .ok_or_else(|| ApiError(StatusCode::NOT_FOUND, "incident not found".into()))?;
+    Ok(Json(app.store.recall(&incident)?))
 }
 
 async fn review(

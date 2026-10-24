@@ -7,7 +7,7 @@ below; they do not guarantee an absence of defects.
 | Check | Result |
 | --- | --- |
 | Formatting and Clippy, all targets with warnings denied | Passed |
-| Rust unit and integration tests | 67 passed, zero failures |
+| Rust unit and integration tests | 76 passed, zero failures |
 | Offline symptom evaluation | 6/6 scenarios passed |
 | Agent harness | 28 scenarios × 3 repetitions: 84/84 passed |
 | Real pseudo-terminal acceptance | Passed launch, completion, history, editing, search, cancellation, resize, error recovery, exit, and terminal restoration |
@@ -15,7 +15,11 @@ below; they do not guarantee an absence of defects.
 | Dashboard workflow | Passed creation, follow-up, citations, trace, resolution, search, connections, and mobile layout |
 | Evidence review | Passed two real offline runs, duplicate detection, run comparison, citation navigation, and Markdown download |
 | Operations dashboard | Passed work completion, memory, schedule management, and mobile layout |
+| Incident recall | Passed nine Rust regression tests, CLI/REPL and authenticated API access, two-case example, historical citation navigation, escaped titles, and mobile layout |
 | Dashboard state regressions | Passed delayed responses, selection changes, queued refreshes, incident-specific drafts, cursor position, expanded evidence, and a submission completing after selection changes |
+
+Incident recall adds service-scoped, bounded matching with run-specific evidence references.
+The new browser check also preserves expanded match explanations during polling.
 
 The dashboard regression check reproduced lost follow-up text before the fix.
 Requests now use a sequence number to reject superseded results; changing the

@@ -61,3 +61,55 @@ fn ids(values: &[String]) -> String {
         values.join(" · ")
     }
 }
+
+pub fn print_recall(recall: &crate::domain::recall::Recall) {
+    let ui = Ui::detect();
+    ui.heading("Past incident recall");
+    ui.text(&recall.reason);
+    if recall.search_truncated {
+        ui.note("Search limited to the 100 most recently opened eligible cases for this service.");
+    }
+    for check in &recall.checks {
+        ui.note(check);
+    }
+    for case in &recall.cases {
+        ui.heading(&case.title);
+        ui.text(&format!(
+            "{} · {:?} · matched run {}",
+            case.incident_id, case.status, case.matched_run
+        ));
+        ui.text(&format!(
+            "{} distinct exact payload matches · {} shared symptom rules",
+            case.exact_matches.len(),
+            case.shared_symptoms.len()
+        ));
+        for (kind, matches) in [
+            ("Exact payload", &case.exact_matches),
+            ("Symptom", &case.shared_symptoms),
+        ] {
+            for m in matches {
+                ui.text(&format!(
+                    "{kind}: {} · current [{}] ↔ past [{}]",
+                    m.label,
+                    ids(&m.current_ids),
+                    ids(&m.past_ids)
+                ));
+            }
+        }
+        ui.text(&format!(
+            "Current-only symptoms: {}",
+            ids(&case.current_only_symptoms)
+        ));
+        ui.text(&format!(
+            "Past-only symptoms: {}",
+            ids(&case.past_only_symptoms)
+        ));
+        ui.note(&format!(
+            "Inspect the past case: ai-sre show {}",
+            case.incident_id
+        ));
+    }
+    for limit in &recall.limitations {
+        ui.note(limit);
+    }
+}

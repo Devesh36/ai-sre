@@ -38,3 +38,4 @@ node scripts/dashboard-state-smoke.cjs
 node scripts/browser-smoke.cjs
 node scripts/review-smoke.cjs
 node scripts/operations-smoke.cjs
+node scripts/recall-smoke.cjs

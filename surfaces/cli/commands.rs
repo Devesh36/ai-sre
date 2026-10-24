@@ -6,6 +6,12 @@ use uuid::Uuid;
 
 #[derive(Subcommand)]
 pub enum Commands {
+    /// Find earlier same-service cases with explicit evidence and symptom matches.
+    Recall {
+        id: Uuid,
+        #[arg(long)]
+        json: bool,
+    },
     /// Audit cited evidence for repeated payloads, collection age, and missing support.
     Review {
         id: Uuid,
@@ -166,6 +172,18 @@ impl Commands {
     pub async fn run(self, config: &Config, store: &Store) -> Result<()> {
         let tools = Toolbox::new(config.clone())?;
         let output: Value = match self {
+            Self::Recall { id, json } => {
+                let incident = store
+                    .get(id)?
+                    .ok_or_else(|| anyhow::anyhow!("incident not found"))?;
+                let recall = store.recall(&incident)?;
+                if json {
+                    serde_json::to_value(&recall)?
+                } else {
+                    crate::surfaces::shared::review::print_recall(&recall);
+                    return Ok(());
+                }
+            }
             Self::Review { id, json } | Self::Changes { id, json } => {
                 let incident = store
                     .get(id)?

@@ -1,4 +1,5 @@
 pub mod incident;
+pub mod recall;
 pub mod review;
 pub mod work;
 pub use incident::*;

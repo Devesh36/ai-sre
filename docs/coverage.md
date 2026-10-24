@@ -32,7 +32,7 @@ See [native connector operations](integration-catalog.md) for exact routes. Filt
 
 ## Verification boundaries
 
-Tests exercise local HTTP requests, all four model protocol tool round-trips, MCP sessions/SSE, authentication/signatures, cancellation/checkpoints, schedules, action concurrency, and synthetic incident scenarios. Browser tests cover investigation and operations workflows. The lab recovery changes only synthetic local state.
+Tests exercise local HTTP requests, all four model protocol tool round-trips, MCP sessions/SSE, authentication/signatures, cancellation/checkpoints, schedules, action concurrency, and synthetic incident scenarios. Browser tests cover investigation and operations workflows, including historical incident recall and evidence navigation. Recall regression tests cover service isolation, ranking, repeated payloads, run provenance, collection failures, and bounded search; they do not establish production retrieval precision. The lab recovery changes only synthetic local state.
 
 Local MCP conformance tests also launch real synthetic subprocesses to check framing, paginated discovery, ping/unsupported server requests, credential mapping/redaction, malformed responses, byte/message limits, timeout/cancellation, and direct-child reaping on Linux. These tests do not certify third-party MCP servers. See [reconstruction evidence](reconstruction.md) and [MCP configuration](mcp.md).
 
