@@ -1,0 +1,10 @@
+{
+  "name": "ai-sre-browser-checks",
+  "private": true,
+  "scripts": {
+    "test:browser": "bash scripts/browser-tests.sh"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

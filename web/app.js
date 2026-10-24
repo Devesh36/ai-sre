@@ -1,6 +1,7 @@
 'use strict';
 const $ = id => document.getElementById(id);
-let token = '', incidents = [], selected = null, detailIncident = null, detailReview = null, tab = 'overview', loading = false;
+let token = '', incidents = [], selected = null, detailIncident = null, detailReview = null, tab = 'overview', loading = false, refreshQueued = false, detailRequest = 0;
+const drafts = new Map();
 const escapeHtml = text => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const when = date => new Date(date).toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
 const badge = status => `<span class="badge ${escapeHtml(status)}">${escapeHtml(status)}</span>`;
@@ -14,7 +15,7 @@ async function api(path, options = {}) {
 let noticeTimer;
 function notice(text, error = false) { $('notice').textContent = text; $('notice').className = error ? 'error' : ''; $('notice').hidden = false; clearTimeout(noticeTimer); noticeTimer = setTimeout(() => $('notice').hidden = true, 7000); }
 async function refresh(quiet = false) {
-  if (loading) return;
+  if (loading) { if (!quiet) refreshQueued = true; return; }
   loading = true;
   try {
     incidents = await api('/api/overview?limit=100');
@@ -31,22 +32,42 @@ async function refresh(quiet = false) {
     const revision = current ? `${current.id}:${current.updated_at}:${tab}` : '';
     if (!quiet || $('detail').dataset.revision !== revision) await loadSelected();
   } catch (e) { $('connection-state').textContent = 'Connection needs attention'; if (!quiet) notice(e.message, true); }
-  finally { loading = false; }
+  finally { loading = false; if (refreshQueued) { refreshQueued = false; await refresh(); } }
 }
 function renderList() {
   const query = $('search').value.toLowerCase(), status = $('status-filter').value;
   const items = incidents.filter(i => `${i.title} ${i.service}`.toLowerCase().includes(query) && (status === 'all' || i.status === status));
   $('incident-items').innerHTML = items.length ? items.map(i => `<button class="incident-card ${i.id === selected ? 'selected' : ''}" data-id="${i.id}" aria-pressed="${i.id === selected}"><div class="card-top"><span class="service">${escapeHtml(i.service)}</span>${badge(i.status)}</div><strong>${escapeHtml(i.title)}</strong><small>${when(i.updated_at)} · ${i.evidence_count} evidence items</small></button>`).join('') : '<p class="no-results">No investigations found.</p>';
-  $('incident-items').querySelectorAll('[data-id]').forEach(b => b.onclick = () => { selected = b.dataset.id; tab = 'overview'; renderList(); loadSelected(); });
+  $('incident-items').querySelectorAll('[data-id]').forEach(b => b.onclick = () => { selectIncident(b.dataset.id); renderList(); loadSelected(); });
+}
+function selectIncident(id) {
+  selected = id; tab = 'overview';
+  detailRequest++; // Invalidate requests even if the user returns to the same incident.
+  detailIncident = null; detailReview = null;
+  $('detail').dataset.incident = id;
+  $('detail').dataset.revision = '';
+  $('detail').innerHTML = '<p class="muted" role="status">Loading investigation…</p>';
 }
 async function loadSelected() {
-  if (!selected) return; const id = selected;
-  try { const [value, review] = await Promise.all([api(`/api/incidents/${id}`), api(`/api/incidents/${id}/review`)]); if (selected === id) { detailIncident = value; detailReview = review.incident_updated_at === value.updated_at ? review : null; renderDetail(); } } catch(e) { notice(e.message,true); }
+  if (!selected) return;
+  const id = selected, request = ++detailRequest;
+  try {
+    const [value, review] = await Promise.all([api(`/api/incidents/${id}`), api(`/api/incidents/${id}/review`)]);
+    if (selected === id && request === detailRequest) {
+      detailIncident = value;
+      detailReview = review.incident_updated_at === value.updated_at ? review : null;
+      renderDetail();
+    }
+  } catch(e) { if (selected === id && request === detailRequest) notice(e.message,true); }
 }
 function renderDetail() {
   const i = detailIncident?.id === selected ? detailIncident : null;
   if (!i) return;
-  const draft = $('detail').dataset.incident === i.id ? ($('followup-input')?.value || '') : '';
+  const draft = drafts.get(i.id) || '';
+  const sameIncident = $('detail').dataset.incident === i.id;
+  const input = sameIncident ? $('followup-input') : null;
+  const cursor = input && document.activeElement === input ? [input.selectionStart, input.selectionEnd, input.selectionDirection] : null;
+  const expanded = sameIncident ? [...$('detail').querySelectorAll('details[open][id]')].map(el => el.id) : [];
   $('detail').dataset.incident = i.id;
   $('detail').dataset.revision = `${i.id}:${i.updated_at}:${tab}`;
   let content = '';
@@ -82,7 +103,13 @@ function renderDetail() {
       notice('Handoff downloaded with evidence references and outstanding checks.');
     } catch(e) { notice(e.message, true); }
   };
-  if ($('followup-form')) { $('followup-input').value = draft; $('followup-form').onsubmit = e => { e.preventDefault(); run(i.id, $('followup-input').value); }; }
+  for (const id of expanded) { const el = $(id); if (el) el.open = true; }
+  if ($('followup-form')) {
+    const input = $('followup-input'); input.value = draft;
+    input.oninput = () => drafts.set(i.id, input.value);
+    if (cursor) { input.focus({preventScroll:true}); input.setSelectionRange(...cursor); }
+    $('followup-form').onsubmit = e => { e.preventDefault(); run(i.id, input.value); };
+  }
 }
 function renderReview(review) {
   const citations = ids => ids.length ? ids.map(id => `<button class="citation" data-evidence="${escapeHtml(id)}">${escapeHtml(id)} ↗</button>`).join('') : '<span class="muted">None</span>';
@@ -98,7 +125,7 @@ function renderReview(review) {
     <details class="review-limits"><summary>How to interpret this review</summary>${review.limitations.map(c => `<p class="muted">${escapeHtml(c)}</p>`).join('')}<p class="muted">Generated ${when(review.generated_at)}. Collection age is checked when the review is loaded.</p></details>`;
 }
 async function run(id, question) {
-  try { await api(`/api/incidents/${id}/investigate`,{method:'POST',body:JSON.stringify(question ? {question} : {})}); if ($('followup-input')) $('followup-input').value=''; await refresh(); notice('Investigation started.'); } catch(e) { notice(e.message,true); }
+  try { await api(`/api/incidents/${id}/investigate`,{method:'POST',body:JSON.stringify(question ? {question} : {})}); if (question && drafts.get(id) === question) { drafts.delete(id); if (selected === id && $('followup-input')) $('followup-input').value=''; } await refresh(); notice('Investigation started.'); } catch(e) { notice(e.message,true); }
 }
 function openCreate() { $('create-error').textContent = ''; $('create-dialog').showModal(); }
 $('new-button').onclick = openCreate;
@@ -106,7 +133,7 @@ $('empty-new').onclick = openCreate;
 $('close-create').onclick = () => $('create-dialog').close();
 $('create-form').onsubmit = async e => {
   e.preventDefault(); const button = e.target.querySelector('[type=submit]'); button.disabled=true;
-  try { const data = Object.fromEntries(new FormData(e.target)); const i = await api('/api/incidents',{method:'POST',body:JSON.stringify(data)}); selected=i.id; tab='overview'; $('create-dialog').close(); e.target.reset(); await refresh(); await run(i.id); } catch(error) { $('create-error').textContent=error.message; } finally { button.disabled=false; }
+  try { const data = Object.fromEntries(new FormData(e.target)); const i = await api('/api/incidents',{method:'POST',body:JSON.stringify(data)}); selectIncident(i.id); $('create-dialog').close(); e.target.reset(); await refresh(); await run(i.id); } catch(error) { $('create-error').textContent=error.message; } finally { button.disabled=false; }
 };
 $('search').oninput=renderList;
 $('status-filter').onchange=renderList;

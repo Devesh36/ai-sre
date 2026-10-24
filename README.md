@@ -152,6 +152,8 @@ The shell and CLI use the same library as the API. The Rust modules are public f
 
 ## Validate
 
+See the [verification record](docs/verification.md) for the checks performed and their limits.
+
 ```sh
 cargo fmt --all -- --check
 cargo clippy --locked --all-targets -- -D warnings
@@ -162,9 +164,18 @@ cargo run --locked -- eval --suite harness --repeat 3 --output .ai-sre/harness.j
 
 Tests cover incident lifecycle, persistence, authentication, all four model tool round-trips, masking, connector boundaries, MCP, cancellation, schedule deduplication, signed webhooks, action approval races, expired approvals, and synthetic failure/recovery workflows. The evaluation command measures offline symptom detection only; it is not an infrastructure benchmark or proof of production diagnosis quality.
 
-The optional `scripts/browser-smoke.cjs` exercises the dashboard against a running demo server. It requires Playwright and Chromium, creates a synthetic incident, and checks creation, follow-up, evidence links, resolution, search, and mobile layout. Set `SRE_TEST_URL` and `CHROMIUM_EXECUTABLE_PATH` to override the defaults. Run it from the repository root; screenshots go into the ignored `.ai-sre` directory. These browser dependencies are development-only.
+Browser checks run in CI and can be run locally after building the debug binary:
 
-The optional `scripts/operations-smoke.cjs` covers work, memory, schedules, and the action interface. A configured `SRE_ACTION_PROPOSAL_ID` additionally exercises explicit review and recovery in the local lab. See [operational workflows](docs/operations.md) for commands and configuration.
+```sh
+cargo build --locked
+npm ci
+npx playwright install --with-deps chromium
+CHROMIUM_EXECUTABLE_PATH="$(node -p "require('playwright').chromium.executablePath()")" npm run test:browser
+```
+
+The runner creates and removes an isolated synthetic database, starts its own server on port 18080 (override with `AI_SRE_BROWSER_PORT`), and checks investigation creation, follow-ups, citations, reviews, handoff downloads, work, memory, schedules, and mobile layout. Deterministic delayed responses also check stale-request protection, incident selection, retained drafts, cursor position, and expanded evidence. Screenshots go into the ignored `.ai-sre` directory. Node, Playwright, and Chromium are development dependencies only; the product runs as a Rust binary.
+
+Individual `scripts/*smoke.cjs` checks accept `SRE_TEST_URL` and `CHROMIUM_EXECUTABLE_PATH`. The operations check additionally exercises explicit action review and recovery against a configured local lab when `SRE_ACTION_PROPOSAL_ID` is set. See [operational workflows](docs/operations.md).
 
 See [agent harness and evaluation](docs/harness.md), [API and integrations](docs/api.md), [architecture](docs/architecture.md), [deployment](docs/deployment.md), and [product roadmap](docs/roadmap.md).
 

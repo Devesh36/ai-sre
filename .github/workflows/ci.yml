@@ -17,6 +17,22 @@ jobs:
       - run: cargo run --locked -- eval
       - name: Harness conformance and repeatability
         run: cargo run --locked -- eval --suite harness --repeat 3 --output .ai-sre/harness.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Browser workflows and state regressions
+        run: CHROMIUM_EXECUTABLE_PATH="$(node -p "require('playwright').chromium.executablePath()")" npm run test:browser
+      - name: Retain browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-screenshots
+          path: .ai-sre/*.png
+          if-no-files-found: ignore
+          retention-days: 14
       - name: Retain harness evidence
         if: always()
         uses: actions/upload-artifact@v4
