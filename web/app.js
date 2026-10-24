@@ -1,6 +1,6 @@
 'use strict';
 const $ = id => document.getElementById(id);
-let token = '', incidents = [], selected = null, detailIncident = null, tab = 'overview', loading = false;
+let token = '', incidents = [], selected = null, detailIncident = null, detailReview = null, tab = 'overview', loading = false;
 const escapeHtml = text => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const when = date => new Date(date).toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
 const badge = status => `<span class="badge ${escapeHtml(status)}">${escapeHtml(status)}</span>`;
@@ -29,7 +29,7 @@ async function refresh(quiet = false) {
     // Preserve focused follow-up text and expanded evidence during background polling.
     const current = incidents.find(i => i.id === selected);
     const revision = current ? `${current.id}:${current.updated_at}:${tab}` : '';
-    if ($('detail').dataset.revision !== revision) await loadSelected();
+    if (!quiet || $('detail').dataset.revision !== revision) await loadSelected();
   } catch (e) { $('connection-state').textContent = 'Connection needs attention'; if (!quiet) notice(e.message, true); }
   finally { loading = false; }
 }
@@ -41,7 +41,7 @@ function renderList() {
 }
 async function loadSelected() {
   if (!selected) return; const id = selected;
-  try { const value = await api(`/api/incidents/${id}`); if (selected === id) { detailIncident = value; renderDetail(); } } catch(e) { notice(e.message,true); }
+  try { const [value, review] = await Promise.all([api(`/api/incidents/${id}`), api(`/api/incidents/${id}/review`)]); if (selected === id) { detailIncident = value; detailReview = review.incident_updated_at === value.updated_at ? review : null; renderDetail(); } } catch(e) { notice(e.message,true); }
 }
 function renderDetail() {
   const i = detailIncident?.id === selected ? detailIncident : null;
@@ -54,21 +54,48 @@ function renderDetail() {
     const r = i.report;
     if (i.status === 'failed') content += `<p class="gap">Investigation failed: ${escapeHtml(i.events.filter(e => e.kind === 'investigation_failed').at(-1)?.message || 'See activity for details.')}${r ? ' The previous report is shown below.' : ''}</p>`;
     if (i.status === 'investigating') content += '<p class="gap">Investigation is running. This view updates automatically; completed tools are checkpointed as the run progresses.</p>';
+    if (r && detailReview) content += `<div class="review-callout"><span>${detailReview.repeated_payloads} repeated payloads · Check current evidence and finding support.</span><button id="review-button">Review evidence</button></div>`;
     content += r ? `<p class="summary">${escapeHtml(r.summary)}</p><p class="section-label">SUPPORTED HYPOTHESES</p>${r.findings.length ? r.findings.map(f => `<article class="finding"><h3><span class="confidence">${escapeHtml(f.confidence)} support</span>${escapeHtml(f.title)}</h3><p>${escapeHtml(f.explanation)}</p>${f.evidence_ids.map(id => `<button class="citation" data-evidence="${escapeHtml(id)}">${escapeHtml(id)} ↗</button>`).join('')}</article>`).join('') : '<p class="muted">No supported findings yet.</p>'}<p class="section-label">PROPOSED NEXT STEPS · OPERATOR REVIEW</p><ol class="steps">${r.next_steps.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ol><p class="section-label">WHAT WE STILL DON’T KNOW</p>${r.gaps.map(g => `<p class="gap">${escapeHtml(g)}</p>`).join('')}` : '<div class="empty"><div class="empty-icon">⌁</div><h2>Ready to gather context.</h2><p>Run this investigation to query configured sources and review the evidence.</p></div>';
     if (!['resolved','investigating'].includes(i.status)) content += '<form class="followup" id="followup-form"><input id="followup-input" required maxlength="4000" placeholder="Ask a follow-up question…" aria-label="Follow-up question"><button class="secondary" type="submit">Investigate →</button></form>';
+  } else if (tab === 'review') {
+    content = detailReview ? renderReview(detailReview) : '<p class="muted">Evidence is updating. The review will refresh with the saved investigation.</p>';
   } else if (tab === 'evidence') {
     content = i.evidence.length ? i.evidence.map(e => `<details class="evidence-item" id="evidence-${escapeHtml(e.id)}"><summary><span class="citation">${escapeHtml(e.id)}</span> ${escapeHtml(e.summary)}</summary><small>${escapeHtml(e.source)} · collected ${when(e.observed_at)}</small><pre>${escapeHtml(JSON.stringify(e.data, null, 2))}</pre></details>`).join('') : '<p class="muted">No evidence collected yet. Configure a source or run the bundled demo.</p>';
   } else if (tab === 'trace') {
     content = (i.trace || []).length ? i.trace.map(t => `<article class="event"><strong>${escapeHtml(t.phase.replaceAll('_',' '))}</strong><p>${escapeHtml(t.operation)} · ${escapeHtml(t.elapsed_ms)} ms from run start${t.request_bytes ? ` · ${escapeHtml(t.request_bytes)} request bytes` : ''}</p><small>Run ${escapeHtml((t.run_id || '').slice(0,8))}${t.evidence_ids.length ? ` · ${t.evidence_ids.map(escapeHtml).join(', ')}` : ''}</small></article>`).join('') : '<p class="muted">No runtime trace recorded for this investigation.</p>';
   } else content = i.events.map(e => `<article class="event"><strong>${escapeHtml(e.kind.replaceAll('_',' '))}</strong><p>${escapeHtml(e.message)}</p><small>${when(e.at)}</small></article>`).join('');
-  $('detail').innerHTML = `<div class="detail-header"><div class="detail-meta">${badge(i.status)}<span>${escapeHtml(i.service)}</span><span>${i.id.slice(0,8)}</span></div><h2>${escapeHtml(i.title)}</h2><div class="detail-actions"><button class="secondary" id="run-button" ${['investigating','resolved'].includes(i.status) ? 'disabled' : ''}>↻ ${i.report ? 'Run again' : 'Investigate'}</button><button id="resolve-button" ${['investigating','resolved'].includes(i.status) ? 'disabled' : ''}>✓ Mark resolved</button><button id="export-button">↓ Export JSON</button>${i.status === 'investigating' ? '<button id="cancel-button">Cancel run</button>' : '<button id="compact-button">Compact context</button>'}</div></div><nav class="tabs" aria-label="Investigation details">${['overview','evidence','activity','trace'].map(t => `<button data-tab="${t}" class="${tab === t ? 'active' : ''}">${t[0].toUpperCase()+t.slice(1)}${t === 'evidence' ? ` (${i.evidence.length})` : ''}</button>`).join('')}</nav><div class="detail-body">${content}<p class="usage">${i.usage.tool_calls} tool calls · ${i.usage.model_calls} model calls · ${i.usage.input_tokens.toLocaleString()} input / ${i.usage.output_tokens.toLocaleString()} output tokens</p></div>`;
-  document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { tab = b.dataset.tab; renderDetail(); });
+  $('detail').innerHTML = `<div class="detail-header"><div class="detail-meta">${badge(i.status)}<span>${escapeHtml(i.service)}</span><span>${i.id.slice(0,8)}</span></div><h2>${escapeHtml(i.title)}</h2><div class="detail-actions"><button class="secondary" id="run-button" ${['investigating','resolved'].includes(i.status) ? 'disabled' : ''}>↻ ${i.report ? 'Run again' : 'Investigate'}</button><button id="resolve-button" ${['investigating','resolved'].includes(i.status) ? 'disabled' : ''}>✓ Mark resolved</button><button id="export-button">↓ Export JSON</button><button id="handoff-button">↓ Handoff</button>${i.status === 'investigating' ? '<button id="cancel-button">Cancel run</button>' : '<button id="compact-button">Compact context</button>'}</div></div><nav class="tabs" aria-label="Investigation details">${['overview','review','evidence','activity','trace'].map(t => `<button data-tab="${t}" class="${tab === t ? 'active' : ''}">${t[0].toUpperCase()+t.slice(1)}${t === 'evidence' ? ` (${i.evidence.length})` : ''}</button>`).join('')}</nav><div class="detail-body">${content}<p class="usage">${i.usage.tool_calls} tool calls · ${i.usage.model_calls} model calls · ${i.usage.input_tokens.toLocaleString()} input / ${i.usage.output_tokens.toLocaleString()} output tokens</p></div>`;
+  if (!detailReview) $('detail').dataset.revision = '';
+  document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { tab = b.dataset.tab; if (tab === 'review') loadSelected(); else renderDetail(); });
   document.querySelectorAll('[data-evidence]').forEach(b => b.onclick = () => { const id = b.dataset.evidence; tab = 'evidence'; renderDetail(); const el = $(`evidence-${id}`); if (el) { el.open = true; el.scrollIntoView({behavior:'smooth',block:'nearest'}); } });
+  if ($('review-button')) $('review-button').onclick = () => { tab = 'review'; loadSelected(); };
   $('run-button').onclick = () => run(i.id);
   for (const action of ['cancel','compact']) { const button = $(`${action}-button`); if(button) button.onclick=async()=>{try{await api(`/api/incidents/${i.id}/${action}`,{method:'POST'});await refresh();notice(action==='cancel'?'Cancellation requested.':'Context compacted; evidence retained.');}catch(e){notice(e.message,true);}}; }
   $('resolve-button').onclick = async () => { try { await api(`/api/incidents/${i.id}/resolve`, {method:'POST'}); await refresh(); notice('Incident marked resolved.'); } catch(e) { notice(e.message,true); } };
   $('export-button').onclick = () => { const url = URL.createObjectURL(new Blob([JSON.stringify(i,null,2)],{type:'application/json'})); const link = document.createElement('a'); link.href=url; link.download=`incident-${i.id}.json`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); };
+  $('handoff-button').onclick = async () => {
+    try {
+      const {markdown} = await api(`/api/incidents/${i.id}/handoff`);
+      const url = URL.createObjectURL(new Blob([markdown], {type:'text/markdown;charset=utf-8'}));
+      const link = document.createElement('a'); link.href = url; link.download = `handoff-${i.id}.md`; link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      notice('Handoff downloaded with evidence references and outstanding checks.');
+    } catch(e) { notice(e.message, true); }
+  };
   if ($('followup-form')) { $('followup-input').value = draft; $('followup-form').onsubmit = e => { e.preventDefault(); run(i.id, $('followup-input').value); }; }
+}
+function renderReview(review) {
+  const citations = ids => ids.length ? ids.map(id => `<button class="citation" data-evidence="${escapeHtml(id)}">${escapeHtml(id)} ↗</button>`).join('') : '<span class="muted">None</span>';
+  const changes = review.changes;
+  return `<p class="summary">Check the evidence behind the report before deciding what to do.</p>
+    <div class="review-stats"><div><strong>${review.observations}</strong> observations</div><div><strong>${review.distinct_payloads}</strong> distinct payloads</div><div><strong>${review.repeated_payloads}</strong> repeated payloads</div><div><strong>${review.context_items}</strong> context items</div></div>
+    <h2>Evidence changes</h2><p class="muted">${escapeHtml(changes.reason)}</p>
+    ${changes.available ? `<div class="review-change"><h3>Added observations</h3>${citations(changes.added)}</div><div class="review-change"><h3>Not repeated in this run</h3>${citations(changes.not_repeated)}</div><div class="review-change"><h3>Same retained payload</h3>${changes.repeated.length ? changes.repeated.map(group => `<p>${citations(group.before)} → ${citations(group.after)}</p>`).join('') : '<p class="muted">No matching payloads.</p>'}</div>` : ''}
+    <p class="gap">Not repeated does not mean recovered. Queries and source coverage may differ.</p>
+    <p class="section-label">FINDING SUPPORT</p>
+    ${review.findings.map(f => `<article class="finding"><h3>${escapeHtml(f.title)}</h3><p>Distinct payloads: ${f.distinct_payloads} · Source labels: ${f.source_count}</p><p>Latest-run observations: ${citations(f.current_observations)}</p>${f.concerns.map(c => `<p class="gap">${escapeHtml(c)}</p>`).join('')}</article>`).join('') || '<p class="muted">No report findings to review yet.</p>'}
+    <p class="section-label">CHECKS FOR THE NEXT OPERATOR</p><ul class="steps">${review.checks.map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul>
+    <details class="review-limits"><summary>How to interpret this review</summary>${review.limitations.map(c => `<p class="muted">${escapeHtml(c)}</p>`).join('')}<p class="muted">Generated ${when(review.generated_at)}. Collection age is checked when the review is loaded.</p></details>`;
 }
 async function run(id, question) {
   try { await api(`/api/incidents/${id}/investigate`,{method:'POST',body:JSON.stringify(question ? {question} : {})}); if ($('followup-input')) $('followup-input').value=''; await refresh(); notice('Investigation started.'); } catch(e) { notice(e.message,true); }

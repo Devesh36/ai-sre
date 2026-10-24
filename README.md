@@ -92,6 +92,9 @@ Configuration paths resolve relative to the TOML file. The default database is `
 | Alert intake | Alertmanager deduplication; authenticated Slack/Telegram intake with sender allowlists |
 | Workspace | Dashboard, search, status filters, cited evidence, timeline, follow-up, export, manual resolution |
 | Persistence | SQLite WAL, atomic claims, per-tool checkpoints, cancellation, resumable activity SSE |
+| Evidence changes | Compare the last two runs: added, not repeated, and identical retained observations, with clickable citations |
+| Investigation review | Flag repeated support, missing or historical-only citations, and aged collection timestamps without inflating confidence |
+| On-call handoff | Export Markdown with findings, evidence references, run history, unknowns, and checks for the next operator |
 | Execution controls | Per-run budgets, bounded retries/repair, duplicate suppression, source circuits, context projection, durable traces |
 | Privacy | No telemetry; secret redaction and reversible configured identifier masking |
 | Evaluation | Six offline scenarios, HTTP incident laboratory, and verified synthetic recovery |
@@ -102,6 +105,23 @@ Configuration paths resolve relative to the TOML file. The default database is `
 | Delivery and fleet | Explicit report delivery; local coding-agent process discovery |
 
 The offline engine recognizes explicit memory, dependency-connectivity, throttling, and disk-capacity symptoms. These are low-confidence hypotheses, not verified root causes. Runbooks, operator notes, and action proposals are excluded from symptom matching. A model can correlate additional evidence, but valid citations establish only that a referenced item exists—not that a claim is correct.
+
+## Review evidence and hand off an incident
+
+In an active REPL session, use `/review`, `/changes`, and `/handoff`. The dashboard
+offers a **Review** tab and a **Handoff** download. The same features are available
+from the CLI:
+
+```sh
+ai-sre --config examples/demo.toml review INCIDENT_UUID
+ai-sre --config examples/demo.toml changes INCIDENT_UUID --json
+ai-sre --config examples/demo.toml handoff INCIDENT_UUID > handoff.md
+```
+
+Use an ID from `sessions` and the configuration that owns the incident. These
+checks run without a model. Repeated evidence is not independent corroboration,
+and an observation missing from a later run does not prove recovery. See
+[evidence review, comparisons, and handoffs](docs/investigation-review.md).
 
 ## Configure a model
 

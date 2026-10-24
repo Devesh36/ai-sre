@@ -1,0 +1,42 @@
+const {chromium} = require('playwright');
+const assert = require('node:assert/strict');
+const fs = require('node:fs/promises');
+(async () => {
+  const browser = await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE_PATH || '/usr/bin/chromium',headless:true,args:['--no-sandbox']});
+  try {
+    const page = await browser.newPage({viewport:{width:1440,height:1100}});
+    page.setDefaultTimeout(15000);
+    const errors=[]; page.on('pageerror', e=>errors.push(e.message));
+    const title = `Review example: checkout evidence ${Date.now()}`;
+    await page.goto(process.env.SRE_TEST_URL || 'http://127.0.0.1:8080');
+    await page.getByRole('button',{name:'New investigation'}).click();
+    await page.locator('[name=service]').fill('checkout-api');
+    await page.locator('[name=title]').fill(title);
+    await page.getByRole('button',{name:'Create & investigate'}).click();
+    await page.locator('.detail-header h2').filter({hasText:title}).waitFor();
+    await page.getByRole('heading',{name:'Memory pressure detected',exact:false}).waitFor();
+    await page.locator('#followup-input').fill('Recheck the same evidence before deciding on a rollback');
+    await page.locator('#followup-form button').click();
+    await page.getByRole('button',{name:'Evidence (8)',exact:true}).waitFor();
+    await page.getByRole('button',{name:'Review',exact:true}).click();
+    await page.getByRole('heading',{name:'Same retained payload',exact:true}).waitFor();
+    assert.deepEqual(await page.locator('.review-stats strong').allTextContents(), ['6','3','3','2']);
+    assert.equal(await page.locator('.review-change .citation').count(),6);
+    await page.getByText('Repeated payloads support this finding;', {exact:false}).first().waitFor();
+    await page.screenshot({path:'.ai-sre/review-desktop.png',fullPage:true});
+    await page.locator('[data-evidence="E5"]').first().click();
+    assert.equal(await page.locator('#evidence-E5').getAttribute('open'),'');
+    await page.getByRole('button',{name:'Review',exact:true}).click();
+    await page.getByRole('heading',{name:'Same retained payload',exact:true}).waitFor();
+    const [download] = await Promise.all([page.waitForEvent('download'),page.locator('#handoff-button').click()]);
+    const markdown=await fs.readFile(await download.path(),'utf8');
+    assert.ok(markdown.startsWith('# Incident handoff:'));
+    assert.ok(markdown.includes('Evidence index') && markdown.includes('E5') && markdown.includes('Repeated payloads'));
+    assert.ok(download.suggestedFilename().endsWith('.md'));
+    await page.setViewportSize({width:390,height:844});
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth > innerWidth),false);
+    await page.screenshot({path:'.ai-sre/review-mobile.png',fullPage:true});
+    assert.deepEqual(errors,[]);
+    console.log('PASS: two real runs, duplicate review, evidence comparison, citation navigation, Markdown download, and mobile review layout');
+  } finally { await browser.close(); }
+})().catch(e=>{console.error(e);process.exit(1)});

@@ -6,6 +6,20 @@ use uuid::Uuid;
 
 #[derive(Subcommand)]
 pub enum Commands {
+    /// Audit cited evidence for repeated payloads, collection age, and missing support.
+    Review {
+        id: Uuid,
+        #[arg(long)]
+        json: bool,
+    },
+    /// Compare retained observations from the last two runs; absence is not recovery.
+    Changes {
+        id: Uuid,
+        #[arg(long)]
+        json: bool,
+    },
+    /// Print a Markdown handoff with findings, evidence references, and outstanding checks.
+    Handoff { id: Uuid },
     /// Inspect the complete logical module inventory and partial implementation links.
     Architecture {
         #[arg(long)]
@@ -152,6 +166,35 @@ impl Commands {
     pub async fn run(self, config: &Config, store: &Store) -> Result<()> {
         let tools = Toolbox::new(config.clone())?;
         let output: Value = match self {
+            Self::Review { id, json } | Self::Changes { id, json } => {
+                let incident = store
+                    .get(id)?
+                    .ok_or_else(|| anyhow::anyhow!("incident not found"))?;
+                let review = crate::domain::review::analyze(&incident, chrono::Utc::now());
+                let changes_only = matches!(self, Self::Changes { .. });
+                if json {
+                    if changes_only {
+                        serde_json::to_value(&review.changes)?
+                    } else {
+                        serde_json::to_value(&review)?
+                    }
+                } else {
+                    if changes_only {
+                        crate::surfaces::shared::review::print_changes(&review.changes);
+                    } else {
+                        crate::surfaces::shared::review::print_review(&review);
+                    }
+                    return Ok(());
+                }
+            }
+            Self::Handoff { id } => {
+                let incident = store
+                    .get(id)?
+                    .ok_or_else(|| anyhow::anyhow!("incident not found"))?;
+                let review = crate::domain::review::analyze(&incident, chrono::Utc::now());
+                print!("{}", crate::domain::review::handoff(&incident, &review));
+                return Ok(());
+            }
             Self::Architecture { prefix, pending } => {
                 let inventory = crate::bootstrap::architecture::Inventory::bundled()?;
                 if prefix.is_none() && !pending {

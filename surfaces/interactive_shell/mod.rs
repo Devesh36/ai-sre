@@ -116,10 +116,18 @@ pub async fn run(config: &Config, store: &Store, initial_service: &str) -> Resul
                     for i in items {ui.text(&format!("{} · {:?} · {}\n{}",i.id,i.status,i.service,i.title));}
                     ui.note("Continue with /resume FULL_ID");
                 },
-                "/status"|"/cost"|"/trace"|"/evidence"|"/compact"=>{
+                "/status"|"/cost"|"/trace"|"/evidence"|"/compact"|"/review"|"/changes"|"/handoff"=>{
                     let Some(id)=active else {ui.note("No active investigation. Ask a question or use /resume ID.");return Ok(());};
                     let i=store.get(id)?.ok_or_else(||anyhow::anyhow!("Investigation no longer exists"))?;
                     match line {
+                        "/review"|"/changes"|"/handoff"=>{
+                            let review=crate::domain::review::analyze(&i,chrono::Utc::now());
+                            match line {
+                                "/review"=>crate::surfaces::shared::review::print_review(&review),
+                                "/changes"=>crate::surfaces::shared::review::print_changes(&review.changes),
+                                _=>ui.text(&crate::domain::review::handoff(&i,&review)),
+                            }
+                        },
                         "/status"=>{ui.heading("Current investigation");ui.text(&format!("{}\n{} · {:?} · {}",i.title,i.id,i.status,i.service));},
                         "/cost"=>{ui.heading("Usage");ui.text(&format!("{} model calls · {} tool calls\n{} input tokens · {} output tokens",i.usage.model_calls,i.usage.tool_calls,i.usage.input_tokens,i.usage.output_tokens));ui.text(&i.usage.estimated_cost_usd.map(|cost|format!("Estimated cost: ${cost:.4}")).unwrap_or_else(||"Cost unavailable; configure model token prices to estimate it.".into()));},
                         "/trace"=>{ui.heading("Execution trace");for t in &i.trace{ui.text(&format!("{:>6} ms  {} · {}",t.elapsed_ms,t.phase.replace('_'," "),t.operation));}},

@@ -49,6 +49,9 @@ The latest 200 questions for the selected service populate editor history. Only 
 | `/cost` | Tool/model calls, tokens, and estimated cost when configured |
 | `/evidence` | Evidence IDs, sources, timestamps, and summaries |
 | `/trace` | Recorded execution phases and elapsed times |
+| `/review` | Audit repeated payloads, collection age, missing citations, and latest-run support |
+| `/changes` | Compare observations from the last two runs; missing observations do not prove recovery |
+| `/handoff` | Print a Markdown handoff preview; use `ai-sre handoff ID > handoff.md` to export |
 | `/compact` | Compact future model context while retaining evidence |
 | `/integrations` | Discover and list available configured tools |
 | `/history` | Show the latest 20 questions for this service |

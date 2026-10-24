@@ -15,6 +15,12 @@ use std::{
 };
 
 pub const COMMANDS: &[(&str, &str)] = &[
+    (
+        "/review",
+        "Review evidence freshness, repetition, and finding support",
+    ),
+    ("/changes", "Compare evidence from the last two runs"),
+    ("/handoff", "Print a Markdown handoff for the next operator"),
     ("/help", "Show commands and keyboard shortcuts"),
     ("/service ", "Switch service and start a new conversation"),
     ("/new", "Start a fresh conversation for this service"),

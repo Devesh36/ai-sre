@@ -4,3 +4,7 @@
 
 ::selection{background:var(--accent);color:#211a13}
 button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent)}
+
+.review-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 24px}.review-stats>div{padding:12px;border:1px solid var(--border);border-radius:7px;color:var(--muted);font-size:11px}.review-stats strong{display:block;color:var(--accent);font-size:24px}.review-change{margin:18px 0}.review-change p{margin:8px 0}.review-limits{margin-top:24px;padding:12px;border:1px solid var(--border);border-radius:6px}.review-limits summary{cursor:pointer}.review-limits p{margin-top:12px}
+
+.review-callout{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:18px;color:var(--muted);font-size:11px}.review-callout button{color:var(--accent);font-size:11px}

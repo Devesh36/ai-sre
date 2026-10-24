@@ -19,6 +19,8 @@ pub fn routes() -> Router<App> {
         .route("/api/overview", get(overview))
         .route("/api/incidents/{id}/cancel", post(cancel))
         .route("/api/incidents/{id}/compact", post(compact))
+        .route("/api/incidents/{id}/review", get(review))
+        .route("/api/incidents/{id}/handoff", get(handoff))
         .route("/api/incidents/{id}/events", get(events))
         .route("/api/incidents/{id}/deliver/{destination}", post(deliver))
         .route(
@@ -38,6 +40,31 @@ pub fn routes() -> Router<App> {
             "/api/fleet",
             get(|| async { Json(crate::operations::scan_fleet()) }),
         )
+}
+
+async fn review(
+    State(app): State<App>,
+    Path(id): Path<Uuid>,
+) -> ApiResult<Json<crate::domain::review::Review>> {
+    let incident = app
+        .store
+        .get(id)?
+        .ok_or_else(|| ApiError(StatusCode::NOT_FOUND, "incident not found".into()))?;
+    Ok(Json(crate::domain::review::analyze(
+        &incident,
+        chrono::Utc::now(),
+    )))
+}
+
+async fn handoff(State(app): State<App>, Path(id): Path<Uuid>) -> ApiResult<Json<Value>> {
+    let incident = app
+        .store
+        .get(id)?
+        .ok_or_else(|| ApiError(StatusCode::NOT_FOUND, "incident not found".into()))?;
+    let review = crate::domain::review::analyze(&incident, chrono::Utc::now());
+    Ok(Json(
+        json!({"markdown":crate::domain::review::handoff(&incident, &review)}),
+    ))
 }
 
 #[derive(Deserialize)]
