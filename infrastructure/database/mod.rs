@@ -1,3 +1,4 @@
+mod outcomes;
 use crate::domain::{Incident, Status};
 use anyhow::{Context, Result, bail};
 use rusqlite::{Connection, OptionalExtension, params};
@@ -22,6 +23,10 @@ impl Store {
                 id TEXT PRIMARY KEY, dedup_key TEXT UNIQUE, updated_at TEXT NOT NULL, document TEXT NOT NULL
             ); CREATE INDEX IF NOT EXISTS incidents_updated ON incidents(updated_at DESC);
             CREATE INDEX IF NOT EXISTS incidents_service_created ON incidents(json_extract(document,'$.service'),json_extract(document,'$.created_at') DESC);
+            CREATE TABLE IF NOT EXISTS outcomes(id TEXT PRIMARY KEY,incident_id TEXT NOT NULL,supersedes TEXT UNIQUE,document TEXT NOT NULL);
+            CREATE INDEX IF NOT EXISTS outcomes_incident ON outcomes(incident_id);
+            CREATE TRIGGER IF NOT EXISTS outcomes_no_update BEFORE UPDATE ON outcomes BEGIN SELECT RAISE(ABORT,'outcome history is append-only'); END;
+            CREATE TRIGGER IF NOT EXISTS outcomes_no_delete BEFORE DELETE ON outcomes BEGIN SELECT RAISE(ABORT,'outcome history is append-only'); END;
             CREATE TABLE IF NOT EXISTS records(kind TEXT NOT NULL,id TEXT NOT NULL,document TEXT NOT NULL,PRIMARY KEY(kind,id));
             CREATE TABLE IF NOT EXISTS schedules(id TEXT PRIMARY KEY,enabled INTEGER NOT NULL,next_at TEXT NOT NULL,document TEXT NOT NULL);")?;
         Ok(Self(Arc::new(Mutex::new(conn))))
@@ -112,11 +117,23 @@ impl Store {
                 .map(|s| serde_json::from_str(&s).context("decode recall candidate"))
                 .collect::<Result<Vec<Incident>>>()?
         };
-        Ok(crate::domain::recall::analyze(
-            incident,
-            &candidates,
-            chrono::Utc::now(),
-        ))
+        let mut recall = crate::domain::recall::analyze(incident, &candidates, chrono::Utc::now());
+        for case in &mut recall.cases {
+            let history = self.outcomes(case.incident_id)?;
+            let superseded: std::collections::BTreeSet<_> = history
+                .records
+                .iter()
+                .filter_map(|o| o.supersedes)
+                .collect();
+            let active: Vec<_> = history
+                .records
+                .into_iter()
+                .filter(|o| o.run_id == case.matched_run && !superseded.contains(&o.id))
+                .collect();
+            case.operator_outcome_count = active.len();
+            case.operator_outcomes = active.into_iter().take(5).collect();
+        }
+        Ok(recall)
     }
 
     /// A SQLite write transaction serializes claims across threads and processes.

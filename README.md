@@ -94,6 +94,7 @@ Configuration paths resolve relative to the TOML file. The default database is `
 | Persistence | SQLite WAL, atomic claims, per-tool checkpoints, cancellation, resumable activity SSE |
 | Evidence changes | Compare the last two runs: added, not repeated, and identical retained observations, with clickable citations |
 | Investigation review | Flag repeated support, missing or historical-only citations, and aged collection timestamps without inflating confidence |
+| Operator outcomes | Explicit supported/refuted/inconclusive assessments with actor labels, run-specific evidence fingerprints, immutable corrections, and historical isolation |
 | Incident recall | Find earlier same-service cases, explain exact payload and symptom matches, and inspect the supporting historical run |
 | On-call handoff | Export Markdown with findings, evidence references, run history, unknowns, and checks for the next operator |
 | Execution controls | Per-run budgets, bounded retries/repair, duplicate suppression, source circuits, context projection, durable traces |
@@ -106,6 +107,18 @@ Configuration paths resolve relative to the TOML file. The default database is `
 | Delivery and fleet | Explicit report delivery; local coding-agent process discovery |
 
 The offline engine recognizes explicit memory, dependency-connectivity, throttling, and disk-capacity symptoms. These are low-confidence hypotheses, not verified root causes. Runbooks, operator notes, and action proposals are excluded from symptom matching. A model can correlate additional evidence, but valid citations establish only that a referenced item exists—not that a claim is correct.
+
+## Record what an operator verified
+
+Use `ai-sre outcome record` to record an explicit claim, verdict, rationale, actor
+label, and current-run evidence references. Inspect the history with
+`ai-sre outcome list INCIDENT_ID`, `/outcomes`, or the dashboard's **Outcomes** tab.
+Corrections retain the original record. Historical assessments appear beside
+recalled cases without changing the current report or its confidence.
+
+These are human-recorded assessments, not independent verification. See
+[operator outcomes](docs/operator-outcomes.md) for commands, provenance, retry
+behavior, and the distinction between a recorded assessment and a proven fix.
 
 ## Reuse past investigation evidence
 
@@ -185,7 +198,7 @@ npx playwright install --with-deps chromium
 CHROMIUM_EXECUTABLE_PATH="$(node -p "require('playwright').chromium.executablePath()")" npm run test:browser
 ```
 
-The runner creates and removes an isolated synthetic database, starts its own server on port 18080 (override with `AI_SRE_BROWSER_PORT`), and checks investigation creation, follow-ups, citations, reviews, handoff downloads, work, memory, schedules, incident recall, and mobile layout. Deterministic delayed responses also check stale-request protection, incident selection, retained drafts, cursor position, and expanded evidence. Screenshots go into the ignored `.ai-sre` directory. Node, Playwright, and Chromium are development dependencies only; the product runs as a Rust binary.
+The runner creates and removes an isolated synthetic database, starts its own server on port 18080 (override with `AI_SRE_BROWSER_PORT`), and checks investigation creation, follow-ups, citations, reviews, handoff downloads, work, memory, schedules, incident recall, operator outcome history, and mobile layout. Deterministic delayed responses also check stale-request protection, incident selection, retained drafts, cursor position, and expanded evidence. Screenshots go into the ignored `.ai-sre` directory. Node, Playwright, and Chromium are development dependencies only; the product runs as a Rust binary.
 
 Individual `scripts/*smoke.cjs` checks accept `SRE_TEST_URL` and `CHROMIUM_EXECUTABLE_PATH`. The operations check additionally exercises explicit action review and recovery against a configured local lab when `SRE_ACTION_PROPOSAL_ID` is set. See [operational workflows](docs/operations.md).
 

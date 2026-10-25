@@ -31,6 +31,8 @@ pub struct Case {
     pub status: Status,
     pub updated_at: DateTime<Utc>,
     pub matched_run: Uuid,
+    pub operator_outcomes: Vec<super::outcome::Outcome>,
+    pub operator_outcome_count: usize,
     pub exact_matches: Vec<Match>,
     pub shared_symptoms: Vec<Match>,
     pub current_only_symptoms: Vec<String>,
@@ -100,6 +102,7 @@ pub fn analyze(current: &Incident, candidates: &[Incident], now: DateTime<Utc>) 
         current_run: current.run_id, searched: 0, search_limit: SEARCH_LIMIT, search_truncated: false,
         checks: vec![],
         matched_cases: 0, reason: String::new(), cases: vec![], limitations: vec![
+            super::outcome::NOTICE.into(),
             "Historical matches are investigation leads, not current evidence or proof of the same root cause. A resolved status does not verify a particular fix.".into(),
             "Exact matches compare source, summary, and retained data, excluding collection time and evidence ID. Repeated payloads count once; source labels do not establish independence.".into(),
             "Symptom matches use four explicit offline keyword rules, not semantic similarity or a probability. Review negation, time windows, query coverage, and conflicting observations.".into(),
@@ -185,6 +188,8 @@ pub fn analyze(current: &Incident, candidates: &[Incident], now: DateTime<Utc>) 
                 status: past.status.clone(),
                 updated_at: past.updated_at,
                 matched_run: run.id,
+                operator_outcomes: vec![],
+                operator_outcome_count: 0,
                 exact_matches,
                 shared_symptoms,
                 current_only_symptoms: current_symptoms

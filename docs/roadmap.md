@@ -20,9 +20,10 @@ Complete each with behavioral tests and deployment evidence. A catalog entry, mo
 and observations in local case history. The next increments should make that
 history more trustworthy and measure its practical value:
 
-1. Operator-reviewed outcomes: record which hypotheses were confirmed or rejected,
-   the evidence used, and which intervention was verified. Resolution alone must
-   never be used as a successful-remediation label.
+1. Outcome quality workflows: build on [operator-recorded assessments](operator-outcomes.md)
+   with verified actor identities, structured intervention/recovery criteria, and
+   adjudication of conflicting claims. The shipped append-only history records
+   human judgments; resolution alone is never a successful-remediation label.
 2. Replayable cases: turn reviewed outcomes into versioned evaluation fixtures,
    retaining provenance and counterexamples. Gate retrieval and diagnosis changes
    against these cases before adding them to a release.

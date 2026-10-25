@@ -9,3 +9,5 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var
 
 .review-callout{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:18px;color:var(--muted);font-size:11px}.review-callout button{color:var(--accent);font-size:11px}
 .recall-case details{margin:14px 0;padding:12px;border:1px solid var(--border);border-radius:6px}.recall-case summary{cursor:pointer;color:var(--accent)}.recall-case h4{margin:16px 0 8px}.recall-case p{overflow-wrap:anywhere}
+
+.outcome-card{overflow-wrap:anywhere}.outcome-card details{margin:12px 0}.outcome-card summary{cursor:pointer;color:var(--accent)}

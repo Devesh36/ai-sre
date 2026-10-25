@@ -6,6 +6,11 @@ use uuid::Uuid;
 
 #[derive(Subcommand)]
 pub enum Commands {
+    /// Record or inspect human assessments with run-specific evidence provenance.
+    Outcome {
+        #[command(subcommand)]
+        command: OutcomeCommand,
+    },
     /// Find earlier same-service cases with explicit evidence and symptom matches.
     Recall {
         id: Uuid,
@@ -81,6 +86,36 @@ pub enum Commands {
     Schedule {
         #[command(subcommand)]
         command: ScheduleCommand,
+    },
+}
+
+#[derive(Subcommand)]
+pub enum OutcomeCommand {
+    /// Record an explicit operator claim; this does not resolve or change the report.
+    Record {
+        incident: Uuid,
+        #[arg(long)]
+        id: Option<Uuid>,
+        #[arg(long)]
+        run: Uuid,
+        #[arg(long)]
+        actor: String,
+        #[arg(long)]
+        claim: String,
+        #[arg(long, value_enum)]
+        verdict: crate::domain::outcome::Verdict,
+        #[arg(long)]
+        rationale: String,
+        #[arg(long, required = true, value_delimiter = ',')]
+        evidence: Vec<String>,
+        #[arg(long)]
+        supersedes: Option<Uuid>,
+    },
+    /// List all assessments, including corrected records, newest first.
+    List {
+        incident: Uuid,
+        #[arg(long)]
+        json: bool,
     },
 }
 
@@ -172,6 +207,42 @@ impl Commands {
     pub async fn run(self, config: &Config, store: &Store) -> Result<()> {
         let tools = Toolbox::new(config.clone())?;
         let output: Value = match self {
+            Self::Outcome { command } => match command {
+                OutcomeCommand::Record {
+                    incident,
+                    id,
+                    run,
+                    actor,
+                    claim,
+                    verdict,
+                    rationale,
+                    evidence,
+                    supersedes,
+                } => {
+                    let mut input = crate::domain::outcome::Input {
+                        id: id.unwrap_or_else(Uuid::new_v4),
+                        run_id: run,
+                        actor,
+                        claim,
+                        verdict,
+                        rationale,
+                        evidence_ids: evidence,
+                        supersedes,
+                    };
+                    input.redact(|s| tools.redact(s));
+                    let (outcome, created) = store.record_outcome(incident, input)?;
+                    json!({"created":created,"outcome":outcome})
+                }
+                OutcomeCommand::List { incident, json } => {
+                    let history = store.outcomes(incident)?;
+                    if json {
+                        serde_json::to_value(history)?
+                    } else {
+                        crate::surfaces::shared::review::print_outcomes(&history);
+                        return Ok(());
+                    }
+                }
+            },
             Self::Recall { id, json } => {
                 let incident = store
                     .get(id)?

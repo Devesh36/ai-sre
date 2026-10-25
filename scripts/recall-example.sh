@@ -19,6 +19,12 @@ runbooks = "runbooks"
 CONFIG
 "$binary" --config "$demo_dir/config.toml" ask 'Previous checkout incident: inspect memory and inventory' --service checkout-api --json > "$demo_dir/past.json"
 past_id=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["id"])' "$demo_dir/past.json")
+past_run=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["run_id"])' "$demo_dir/past.json")
+printf 'Recording an explicit synthetic operator assessment; this does not verify a cause or fix.\n'
+"$binary" --config "$demo_dir/config.toml" outcome record "$past_id" --run "$past_run" \
+    --actor demo-operator --verdict supported --claim 'The retained container event reports memory exhaustion' \
+    --rationale 'The synthetic event reports OOMKilled and exit code 137; no recovery or root cause has been verified.' \
+    --evidence E1 > "$demo_dir/outcome.json"
 printf 'Marking the synthetic past case resolved; this does not verify a particular fix.\n'
 "$binary" --config "$demo_dir/config.toml" resolve "$past_id" > "$demo_dir/resolution.txt"
 "$binary" --config "$demo_dir/config.toml" show "$past_id" > "$demo_dir/past.json"

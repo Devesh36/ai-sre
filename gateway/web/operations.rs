@@ -19,6 +19,10 @@ pub fn routes() -> Router<App> {
         .route("/api/overview", get(overview))
         .route("/api/incidents/{id}/cancel", post(cancel))
         .route("/api/incidents/{id}/compact", post(compact))
+        .route(
+            "/api/incidents/{id}/outcomes",
+            get(outcomes).post(record_outcome),
+        )
         .route("/api/incidents/{id}/recall", get(recall))
         .route("/api/incidents/{id}/review", get(review))
         .route("/api/incidents/{id}/handoff", get(handoff))
@@ -41,6 +45,41 @@ pub fn routes() -> Router<App> {
             "/api/fleet",
             get(|| async { Json(crate::operations::scan_fleet()) }),
         )
+}
+
+fn outcome_error(error: anyhow::Error) -> ApiError {
+    use crate::domain::outcome::Error;
+    match error.downcast_ref::<Error>() {
+        Some(Error::NotFound) => ApiError(StatusCode::NOT_FOUND, error.to_string()),
+        Some(Error::Invalid(_)) => ApiError(StatusCode::BAD_REQUEST, error.to_string()),
+        Some(Error::Conflict(_)) => ApiError(StatusCode::CONFLICT, error.to_string()),
+        None => error.into(),
+    }
+}
+
+async fn outcomes(
+    State(app): State<App>,
+    Path(id): Path<Uuid>,
+) -> ApiResult<Json<crate::domain::outcome::History>> {
+    Ok(Json(app.store.outcomes(id).map_err(outcome_error)?))
+}
+
+async fn record_outcome(
+    State(app): State<App>,
+    Path(id): Path<Uuid>,
+    Json(mut input): Json<crate::domain::outcome::Input>,
+) -> ApiResult<(StatusCode, Json<Value>)> {
+    let tools = Toolbox::new(app.config.clone())?;
+    input.redact(|s| tools.redact(s));
+    let (outcome, created) = app.store.record_outcome(id, input).map_err(outcome_error)?;
+    Ok((
+        if created {
+            StatusCode::CREATED
+        } else {
+            StatusCode::OK
+        },
+        Json(json!({"created":created,"outcome":outcome})),
+    ))
 }
 
 async fn recall(

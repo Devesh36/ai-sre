@@ -104,6 +104,15 @@ pub fn print_recall(recall: &crate::domain::recall::Recall) {
             "Past-only symptoms: {}",
             ids(&case.past_only_symptoms)
         ));
+        if case.operator_outcome_count > 0 {
+            ui.note(&format!("Historical operator assessments for the matched run: {} (showing up to 5). Not proof about this incident.",case.operator_outcome_count));
+            for o in &case.operator_outcomes {
+                ui.text(&format!(
+                    "{:?} · {} · {} · assessment {}\n{}",
+                    o.verdict, o.actor, o.claim, o.id, o.rationale
+                ));
+            }
+        }
         ui.note(&format!(
             "Inspect the past case: ai-sre show {}",
             case.incident_id
@@ -111,5 +120,49 @@ pub fn print_recall(recall: &crate::domain::recall::Recall) {
     }
     for limit in &recall.limitations {
         ui.note(limit);
+    }
+}
+
+pub fn print_outcomes(history: &crate::domain::outcome::History) {
+    let ui = Ui::detect();
+    ui.heading("Operator outcomes");
+    ui.note(history.notice);
+    if history.records.is_empty() {
+        ui.text("No operator assessments recorded.");
+    }
+    let superseded: std::collections::BTreeSet<_> = history
+        .records
+        .iter()
+        .filter_map(|o| o.supersedes)
+        .collect();
+    for o in &history.records {
+        ui.heading(&o.claim);
+        ui.text(&format!(
+            "{:?} · {} · {}{}",
+            o.verdict,
+            o.actor,
+            o.recorded_at,
+            if superseded.contains(&o.id) {
+                " · superseded"
+            } else {
+                ""
+            }
+        ));
+        ui.text(&format!(
+            "Assessment {} · incident {} · run {}",
+            o.id, o.incident_id, o.run_id
+        ));
+        ui.text(&o.rationale);
+        for e in &o.evidence {
+            ui.text(&format!(
+                "[{}] {} · collected {} · SHA-256 {}",
+                e.id, e.source, e.observed_at, e.payload_sha256
+            ));
+        }
+        if let Some(id) = o.supersedes {
+            ui.note(&format!(
+                "Corrects assessment {id}; the original is retained."
+            ));
+        }
     }
 }

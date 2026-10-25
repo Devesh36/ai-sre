@@ -116,10 +116,11 @@ pub async fn run(config: &Config, store: &Store, initial_service: &str) -> Resul
                     for i in items {ui.text(&format!("{} · {:?} · {}\n{}",i.id,i.status,i.service,i.title));}
                     ui.note("Continue with /resume FULL_ID");
                 },
-                "/status"|"/cost"|"/trace"|"/evidence"|"/compact"|"/review"|"/changes"|"/handoff"|"/recall"=>{
+                "/status"|"/cost"|"/trace"|"/evidence"|"/compact"|"/review"|"/changes"|"/handoff"|"/recall"|"/outcomes"=>{
                     let Some(id)=active else {ui.note("No active investigation. Ask a question or use /resume ID.");return Ok(());};
                     let i=store.get(id)?.ok_or_else(||anyhow::anyhow!("Investigation no longer exists"))?;
                     match line {
+                        "/outcomes"=>crate::surfaces::shared::review::print_outcomes(&store.outcomes(id)?),
                         "/recall"=>crate::surfaces::shared::review::print_recall(&store.recall(&i)?),
                         "/review"|"/changes"|"/handoff"=>{
                             let review=crate::domain::review::analyze(&i,chrono::Utc::now());

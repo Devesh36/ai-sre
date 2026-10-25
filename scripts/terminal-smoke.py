@@ -116,6 +116,8 @@ def main():
             terminal.expect("REPORT READY")
             terminal.send("/review\r")
             terminal.expect("Checks for the next operator")
+            terminal.send("/outcomes\r")
+            terminal.expect("Operator outcomes")
             terminal.send("/recall\r")
             terminal.expect("Past incident recall")
             terminal.send("/changes\r")

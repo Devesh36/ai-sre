@@ -23,6 +23,10 @@ pub const COMMANDS: &[(&str, &str)] = &[
         "/recall",
         "Find past cases with evidence and symptom matches",
     ),
+    (
+        "/outcomes",
+        "Inspect human assessments and their evidence provenance",
+    ),
     ("/changes", "Compare evidence from the last two runs"),
     ("/handoff", "Print a Markdown handoff for the next operator"),
     ("/help", "Show commands and keyboard shortcuts"),

@@ -49,6 +49,7 @@ The latest 200 questions for the selected service populate editor history. Only 
 | `/cost` | Tool/model calls, tokens, and estimated cost when configured |
 | `/evidence` | Evidence IDs, sources, timestamps, and summaries |
 | `/trace` | Recorded execution phases and elapsed times |
+| `/outcomes` | Inspect human assessments, retained corrections, and evidence provenance; record through `ai-sre outcome record` |
 | `/recall` | Find past cases and inspect the evidence and symptom matches behind their ranking |
 | `/review` | Audit repeated payloads, collection age, missing citations, and latest-run support |
 | `/changes` | Compare observations from the last two runs; missing observations do not prove recovery |

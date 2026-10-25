@@ -23,12 +23,12 @@ bash scripts/recall-example.sh
 ```
 
 The script opens two real offline investigations against copied synthetic fixtures,
-marks the first resolved, and prints the second investigation's recall results.
+records an explicit synthetic operator assessment, marks the first resolved, and prints the second investigation's recall results.
 It retains both cases, JSON exports, and the explanation under a fresh
 `.ai-sre/recall-example.*` directory. Python is used only by this demonstration to
 read JSON IDs. The product itself remains a Rust binary.
 
-Expected match: **three distinct exact payloads and two shared symptom rules**.
+Expected match: **three distinct exact payloads and two shared symptom rules**, plus one explicitly labeled historical operator assessment.
 The memory and dependency-connection observations match; the deployment payload
 also matches exactly. That does not establish a deployment-related root cause.
 The demonstration deliberately reuses its inputs and makes no recovery claim.
@@ -58,6 +58,10 @@ existing four explicit symptom rules: memory pressure, dependency connectivity,
 rate limits, and exhausted storage. Titles and generated report text never drive
 matching. Runbooks, operator context, proposals, truncated payloads, runs with
 failed collection, and incidents at the 128-item evidence cap are excluded.
+
+Recall also displays up to five non-superseded [operator assessments](operator-outcomes.md)
+for the matched historical run, with the total count. These annotations do not
+change ranking and are never treated as evidence about the current incident.
 
 ## Boundaries
 
