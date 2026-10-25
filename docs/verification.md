@@ -7,9 +7,9 @@ below; they do not guarantee an absence of defects.
 | Check | Result |
 | --- | --- |
 | Formatting and Clippy, all targets with warnings denied | Passed |
-| Rust unit and integration tests | 94 passed, zero failures |
+| Rust unit and integration tests | 96 passed, zero failures |
 | Offline symptom evaluation | 6/6 scenarios passed |
-| Offline assessment replay | Seven synthetic cases × two repetitions: 12 passed case executions, zero failures, two unscored cases/judgments; eight replay regression tests passed |
+| Offline assessment replay | Seven synthetic cases × two repetitions: 12 passed case executions, zero failures, two unscored cases/judgments; ten replay regression tests passed |
 | Agent harness | 28 scenarios × 3 repetitions: 84/84 passed |
 | Real pseudo-terminal acceptance | Passed launch, completion, history, editing, search, cancellation, resize, error recovery, exit, and terminal restoration |
 | Documented live example | Passed in a fresh database; transcript and JSON export produced |
@@ -19,6 +19,13 @@ below; they do not guarantee an absence of defects.
 | Operator outcomes | Passed ten Rust tests for immutable provenance, stale-run rejection, idempotency, correction races, bounded history, redaction, CLI/API/REPL access, and historical isolation; browser workflow passed |
 | Incident recall | Passed nine Rust regression tests, CLI/REPL and authenticated API access, two-case example, historical citation navigation, escaped titles, and mobile layout |
 | Dashboard state regressions | Passed delayed responses, selection changes, queued refreshes, incident-specific drafts, cursor position, expanded evidence, and a submission completing after selection changes |
+
+Independent replay review reproduced contradictory run lifecycles and fixture-token
+leakage in failure artifacts. Regression checks now reject six malformed lifecycle
+variants and verify presentation redaction, failure artifact retention, ambient
+credential isolation, and unchanged raw-content fingerprints. Credential-pattern
+redaction cannot identify every sensitive value; assessment chronology remains
+unverified.
 
 Incident recall adds service-scoped, bounded matching with run-specific evidence references.
 The new browser check also preserves expanded match explanations during polling.

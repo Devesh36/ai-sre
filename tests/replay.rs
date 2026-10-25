@@ -191,6 +191,115 @@ fn corrupt_provenance_and_invalid_correction_graphs_are_rejected() {
 }
 
 #[test]
+fn contradictory_latest_run_lifecycles_are_rejected() {
+    for variant in [
+        "reversed",
+        "failed",
+        "cancelled",
+        "late_collection",
+        "duplicate_start",
+        "duplicate_end",
+    ] {
+        let mut d = fixture();
+        let trace = &mut d.cases[0].incident.trace;
+        match variant {
+            "reversed" => trace.reverse(),
+            "failed" | "cancelled" => {
+                let mut event = trace[2].clone();
+                event.phase = format!("run_{variant}");
+                trace.insert(2, event);
+            }
+            "late_collection" => trace.swap(1, 2),
+            "duplicate_start" => trace.insert(1, trace[0].clone()),
+            "duplicate_end" => trace.push(trace[2].clone()),
+            _ => unreachable!(),
+        }
+        assert!(replay::evaluate(&d, 1).is_err(), "{variant}");
+    }
+}
+
+#[test]
+fn failing_artifacts_redact_fixture_credentials_without_reading_environment() {
+    let dir = tempfile::tempdir().unwrap();
+    let mut d = fixture();
+    d.cases.truncate(1);
+    d.name = "token=fixture-name-secret".into();
+    d.cases[0].name = "password=fixture-case-secret".into();
+    let c = &mut d.cases[0];
+    c.assessments[0].verdict = Verdict::Refuted;
+    c.assessments[0].rationale = "Authorization: Bearer fixture-rationale-secret".into();
+    c.assessments[0].actor = "api_key=fixture-actor-secret".into();
+    c.assessments[0].claim = "secret=fixture-claim-secret".into();
+    c.incident.service = "token=fixture-service-secret".into();
+    c.assessments[0].service = c.incident.service.clone();
+    c.incident.evidence[0].id = "token=fixture-id-secret".into();
+    c.incident.trace[1].evidence_ids = vec![c.incident.evidence[0].id.clone()];
+    c.assessments[0].evidence[0].id = c.incident.evidence[0].id.clone();
+    c.incident.evidence[0].source = "token=fixture-source-secret".into();
+    c.assessments[0].evidence[0].source = c.incident.evidence[0].source.clone();
+    c.assessments[0].evidence[0].payload_sha256 = fingerprint(&c.incident.evidence[0]);
+    std::fs::write(
+        dir.path().join("cases.json"),
+        serde_json::to_vec(&d).unwrap(),
+    )
+    .unwrap();
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-sre"))
+        .current_dir(dir.path())
+        .args([
+            "eval",
+            "--suite",
+            "replay",
+            "--dataset",
+            "cases.json",
+            "--output",
+            "failed.json",
+            "--json",
+        ])
+        .env("OPENAI_API_KEY", "ambient-replay-secret-sentinel")
+        .output()
+        .unwrap();
+    assert!(!output.status.success());
+    let bytes = std::fs::read(dir.path().join("failed.json")).unwrap();
+    let stdout: Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(stdout, serde_json::from_slice::<Value>(&bytes).unwrap());
+    assert_eq!(stdout["failed_cases"], 1);
+    let text = String::from_utf8(bytes).unwrap();
+    for secret in [
+        "fixture-name-secret",
+        "fixture-case-secret",
+        "fixture-rationale-secret",
+        "fixture-actor-secret",
+        "fixture-claim-secret",
+        "fixture-service-secret",
+        "fixture-id-secret",
+        "fixture-source-secret",
+        "ambient-replay-secret-sentinel",
+    ] {
+        assert!(!text.contains(secret), "{secret}");
+        assert!(!String::from_utf8_lossy(&output.stderr).contains(secret));
+    }
+    assert!(text.contains("[REDACTED]"));
+    let first = replay::evaluate(&d, 2).unwrap();
+    let mut changed = d.clone();
+    changed.cases[0].assessments[0].rationale = "Authorization: Bearer another-secret".into();
+    let second = replay::evaluate(&changed, 2).unwrap();
+    assert_ne!(first.dataset_sha256, second.dataset_sha256);
+    assert_ne!(
+        first.cases[0].expected_sha256,
+        second.cases[0].expected_sha256
+    );
+    assert_eq!(first.cases[0].input_sha256, second.cases[0].input_sha256);
+    assert_eq!(
+        first.cases[0].observed_sha256,
+        second.cases[0].observed_sha256
+    );
+    assert_eq!(
+        serde_json::to_vec(&first).unwrap(),
+        serde_json::to_vec(&replay::evaluate(&d, 2).unwrap()).unwrap()
+    );
+}
+
+#[test]
 fn semantic_json_fingerprints_ignore_object_key_order_and_track_actual_input_changes() {
     let d = fixture();
     let compact = serde_json::to_vec(&value(&d)).unwrap();

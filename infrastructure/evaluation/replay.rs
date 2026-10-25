@@ -20,6 +20,7 @@ use uuid::Uuid;
 
 pub const MAX_BYTES: usize = 2 * 1024 * 1024;
 pub const SCOPE: &str = "Offline symptom-detector replay against declared fixture expectations. Expected operator judgments are separate from observed output; inconclusive judgments are unscored. Matching a label does not prove a cause, fix, or recovery. No model, connector, database, or network is used. Fingerprints identify content, not authentic authorship.";
+pub const PRESENTATION: &str = "Presentation strings use credential-pattern redaction. Fingerprints and scoring cover original decoded content, before redaction. Unrecognized sensitive text may remain; prepare fixtures before sharing. No environment secrets are read.";
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -105,6 +106,21 @@ pub struct Evaluation {
     pub unscored_judgments: usize,
     pub cases: Vec<CaseResult>,
     pub scope: &'static str,
+    pub presentation: &'static str,
+}
+
+fn presentation<T: Serialize + serde::de::DeserializeOwned>(value: &T) -> Result<T> {
+    fn redact(value: &mut Value) {
+        match value {
+            Value::String(s) => *s = crate::core::tool::registry::redact(s),
+            Value::Array(a) => a.iter_mut().for_each(redact),
+            Value::Object(o) => o.values_mut().for_each(redact),
+            _ => {}
+        }
+    }
+    let mut value = serde_json::to_value(value)?;
+    redact(&mut value);
+    Ok(serde_json::from_value(value)?)
 }
 
 fn digest(value: &impl Serialize) -> Result<String> {
@@ -158,6 +174,30 @@ fn inputs(case: &Case) -> Result<Vec<Evidence>> {
         "case requires 1–4 explicit finding expectations"
     );
     let i = &case.incident;
+    // The review summary intentionally tolerates partial histories. Replay needs a
+    // complete, ordered lifecycle rather than only the final folded outcome.
+    let mut started = false;
+    let mut completed = false;
+    for trace in i.trace.iter().filter(|t| t.run_id == i.run_id) {
+        ensure!(!completed, "latest run has trace entries after completion");
+        match trace.phase.as_str() {
+            "run_started" => {
+                ensure!(!started, "latest run has multiple starts");
+                started = true;
+            }
+            "run_failed" | "run_cancelled" => {
+                anyhow::bail!("latest run contains a failed or cancelled terminal event");
+            }
+            phase => {
+                ensure!(started, "latest run has trace entries before its start");
+                completed = phase == "run_completed";
+            }
+        }
+    }
+    ensure!(
+        started && completed,
+        "latest run requires an ordered start and completion"
+    );
     ensure!(
         !i.id.is_nil()
             && !i.service.trim().is_empty()
@@ -344,10 +384,10 @@ pub fn evaluate(dataset: &Dataset, repetitions: usize) -> Result<Evaluation> {
                     finding: expected.finding.clone(),
                     assessment_id: o.id,
                     expected_verdict: o.verdict,
-                    expected_evidence_ids: ids,
-                    observed_evidence_ids: found
-                        .map(|f| f.evidence_ids.clone())
-                        .unwrap_or_default(),
+                    expected_evidence_ids: presentation(&ids)?,
+                    observed_evidence_ids: presentation(
+                        &found.map(|f| f.evidence_ids.clone()).unwrap_or_default(),
+                    )?,
                     state,
                     reason: reason.into(),
                 });
@@ -368,25 +408,27 @@ pub fn evaluate(dataset: &Dataset, repetitions: usize) -> Result<Evaluation> {
                 State::Unscored
             };
             cases.push(CaseResult {
-                name: case.name.clone(),
+                name: crate::core::tool::registry::redact(&case.name),
                 repetition,
                 input_sha256: digest(evidence)?,
                 expected_sha256: digest(
                     &json!({"assessments":case.assessments,"expectations":case.expected}),
                 )?,
-                evidence: evidence
-                    .iter()
-                    .map(|e| outcome::Reference {
-                        id: e.id.clone(),
-                        source: e.source.clone(),
-                        observed_at: e.observed_at,
-                        payload_sha256: review::fingerprint(e),
-                    })
-                    .collect(),
+                evidence: presentation(
+                    &evidence
+                        .iter()
+                        .map(|e| outcome::Reference {
+                            id: e.id.clone(),
+                            source: e.source.clone(),
+                            observed_at: e.observed_at,
+                            payload_sha256: review::fingerprint(e),
+                        })
+                        .collect::<Vec<_>>(),
+                )?,
                 expected: case.expected.clone(),
-                operator_assessments: case.assessments.clone(),
+                operator_assessments: presentation(&case.assessments)?,
                 observed_sha256: digest(&observed)?,
-                observed,
+                observed: presentation(&observed)?,
                 checks,
                 unexpected_findings,
                 state,
@@ -404,7 +446,7 @@ pub fn evaluate(dataset: &Dataset, repetitions: usize) -> Result<Evaluation> {
     Ok(Evaluation {
         schema_version: 1,
         suite: "offline-replay-v1",
-        dataset_name: dataset.name.clone(),
+        dataset_name: crate::core::tool::registry::redact(&dataset.name),
         origin: dataset.origin,
         dataset_sha256: digest(dataset)?,
         implementation_sha256: env!("AI_SRE_IMPLEMENTATION_SHA256"),
@@ -417,5 +459,6 @@ pub fn evaluate(dataset: &Dataset, repetitions: usize) -> Result<Evaluation> {
         unscored_judgments,
         cases,
         scope: SCOPE,
+        presentation: PRESENTATION,
     })
 }

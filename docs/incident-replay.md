@@ -64,7 +64,9 @@ eligible, cited observations must belong to that run, and every stored evidence
 fingerprint, source label, and collection timestamp must match the snapshot.
 Assessment incident/service/run identifiers and schema version must match too.
 Missing correction parents, cycles, multiple successors, duplicate IDs, and
-expectations pointing to superseded records are rejected. Fingerprints detect
+expectations pointing to superseded records are rejected. The latest run must have
+one start followed by collection and one final completion; failed/cancelled
+terminal events, duplicate starts/completions, and entries after completion are rejected. Fingerprints detect
 inconsistent retained content; they do not authenticate an actor or prevent an
 author from changing both a payload and its declared fingerprint.
 
@@ -129,9 +131,19 @@ fields are capped at 4096 bytes each and data at 16 KiB per item. Trace count is
 capped at 4096. Truncated run input is rejected; context observations can be
 included but the offline detector excludes them from findings.
 
-Artifacts retain operator text and observed report content from the supplied
-fixtures. Replay does not redact or upload those files; editing content would
-change its fingerprints. Use explicitly prepared synthetic/local fixtures.
+Artifacts and JSON output redact recognized credential patterns (bearer tokens,
+password/token/API-key assignments, and known token formats) in presentation
+strings, including operator text, source labels, names, and citation IDs. The
+`presentation` field describes this projection. Scoring and all fingerprints still
+cover the original decoded content, before redaction; hashes cannot necessarily
+be recomputed from the redacted artifact alone. The original fixture is unchanged.
+Redaction may collapse distinct displayed strings; use original IDs locally to
+resolve ambiguity. This does not detect every secret or personal detail: prepare
+fixtures before sharing. Replay never reads environment credentials or uploads
+files.
+
+Assessment timestamps and actor names remain self-reported metadata; replay does
+not authenticate their chronology or authorship.
 
 The evaluator does not replay a model, vendor transport, remediation, recall
 ranking, full multi-run agent session, or semantic causal reasoning. The existing

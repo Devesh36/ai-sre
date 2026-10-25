@@ -192,6 +192,7 @@ async fn main() -> Result<()> {
                         report.unscored_judgments
                     ));
                     ui.note(report.scope);
+                    ui.note(report.presentation);
                 }
                 ensure!(
                     report.passed,
