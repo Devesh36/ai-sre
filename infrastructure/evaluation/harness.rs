@@ -481,18 +481,7 @@ pub async fn harness(repetitions: usize) -> Result<Evaluation> {
 
 impl Evaluation {
     pub fn write(&self, path: &Path) -> Result<()> {
-        if let Some(parent) = path.parent().filter(|p| !p.as_os_str().is_empty()) {
-            std::fs::create_dir_all(parent)?;
-        }
-        let mut file = tempfile::NamedTempFile::new_in(
-            path.parent()
-                .filter(|p| !p.as_os_str().is_empty())
-                .unwrap_or(Path::new(".")),
-        )?;
-        serde_json::to_writer_pretty(&mut file, self)?;
-        file.as_file().sync_all()?;
-        file.persist(path)?;
-        Ok(())
+        super::artifact::write_json(self, path)
     }
     /// Baselines must describe the same scenarios; changing workload cannot hide regressions.
     pub fn compare(&self, baseline: &Self) -> Result<Vec<String>> {

@@ -63,6 +63,15 @@ CI runs the Rust tests and three conformance repetitions and uploads the JSON ar
 
 `cargo test --locked --test mcp_stdio` runs separate transport conformance checks against real local subprocesses, including malformed/flooding peers and cancellation with direct-child reaping. These checks run in CI through `cargo test`; they are not included in the 28-scenario evaluation artifact. The synthetic peer requires Python 3 for development tests only. Runtime MCP framing and lifecycle management are Rust.
 
+## Offline assessment replay
+
+`eval --suite replay --dataset examples/replay-cases.json` extends the same
+command with a separate offline symptom-detector evaluation. It reuses
+`agent::offline_report`, validates assessment/evidence provenance, and emits
+expected judgments and observed reports separately. It shares the atomic artifact
+writer with this harness, but does not dispatch tools or scripted model servers.
+See [incident replay](incident-replay.md) for the exact scope and scoring rules.
+
 ## Measuring quality beyond conformance
 
 No shared head-to-head production benchmark has been run. More tests or a different implementation language alone do not establish superiority.

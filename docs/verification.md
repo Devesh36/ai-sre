@@ -7,8 +7,9 @@ below; they do not guarantee an absence of defects.
 | Check | Result |
 | --- | --- |
 | Formatting and Clippy, all targets with warnings denied | Passed |
-| Rust unit and integration tests | 86 passed, zero failures |
+| Rust unit and integration tests | 94 passed, zero failures |
 | Offline symptom evaluation | 6/6 scenarios passed |
+| Offline assessment replay | Seven synthetic cases × two repetitions: 12 passed case executions, zero failures, two unscored cases/judgments; eight replay regression tests passed |
 | Agent harness | 28 scenarios × 3 repetitions: 84/84 passed |
 | Real pseudo-terminal acceptance | Passed launch, completion, history, editing, search, cancellation, resize, error recovery, exit, and terminal restoration |
 | Documented live example | Passed in a fresh database; transcript and JSON export produced |
@@ -31,7 +32,7 @@ the focused input and expanded evidence. Drafts do not survive a page reload.
 Run the commands in [README validation](../README.md#validate) to reproduce these
 checks. The browser runner starts a temporary local workspace and removes its
 database on exit. CI is configured to run all six browser suites and retain their screenshots,
-as well as the existing harness report. Hosted CI status was not retrieved for
+as well as the harness and replay reports. Hosted CI status was not retrieved for
 this increment; the results above are from local checks.
 
 Model protocols, connectors, MCP, and action approval/execution are covered by

@@ -1,0 +1,745 @@
+{
+  "schema_version": 1,
+  "name": "synthetic-offline-detector-replay",
+  "origin": "synthetic",
+  "cases": [
+    {
+      "name": "memory-signal",
+      "incident": {
+        "id": "3e9237dd-f4f8-5c04-bfea-da678920763b",
+        "title": "memory-signal",
+        "service": "synthetic-checkout",
+        "status": "triaged",
+        "created_at": "2026-10-25T00:00:00Z",
+        "updated_at": "2026-10-25T00:00:00Z",
+        "evidence": [
+          {
+            "id": "E1",
+            "source": "synthetic/logs",
+            "observed_at": "2026-10-25T00:00:00Z",
+            "summary": "Recorded synthetic observation",
+            "data": {
+              "fixture": true,
+              "message": "OOMKilled exit=137"
+            }
+          }
+        ],
+        "report": null,
+        "events": [],
+        "usage": {
+          "model_calls": 0,
+          "tool_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "estimated_cost_usd": null
+        },
+        "run_id": "a073e9be-7a68-5a13-bdc3-5af36db95c14",
+        "cancel_requested": false,
+        "schedule_id": null,
+        "context_summary": null,
+        "trace": [
+          {
+            "run_id": "a073e9be-7a68-5a13-bdc3-5af36db95c14",
+            "phase": "run_started",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          },
+          {
+            "run_id": "a073e9be-7a68-5a13-bdc3-5af36db95c14",
+            "phase": "tool_completed",
+            "operation": "local_fixture",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "run_id": "a073e9be-7a68-5a13-bdc3-5af36db95c14",
+            "phase": "run_completed",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          }
+        ]
+      },
+      "assessments": [
+        {
+          "schema_version": 1,
+          "id": "a6c68918-a054-534c-85b4-6aa2a4c3914f",
+          "incident_id": "3e9237dd-f4f8-5c04-bfea-da678920763b",
+          "service": "synthetic-checkout",
+          "run_id": "a073e9be-7a68-5a13-bdc3-5af36db95c14",
+          "incident_updated_at": "2026-10-25T00:00:00Z",
+          "recorded_at": "2026-10-25T00:00:00Z",
+          "actor": "synthetic-fixture-author",
+          "claim": "Declared expectation about Memory pressure detected",
+          "verdict": "supported",
+          "rationale": "Authored synthetic expectation for detector testing; not a real operator review or proof of recovery.",
+          "evidence": [
+            {
+              "id": "E1",
+              "source": "synthetic/logs",
+              "observed_at": "2026-10-25T00:00:00Z",
+              "payload_sha256": "aaab685f1d69b5ae2ecda7f98f181b350df0e85754d6c1c2004d4506131cc672"
+            }
+          ],
+          "supersedes": null
+        }
+      ],
+      "expected": [
+        {
+          "finding": "Memory pressure detected",
+          "assessment_id": "a6c68918-a054-534c-85b4-6aa2a4c3914f"
+        }
+      ]
+    },
+    {
+      "name": "dependency-signal",
+      "incident": {
+        "id": "e0b94359-65f3-5f5c-a98d-23a9886271a5",
+        "title": "dependency-signal",
+        "service": "synthetic-checkout",
+        "status": "triaged",
+        "created_at": "2026-10-25T00:00:00Z",
+        "updated_at": "2026-10-25T00:00:00Z",
+        "evidence": [
+          {
+            "id": "E1",
+            "source": "synthetic/logs",
+            "observed_at": "2026-10-25T00:00:00Z",
+            "summary": "Recorded synthetic observation",
+            "data": {
+              "fixture": true,
+              "message": "connection refused to inventory"
+            }
+          }
+        ],
+        "report": null,
+        "events": [],
+        "usage": {
+          "model_calls": 0,
+          "tool_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "estimated_cost_usd": null
+        },
+        "run_id": "f81a3f1e-fb0f-5c29-813a-fe8d117b12f8",
+        "cancel_requested": false,
+        "schedule_id": null,
+        "context_summary": null,
+        "trace": [
+          {
+            "run_id": "f81a3f1e-fb0f-5c29-813a-fe8d117b12f8",
+            "phase": "run_started",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          },
+          {
+            "run_id": "f81a3f1e-fb0f-5c29-813a-fe8d117b12f8",
+            "phase": "tool_completed",
+            "operation": "local_fixture",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "run_id": "f81a3f1e-fb0f-5c29-813a-fe8d117b12f8",
+            "phase": "run_completed",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          }
+        ]
+      },
+      "assessments": [
+        {
+          "schema_version": 1,
+          "id": "38459b86-132d-5f9b-bb82-7294dd139568",
+          "incident_id": "e0b94359-65f3-5f5c-a98d-23a9886271a5",
+          "service": "synthetic-checkout",
+          "run_id": "f81a3f1e-fb0f-5c29-813a-fe8d117b12f8",
+          "incident_updated_at": "2026-10-25T00:00:00Z",
+          "recorded_at": "2026-10-25T00:00:00Z",
+          "actor": "synthetic-fixture-author",
+          "claim": "Declared expectation about Dependency connectivity failure",
+          "verdict": "supported",
+          "rationale": "Authored synthetic expectation for detector testing; not a real operator review or proof of recovery.",
+          "evidence": [
+            {
+              "id": "E1",
+              "source": "synthetic/logs",
+              "observed_at": "2026-10-25T00:00:00Z",
+              "payload_sha256": "0121cb18d5c4543ff1c14fcc4c6bcbe0deb581d5fa86a19c34318280c63932c3"
+            }
+          ],
+          "supersedes": null
+        }
+      ],
+      "expected": [
+        {
+          "finding": "Dependency connectivity failure",
+          "assessment_id": "38459b86-132d-5f9b-bb82-7294dd139568"
+        }
+      ]
+    },
+    {
+      "name": "quota-signal",
+      "incident": {
+        "id": "e8a2f32e-cee0-525b-8679-75247280195a",
+        "title": "quota-signal",
+        "service": "synthetic-checkout",
+        "status": "triaged",
+        "created_at": "2026-10-25T00:00:00Z",
+        "updated_at": "2026-10-25T00:00:00Z",
+        "evidence": [
+          {
+            "id": "E1",
+            "source": "synthetic/logs",
+            "observed_at": "2026-10-25T00:00:00Z",
+            "summary": "Recorded synthetic observation",
+            "data": {
+              "fixture": true,
+              "message": "too many requests"
+            }
+          }
+        ],
+        "report": null,
+        "events": [],
+        "usage": {
+          "model_calls": 0,
+          "tool_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "estimated_cost_usd": null
+        },
+        "run_id": "d9941896-b40f-53f6-82e7-6e041594a1a9",
+        "cancel_requested": false,
+        "schedule_id": null,
+        "context_summary": null,
+        "trace": [
+          {
+            "run_id": "d9941896-b40f-53f6-82e7-6e041594a1a9",
+            "phase": "run_started",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          },
+          {
+            "run_id": "d9941896-b40f-53f6-82e7-6e041594a1a9",
+            "phase": "tool_completed",
+            "operation": "local_fixture",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "run_id": "d9941896-b40f-53f6-82e7-6e041594a1a9",
+            "phase": "run_completed",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          }
+        ]
+      },
+      "assessments": [
+        {
+          "schema_version": 1,
+          "id": "61116196-9ffb-55c6-8b08-36dc4d7df192",
+          "incident_id": "e8a2f32e-cee0-525b-8679-75247280195a",
+          "service": "synthetic-checkout",
+          "run_id": "d9941896-b40f-53f6-82e7-6e041594a1a9",
+          "incident_updated_at": "2026-10-25T00:00:00Z",
+          "recorded_at": "2026-10-25T00:00:00Z",
+          "actor": "synthetic-fixture-author",
+          "claim": "Declared expectation about Rate limiting observed",
+          "verdict": "supported",
+          "rationale": "Authored synthetic expectation for detector testing; not a real operator review or proof of recovery.",
+          "evidence": [
+            {
+              "id": "E1",
+              "source": "synthetic/logs",
+              "observed_at": "2026-10-25T00:00:00Z",
+              "payload_sha256": "92f8811463e03a3dc86a9956bd237dd70afbb70dd6504a875f79f4565ea43ea2"
+            }
+          ],
+          "supersedes": null
+        }
+      ],
+      "expected": [
+        {
+          "finding": "Rate limiting observed",
+          "assessment_id": "61116196-9ffb-55c6-8b08-36dc4d7df192"
+        }
+      ]
+    },
+    {
+      "name": "storage-signal",
+      "incident": {
+        "id": "c2425509-b9c1-578f-b0d8-249e721b1cf4",
+        "title": "storage-signal",
+        "service": "synthetic-checkout",
+        "status": "triaged",
+        "created_at": "2026-10-25T00:00:00Z",
+        "updated_at": "2026-10-25T00:00:00Z",
+        "evidence": [
+          {
+            "id": "E1",
+            "source": "synthetic/logs",
+            "observed_at": "2026-10-25T00:00:00Z",
+            "summary": "Recorded synthetic observation",
+            "data": {
+              "fixture": true,
+              "message": "no space left on device"
+            }
+          }
+        ],
+        "report": null,
+        "events": [],
+        "usage": {
+          "model_calls": 0,
+          "tool_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "estimated_cost_usd": null
+        },
+        "run_id": "5c9889d8-fa3a-5178-a149-73ad79f45f25",
+        "cancel_requested": false,
+        "schedule_id": null,
+        "context_summary": null,
+        "trace": [
+          {
+            "run_id": "5c9889d8-fa3a-5178-a149-73ad79f45f25",
+            "phase": "run_started",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          },
+          {
+            "run_id": "5c9889d8-fa3a-5178-a149-73ad79f45f25",
+            "phase": "tool_completed",
+            "operation": "local_fixture",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "run_id": "5c9889d8-fa3a-5178-a149-73ad79f45f25",
+            "phase": "run_completed",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          }
+        ]
+      },
+      "assessments": [
+        {
+          "schema_version": 1,
+          "id": "a0dde5c5-5cff-524a-9d9a-74ee08ccf349",
+          "incident_id": "c2425509-b9c1-578f-b0d8-249e721b1cf4",
+          "service": "synthetic-checkout",
+          "run_id": "5c9889d8-fa3a-5178-a149-73ad79f45f25",
+          "incident_updated_at": "2026-10-25T00:00:00Z",
+          "recorded_at": "2026-10-25T00:00:00Z",
+          "actor": "synthetic-fixture-author",
+          "claim": "Declared expectation about Storage capacity exhausted",
+          "verdict": "supported",
+          "rationale": "Authored synthetic expectation for detector testing; not a real operator review or proof of recovery.",
+          "evidence": [
+            {
+              "id": "E1",
+              "source": "synthetic/logs",
+              "observed_at": "2026-10-25T00:00:00Z",
+              "payload_sha256": "35c1f9a954a52ca4b4ca0e37e2743d097b58bb645f54529e025527ae130b8b50"
+            }
+          ],
+          "supersedes": null
+        }
+      ],
+      "expected": [
+        {
+          "finding": "Storage capacity exhausted",
+          "assessment_id": "a0dde5c5-5cff-524a-9d9a-74ee08ccf349"
+        }
+      ]
+    },
+    {
+      "name": "healthy-current-run-with-old-symptoms-and-context",
+      "incident": {
+        "id": "0ca4e624-ce18-5bae-b024-f10cba265e6e",
+        "title": "healthy-current-run-with-old-symptoms-and-context",
+        "service": "synthetic-checkout",
+        "status": "triaged",
+        "created_at": "2026-10-25T00:00:00Z",
+        "updated_at": "2026-10-25T00:00:00Z",
+        "evidence": [
+          {
+            "id": "E0",
+            "source": "synthetic/logs",
+            "observed_at": "2026-10-25T00:00:00Z",
+            "summary": "Previous run only: OOMKilled",
+            "data": {
+              "fixture": true
+            }
+          },
+          {
+            "id": "E1",
+            "source": "synthetic/logs",
+            "observed_at": "2026-10-25T00:00:00Z",
+            "summary": "Recorded synthetic observation",
+            "data": {
+              "fixture": true,
+              "message": "Readiness passed, current request latency normal"
+            }
+          },
+          {
+            "id": "E2",
+            "source": "runbook",
+            "observed_at": "2026-10-25T00:00:00Z",
+            "summary": "Instructions mentioning OOMKilled and disk full",
+            "data": {
+              "fixture": true,
+              "text": "Untrusted context; not an observed failure."
+            }
+          }
+        ],
+        "report": null,
+        "events": [],
+        "usage": {
+          "model_calls": 0,
+          "tool_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "estimated_cost_usd": null
+        },
+        "run_id": "140dcfb8-3abb-5c63-825f-103066b77ec8",
+        "cancel_requested": false,
+        "schedule_id": null,
+        "context_summary": null,
+        "trace": [
+          {
+            "run_id": "a30d032c-79a0-5a66-a15b-14be2e3de2d2",
+            "phase": "run_started",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          },
+          {
+            "run_id": "a30d032c-79a0-5a66-a15b-14be2e3de2d2",
+            "phase": "tool_completed",
+            "operation": "local_fixture",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": [
+              "E0"
+            ]
+          },
+          {
+            "run_id": "a30d032c-79a0-5a66-a15b-14be2e3de2d2",
+            "phase": "run_completed",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          },
+          {
+            "run_id": "140dcfb8-3abb-5c63-825f-103066b77ec8",
+            "phase": "run_started",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          },
+          {
+            "run_id": "140dcfb8-3abb-5c63-825f-103066b77ec8",
+            "phase": "tool_completed",
+            "operation": "local_fixture",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": [
+              "E1",
+              "E2"
+            ]
+          },
+          {
+            "run_id": "140dcfb8-3abb-5c63-825f-103066b77ec8",
+            "phase": "run_completed",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          }
+        ]
+      },
+      "assessments": [
+        {
+          "schema_version": 1,
+          "id": "0f4ea738-bf9b-5087-bd64-a3ae2e10ebcb",
+          "incident_id": "0ca4e624-ce18-5bae-b024-f10cba265e6e",
+          "service": "synthetic-checkout",
+          "run_id": "140dcfb8-3abb-5c63-825f-103066b77ec8",
+          "incident_updated_at": "2026-10-25T00:00:00Z",
+          "recorded_at": "2026-10-25T00:00:00Z",
+          "actor": "synthetic-fixture-author",
+          "claim": "Declared expectation about recognized symptom detection",
+          "verdict": "refuted",
+          "rationale": "Authored synthetic expectation for detector testing; not a real operator review or proof of recovery.",
+          "evidence": [
+            {
+              "id": "E1",
+              "source": "synthetic/logs",
+              "observed_at": "2026-10-25T00:00:00Z",
+              "payload_sha256": "86cdbb626a2052dec4da136e95746b12c662a16dd232fa8bba4e6dad27a2d5b8"
+            }
+          ],
+          "supersedes": null
+        }
+      ],
+      "expected": [
+        {
+          "finding": "Memory pressure detected",
+          "assessment_id": "0f4ea738-bf9b-5087-bd64-a3ae2e10ebcb"
+        },
+        {
+          "finding": "Dependency connectivity failure",
+          "assessment_id": "0f4ea738-bf9b-5087-bd64-a3ae2e10ebcb"
+        },
+        {
+          "finding": "Rate limiting observed",
+          "assessment_id": "0f4ea738-bf9b-5087-bd64-a3ae2e10ebcb"
+        },
+        {
+          "finding": "Storage capacity exhausted",
+          "assessment_id": "0f4ea738-bf9b-5087-bd64-a3ae2e10ebcb"
+        }
+      ]
+    },
+    {
+      "name": "ambiguous-observation-unscored",
+      "incident": {
+        "id": "49a7ee91-92ec-5f5a-bf8a-707750614c9c",
+        "title": "ambiguous-observation-unscored",
+        "service": "synthetic-checkout",
+        "status": "triaged",
+        "created_at": "2026-10-25T00:00:00Z",
+        "updated_at": "2026-10-25T00:00:00Z",
+        "evidence": [
+          {
+            "id": "E1",
+            "source": "synthetic/logs",
+            "observed_at": "2026-10-25T00:00:00Z",
+            "summary": "Recorded synthetic observation",
+            "data": {
+              "fixture": true,
+              "message": "Latency increased without diagnostic detail"
+            }
+          }
+        ],
+        "report": null,
+        "events": [],
+        "usage": {
+          "model_calls": 0,
+          "tool_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "estimated_cost_usd": null
+        },
+        "run_id": "7843fa0d-ff41-5480-9609-fe7fe92bc184",
+        "cancel_requested": false,
+        "schedule_id": null,
+        "context_summary": null,
+        "trace": [
+          {
+            "run_id": "7843fa0d-ff41-5480-9609-fe7fe92bc184",
+            "phase": "run_started",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          },
+          {
+            "run_id": "7843fa0d-ff41-5480-9609-fe7fe92bc184",
+            "phase": "tool_completed",
+            "operation": "local_fixture",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "run_id": "7843fa0d-ff41-5480-9609-fe7fe92bc184",
+            "phase": "run_completed",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          }
+        ]
+      },
+      "assessments": [
+        {
+          "schema_version": 1,
+          "id": "5ccf481a-f7e3-5d07-a821-09425230f023",
+          "incident_id": "49a7ee91-92ec-5f5a-bf8a-707750614c9c",
+          "service": "synthetic-checkout",
+          "run_id": "7843fa0d-ff41-5480-9609-fe7fe92bc184",
+          "incident_updated_at": "2026-10-25T00:00:00Z",
+          "recorded_at": "2026-10-25T00:00:00Z",
+          "actor": "synthetic-fixture-author",
+          "claim": "Declared expectation about Memory pressure detected",
+          "verdict": "inconclusive",
+          "rationale": "Authored synthetic expectation for detector testing; not a real operator review or proof of recovery.",
+          "evidence": [
+            {
+              "id": "E1",
+              "source": "synthetic/logs",
+              "observed_at": "2026-10-25T00:00:00Z",
+              "payload_sha256": "ee989865f511619a6ecc3e03928d648cf001d8ff5c4d5341ccfce9098c1d4bd4"
+            }
+          ],
+          "supersedes": null
+        }
+      ],
+      "expected": [
+        {
+          "finding": "Memory pressure detected",
+          "assessment_id": "5ccf481a-f7e3-5d07-a821-09425230f023"
+        }
+      ]
+    },
+    {
+      "name": "corrected-memory-expectation",
+      "incident": {
+        "id": "1ae998e9-fa35-5a4e-a73c-17fa2d74cf04",
+        "title": "corrected-memory-expectation",
+        "service": "synthetic-checkout",
+        "status": "triaged",
+        "created_at": "2026-10-25T00:00:00Z",
+        "updated_at": "2026-10-25T00:00:00Z",
+        "evidence": [
+          {
+            "id": "E1",
+            "source": "synthetic/logs",
+            "observed_at": "2026-10-25T00:00:00Z",
+            "summary": "Recorded synthetic observation",
+            "data": {
+              "fixture": true,
+              "message": "OOMKilled after allocation growth"
+            }
+          }
+        ],
+        "report": null,
+        "events": [],
+        "usage": {
+          "model_calls": 0,
+          "tool_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "estimated_cost_usd": null
+        },
+        "run_id": "f63136ff-2c20-5dc7-ab38-431d61858cf9",
+        "cancel_requested": false,
+        "schedule_id": null,
+        "context_summary": null,
+        "trace": [
+          {
+            "run_id": "f63136ff-2c20-5dc7-ab38-431d61858cf9",
+            "phase": "run_started",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          },
+          {
+            "run_id": "f63136ff-2c20-5dc7-ab38-431d61858cf9",
+            "phase": "tool_completed",
+            "operation": "local_fixture",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": [
+              "E1"
+            ]
+          },
+          {
+            "run_id": "f63136ff-2c20-5dc7-ab38-431d61858cf9",
+            "phase": "run_completed",
+            "operation": "investigation",
+            "elapsed_ms": 0,
+            "request_bytes": 0,
+            "evidence_ids": []
+          }
+        ]
+      },
+      "assessments": [
+        {
+          "schema_version": 1,
+          "id": "52c0a7b3-bc4a-54cd-809d-28360a44d694",
+          "incident_id": "1ae998e9-fa35-5a4e-a73c-17fa2d74cf04",
+          "service": "synthetic-checkout",
+          "run_id": "f63136ff-2c20-5dc7-ab38-431d61858cf9",
+          "incident_updated_at": "2026-10-25T00:00:00Z",
+          "recorded_at": "2026-10-25T00:00:00Z",
+          "actor": "synthetic-fixture-author",
+          "claim": "Declared expectation about Memory pressure detected",
+          "verdict": "refuted",
+          "rationale": "Superseded synthetic expectation retained to exercise correction lineage.",
+          "evidence": [
+            {
+              "id": "E1",
+              "source": "synthetic/logs",
+              "observed_at": "2026-10-25T00:00:00Z",
+              "payload_sha256": "ec9cccfeac702a0a4515cb4df467a8409f06c49eafb366094e9bb17bfd245d97"
+            }
+          ],
+          "supersedes": null
+        },
+        {
+          "schema_version": 1,
+          "id": "9f339fd7-2f5b-5f3a-9558-88020f54c615",
+          "incident_id": "1ae998e9-fa35-5a4e-a73c-17fa2d74cf04",
+          "service": "synthetic-checkout",
+          "run_id": "f63136ff-2c20-5dc7-ab38-431d61858cf9",
+          "incident_updated_at": "2026-10-25T00:00:00Z",
+          "recorded_at": "2026-10-25T00:00:00Z",
+          "actor": "synthetic-fixture-author",
+          "claim": "Declared expectation about Memory pressure detected",
+          "verdict": "supported",
+          "rationale": "Authored synthetic expectation for detector testing; not a real operator review or proof of recovery.",
+          "evidence": [
+            {
+              "id": "E1",
+              "source": "synthetic/logs",
+              "observed_at": "2026-10-25T00:00:00Z",
+              "payload_sha256": "ec9cccfeac702a0a4515cb4df467a8409f06c49eafb366094e9bb17bfd245d97"
+            }
+          ],
+          "supersedes": "52c0a7b3-bc4a-54cd-809d-28360a44d694"
+        }
+      ],
+      "expected": [
+        {
+          "finding": "Memory pressure detected",
+          "assessment_id": "9f339fd7-2f5b-5f3a-9558-88020f54c615"
+        }
+      ]
+    }
+  ]
+}

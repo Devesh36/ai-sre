@@ -24,9 +24,10 @@ history more trustworthy and measure its practical value:
    with verified actor identities, structured intervention/recovery criteria, and
    adjudication of conflicting claims. The shipped append-only history records
    human judgments; resolution alone is never a successful-remediation label.
-2. Replayable cases: turn reviewed outcomes into versioned evaluation fixtures,
-   retaining provenance and counterexamples. Gate retrieval and diagnosis changes
-   against these cases before adding them to a release.
+2. Extend [offline replay](incident-replay.md) beyond its bounded symptom-detector
+   fixtures: reviewed dataset export, permissioned real cases, semantic claim
+   adjudication, and retrieval/model replay. The current suite compares declared
+   labels to deterministic detector output; it does not measure production diagnosis.
 3. Source-aware event matching: distinguish meaningful changes from volatile
    response metadata, with explicit per-source rules and false-match tests.
 4. Measure retrieval precision and time to useful evidence on permissioned real

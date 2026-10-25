@@ -83,10 +83,12 @@ enum Command {
         #[arg(default_value = "sre.toml")]
         path: PathBuf,
     },
-    /// Evaluate offline symptom rules or the production agent harness against scripted faults.
+    /// Evaluate offline rules, fixture replays, or the production agent harness.
     Eval {
         #[arg(long, value_enum, default_value = "offline")]
         suite: EvalSuite,
+        #[arg(long)]
+        dataset: Option<PathBuf>,
         #[arg(long)]
         json: bool,
         #[arg(long)]
@@ -102,6 +104,7 @@ enum Command {
 enum EvalSuite {
     Offline,
     Harness,
+    Replay,
 }
 
 #[tokio::main]
@@ -137,6 +140,7 @@ async fn main() -> Result<()> {
     }
     if let Command::Eval {
         suite,
+        dataset,
         json,
         output,
         repeat,
@@ -144,14 +148,67 @@ async fn main() -> Result<()> {
     } = &command
     {
         match suite {
+            EvalSuite::Replay => {
+                ensure!(
+                    baseline.is_none(),
+                    "replay does not support harness baselines"
+                );
+                ensure!(
+                    cli.config.is_none() && cli.workflow.is_none() && cli.skill.is_none(),
+                    "replay reads only its dataset; config, workflow, and skill options are not supported"
+                );
+                let path = dataset
+                    .as_ref()
+                    .ok_or_else(|| anyhow::anyhow!("--suite replay requires --dataset PATH"))?;
+                if let Some(output) = output {
+                    ensure!(
+                        output != path
+                            && (!output.exists()
+                                || std::fs::canonicalize(output)? != std::fs::canonicalize(path)?),
+                        "replay output must not overwrite its dataset"
+                    );
+                }
+                let dataset = ai_sre::infrastructure::evaluation::replay::read(path)?;
+                let report =
+                    ai_sre::infrastructure::evaluation::replay::evaluate(&dataset, *repeat)?;
+                if let Some(path) = output {
+                    ai_sre::infrastructure::evaluation::artifact::write_json(&report, path)?;
+                }
+                if *json {
+                    println!("{}", serde_json::to_string_pretty(&report)?);
+                } else {
+                    let ui = ai_sre::surfaces::shared::terminal::Ui::detect();
+                    for case in &report.cases {
+                        ui.text(&format!(
+                            "{:?} {} (run {})",
+                            case.state, case.name, case.repetition
+                        ));
+                    }
+                    ui.text(&format!(
+                        "{} passed · {} failed · {} unscored cases · {} unscored judgments",
+                        report.passed_cases,
+                        report.failed_cases,
+                        report.unscored_cases,
+                        report.unscored_judgments
+                    ));
+                    ui.note(report.scope);
+                }
+                ensure!(
+                    report.passed,
+                    "offline replay gate failed (a failure occurred or no case was scored)"
+                );
+                return Ok(());
+            }
             EvalSuite::Offline => {
+                ensure!(dataset.is_none(), "--dataset requires --suite replay");
                 ensure!(
                     !json && output.is_none() && baseline.is_none() && *repeat == 1,
-                    "artifact, baseline, JSON, and repeat options require --suite harness"
+                    "the default offline suite does not support artifact, baseline, JSON, or repeat options"
                 );
                 return ai_sre::infrastructure::evaluation::offline::evaluate();
             }
             EvalSuite::Harness => {
+                ensure!(dataset.is_none(), "--dataset requires --suite replay");
                 // Read the baseline before replacing a possibly identical output path.
                 let baseline = baseline
                     .as_ref()

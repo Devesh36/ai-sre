@@ -115,8 +115,9 @@ assessment continues to have no outcome record.
 
 The system checks provenance and input constraints. It does not independently
 validate an operator's reasoning, identify a human caller, authenticate the actor
-label, or certify an intervention's effectiveness. Reviewed dataset export and
-replayable outcome evaluations remain future work.
+label, or certify an intervention's effectiveness. Automatic reviewed-dataset export remains future work. The bounded
+[offline replay evaluator](incident-replay.md) accepts manually prepared local
+fixtures with same-run assessment history and explicit detector expectations.
 
 ## Acceptance checks
 

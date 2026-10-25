@@ -99,7 +99,7 @@ Configuration paths resolve relative to the TOML file. The default database is `
 | On-call handoff | Export Markdown with findings, evidence references, run history, unknowns, and checks for the next operator |
 | Execution controls | Per-run budgets, bounded retries/repair, duplicate suppression, source circuits, context projection, durable traces |
 | Privacy | No telemetry; secret redaction and reversible configured identifier masking |
-| Evaluation | Six offline scenarios, HTTP incident laboratory, and verified synthetic recovery |
+| Evaluation | Six offline scenarios, runtime fault harness, assessment-backed local replay with separate expected/observed results, HTTP incident laboratory, and synthetic recovery checks |
 | Native connectors | Explicit read operations for Kubernetes, source control, observability, incident tools, and more; [exact catalog](docs/integration-catalog.md) |
 | MCP | Session-aware Streamable HTTP and local stdio, bounded messages, explicit tool allowlists |
 | Workflow releases | Content-addressed publishing, explicit activation, rollback, and authenticated downloads with ETag caching |
@@ -174,6 +174,20 @@ printf '%s' 'Why are requests timing out?' | cargo run --locked -- ask - --servi
 ```
 
 The shell and CLI use the same library as the API. The Rust modules are public for embedding; the API is not yet stable.
+
+## Replay local incident expectations
+
+```sh
+cargo run --locked -- eval --suite replay \
+  --dataset examples/replay-cases.json --repeat 2 --output .ai-sre/replay.json
+```
+
+This reuses the offline symptom detector on retained run observations. Operator
+assessments supply explicit expectations; their text never enters the detector.
+The bundled synthetic suite produces **12 passed, zero failed, and two unscored
+case executions** across two repetitions. Inconclusive judgments are not counted
+as passes, and label agreement does not prove recovery. See
+[offline incident replay](docs/incident-replay.md) for fingerprints, scoring, and limits.
 
 ## Validate
 

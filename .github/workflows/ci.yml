@@ -17,6 +17,8 @@ jobs:
       - name: Incident recall example
         run: bash scripts/recall-example.sh
       - run: cargo run --locked -- eval
+      - name: Offline assessment replay
+        run: cargo run --locked -- eval --suite replay --dataset examples/replay-cases.json --repeat 2 --output .ai-sre/replay.json
       - name: Harness conformance and repeatability
         run: cargo run --locked -- eval --suite harness --repeat 3 --output .ai-sre/harness.json
       - uses: actions/setup-node@v4
@@ -42,4 +44,12 @@ jobs:
           name: harness-report
           path: .ai-sre/harness.json
           if-no-files-found: error
+          retention-days: 14
+      - name: Retain replay evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: replay-report
+          path: .ai-sre/replay.json
+          if-no-files-found: ignore
           retention-days: 14
