@@ -99,7 +99,7 @@ impl Store {
                 "SELECT document FROM incidents
                 WHERE json_extract(document,'$.service')=?1
                   AND json_extract(document,'$.created_at')<?2 AND id<>?3
-                  AND json_extract(document,'$.status') IN ('triaged','resolved')
+                  AND json_extract(document,'$.status') IN ('triaged','resolved','failed','cancelled')
                 ORDER BY json_extract(document,'$.created_at') DESC, id ASC LIMIT ?4",
             )?;
             let docs = stmt

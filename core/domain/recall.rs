@@ -49,7 +49,23 @@ pub struct Match {
 }
 
 fn snapshot<'a>(incident: &'a Incident, run: &review::RunReview) -> Option<Vec<&'a Evidence>> {
+    if matches!(incident.status, Status::Failed | Status::Cancelled) {
+        let current = incident.run_id.filter(|id| !id.is_nil())?;
+        let current_start = incident
+            .trace
+            .iter()
+            .position(|t| t.run_id == Some(current))?;
+        let historical_end = incident
+            .trace
+            .iter()
+            .rposition(|t| t.run_id == Some(run.id))?;
+        // Failed/cancelled cases contribute only runs retained before that attempt.
+        if historical_end >= current_start {
+            return None;
+        }
+    }
     if !run.started
+        || !review::successful_lifecycle(incident, run.id)
         || run.outcome != "completed"
         || !run.failed_tools.is_empty()
         || incident.evidence.len() >= 128
@@ -139,7 +155,10 @@ pub fn analyze(current: &Incident, candidates: &[Incident], now: DateTime<Utc>) 
             i.id != current.id
                 && i.service == current.service
                 && i.created_at < current.created_at
-                && matches!(i.status, Status::Triaged | Status::Resolved)
+                && matches!(
+                    i.status,
+                    Status::Triaged | Status::Resolved | Status::Failed | Status::Cancelled
+                )
         })
         .collect();
     candidates.sort_by(|a, b| {

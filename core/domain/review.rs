@@ -71,6 +71,32 @@ pub fn is_observation(e: &Evidence) -> bool {
     )
 }
 
+/// Validate retained event order for one run, not clock chronology or authorship.
+/// Other runs cannot repair or invalidate this run's lifecycle.
+pub(crate) fn successful_lifecycle(incident: &Incident, run_id: Uuid) -> bool {
+    if run_id.is_nil() {
+        return false;
+    }
+    let mut started = false;
+    let mut completed = false;
+    for trace in incident.trace.iter().filter(|t| t.run_id == Some(run_id)) {
+        if completed {
+            return false;
+        }
+        match trace.phase.as_str() {
+            "run_started" if !started => started = true,
+            "run_started" | "run_failed" | "run_cancelled" => return false,
+            phase => {
+                if !started {
+                    return false;
+                }
+                completed = phase == "run_completed";
+            }
+        }
+    }
+    started && completed
+}
+
 pub(crate) fn fingerprint(e: &Evidence) -> String {
     // serde_json's ordered maps canonicalize nested object keys. Array order is significant.
     format!(

@@ -66,7 +66,9 @@ Assessment incident/service/run identifiers and schema version must match too.
 Missing correction parents, cycles, multiple successors, duplicate IDs, and
 expectations pointing to superseded records are rejected. The latest run must have
 one start followed by collection and one final completion; failed/cancelled
-terminal events, duplicate starts/completions, and entries after completion are rejected. Fingerprints detect
+terminal events, duplicate starts/completions, and entries after completion are
+rejected. The lifecycle validator is shared with outcome recording and historical
+recall. Fingerprints detect
 inconsistent retained content; they do not authenticate an actor or prevent an
 author from changing both a payload and its declared fingerprint.
 

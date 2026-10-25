@@ -38,7 +38,9 @@ The demonstration deliberately reuses its inputs and makes no recovery claim.
 1. Use observations linked to the current incident's latest successful run. A
    newly claimed, failed, cancelled, unlinked, or incomplete run cannot silently
    fall back to old evidence. Collection-age and future-clock concerns are shown.
-2. Search at most 100 earlier, same-service cases with triaged or resolved status.
+2. Search at most 100 earlier, same-service cases with triaged, resolved, failed,
+   or cancelled status. Failed/cancelled cases qualify only through an earlier
+   successful run; observations from unsuccessful runs cannot supply a match.
    Service filtering happens before the limit. An additional candidate detects
    whether the search was truncated. A SQLite index supports this selection.
 3. Compare each eligible completed run in a past case. Return its strongest
@@ -58,6 +60,16 @@ existing four explicit symptom rules: memory pressure, dependency connectivity,
 rate limits, and exhausted storage. Titles and generated report text never drive
 matching. Runbooks, operator context, proposals, truncated payloads, runs with
 failed collection, and incidents at the 128-item evidence cap are excluded.
+
+Recall, outcome recording, and replay share the same run-lifecycle check: one
+start, followed by run activity, and one final completion. Duplicate starts or
+completions, activity before the start or after completion, and failed/cancelled
+terminal events disqualify that run. Validation is scoped to each run, so a later
+failed attempt does not erase an earlier successful snapshot. Failed or cancelled
+current investigations still cannot fall back to their old observations.
+Past failed/cancelled cases require a non-nil current run ID present in the trace;
+the matched historical run must end before that attempt's first retained event.
+This validates retained event order, not timestamp authenticity or recovery.
 
 Recall also displays up to five non-superseded [operator assessments](operator-outcomes.md)
 for the matched historical run, with the total count. These annotations do not

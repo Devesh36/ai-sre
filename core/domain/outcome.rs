@@ -159,6 +159,7 @@ pub(crate) fn create(incident: &Incident, input: Input) -> Result<Outcome> {
                 && r.started
                 && r.outcome == "completed"
                 && r.failed_tools.is_empty()
+                && review::successful_lifecycle(incident, r.id)
         })
         .ok_or(Error::Conflict(
             "assessment requires a complete successful trace without failed collection",

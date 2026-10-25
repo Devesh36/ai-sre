@@ -7,7 +7,7 @@ below; they do not guarantee an absence of defects.
 | Check | Result |
 | --- | --- |
 | Formatting and Clippy, all targets with warnings denied | Passed |
-| Rust unit and integration tests | 96 passed, zero failures |
+| Rust unit and integration tests | 99 passed, zero failures |
 | Offline symptom evaluation | 6/6 scenarios passed |
 | Offline assessment replay | Seven synthetic cases × two repetitions: 12 passed case executions, zero failures, two unscored cases/judgments; ten replay regression tests passed |
 | Agent harness | 28 scenarios × 3 repetitions: 84/84 passed |
@@ -17,6 +17,7 @@ below; they do not guarantee an absence of defects.
 | Evidence review | Passed two real offline runs, duplicate detection, run comparison, citation navigation, and Markdown download |
 | Operations dashboard | Passed work completion, memory, schedule management, and mobile layout |
 | Operator outcomes | Passed ten Rust tests for immutable provenance, stale-run rejection, idempotency, correction races, bounded history, redaction, CLI/API/REPL access, and historical isolation; browser workflow passed |
+| Shared lifecycle validation | Three cross-consumer tests cover six malformed trace variants, rejected-write immutability, idempotent receipts, per-run isolation, and historical recall after failed/cancelled attempts; independent review also passed 14 CLI/SQLite probes, including missing run identities and reversed/interleaved run groups |
 | Incident recall | Passed nine Rust regression tests, CLI/REPL and authenticated API access, two-case example, historical citation navigation, escaped titles, and mobile layout |
 | Dashboard state regressions | Passed delayed responses, selection changes, queued refreshes, incident-specific drafts, cursor position, expanded evidence, and a submission completing after selection changes |
 

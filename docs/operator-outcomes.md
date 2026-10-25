@@ -104,6 +104,14 @@ references. Active, failed, cancelled, unlinked, or capped investigations cannot
 accept new assessments. Validation and insertion occur in one write transaction
 so another worker cannot change the run between the check and the write.
 
+Outcome recording, replay, and recall share a strict lifecycle validator: exactly
+one start before activity and one final completion, with no failed/cancelled
+terminal event, duplicate start/completion, or activity after completion. A rejected
+new assessment or correction leaves existing history unchanged. Retrying an
+already recorded identical request still returns its original receipt; that does
+not certify the incident's current state. Retained event order does not authenticate
+assessment timestamps, actor identity, or recovery.
+
 ## Historical assessments stay historical
 
 Recall attaches up to five non-superseded assessments **only for its matched past

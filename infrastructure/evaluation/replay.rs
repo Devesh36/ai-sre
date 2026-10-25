@@ -174,29 +174,10 @@ fn inputs(case: &Case) -> Result<Vec<Evidence>> {
         "case requires 1–4 explicit finding expectations"
     );
     let i = &case.incident;
-    // The review summary intentionally tolerates partial histories. Replay needs a
-    // complete, ordered lifecycle rather than only the final folded outcome.
-    let mut started = false;
-    let mut completed = false;
-    for trace in i.trace.iter().filter(|t| t.run_id == i.run_id) {
-        ensure!(!completed, "latest run has trace entries after completion");
-        match trace.phase.as_str() {
-            "run_started" => {
-                ensure!(!started, "latest run has multiple starts");
-                started = true;
-            }
-            "run_failed" | "run_cancelled" => {
-                anyhow::bail!("latest run contains a failed or cancelled terminal event");
-            }
-            phase => {
-                ensure!(started, "latest run has trace entries before its start");
-                completed = phase == "run_completed";
-            }
-        }
-    }
     ensure!(
-        started && completed,
-        "latest run requires an ordered start and completion"
+        i.run_id
+            .is_some_and(|id| review::successful_lifecycle(i, id)),
+        "latest run requires one ordered start and final completion without failure or cancellation"
     );
     ensure!(
         !i.id.is_nil()
